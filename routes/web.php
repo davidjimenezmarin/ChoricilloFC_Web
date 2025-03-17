@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -12,9 +13,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/shop', function () {
-    return Inertia::render('Shop');
-})->middleware(['auth', 'verified'])->name('shop');
+// Route::get('/shop', function () {
+//     return Inertia::render('Shop');
+// })->middleware(['auth', 'verified'])->name('shop');
+
+Route::get('/shop', [ProductController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('shop');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

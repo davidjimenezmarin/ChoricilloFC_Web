@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('stock_quantity')->nullable()->default(null);
             $table->enum('size', ['S', 'M', 'L', 'XL']);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('category_id')->references('id')->on('categories');
         });

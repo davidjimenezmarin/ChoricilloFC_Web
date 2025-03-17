@@ -18,16 +18,43 @@ class ProductSeeder extends Seeder
                 'name' => 'Camiseta - Primera Equipación',
                 'description' => 'Camiseta oficial de la Primera Equipación del ChoricilloFC',
                 'price' => 25.00,
-                'image' => 'image1.jpg',
+                'image' => 'cami1.jpg',
             ],
             [
                 'category_id' => 2,
                 'name' => 'Pantaloneta - Primera Equipación',
                 'description' => 'Pantaloneta oficial de la Primera Equipación del ChoricilloFC',
-                'price' => 20.00,
-                'image' => 'image2.jpg',
+                'price' => 25.00,
+                'image' => 'panti1.jpg',
             ],
-            // Add more products here
+            [
+                'category_id' => 1,
+                'name' => 'Camiseta - Segunda Equipación',
+                'description' => 'Camiseta oficial de la Segunda Equipación del ChoricilloFC',
+                'price' => 25.00,
+                'image' => 'cami2.jpg',
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Pantaloneta - Segunda Equipación',
+                'description' => 'Pantaloneta oficial de la Segunda Equipación del ChoricilloFC',
+                'price' => 25.00,
+                'image' => 'panti2.jpg',
+            ],
+            [
+                'category_id' => 1,
+                'name' => 'Camiseta - Tercera Equipación',
+                'description' => 'Camiseta oficial de la Tercera Equipación del ChoricilloFC',
+                'price' => 25.00,
+                'image' => 'cami3.jpg',
+            ],
+            [
+                'category_id' => 2,
+                'name' => 'Pantaloneta - Tercera Equipación',
+                'description' => 'Pantaloneta oficial de la Tercera Equipación del ChoricilloFC',
+                'price' => 25.00,
+                'image' => 'panti3.jpg',
+            ],
         ];
         foreach ($products as $product) {
             \App\Models\Product::create($product);

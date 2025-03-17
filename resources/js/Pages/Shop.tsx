@@ -1,7 +1,21 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import ProductList from '@/Components/ProductList';
 
-export default function Shop() {
+type Product = {
+    id: number;
+    name: string;
+    price: number;
+    image_path?: string;
+};
+
+interface ShopProps {
+    products: Product[];
+}
+
+export default function Shop({products}: ShopProps) {
+    
+    console.log("Productos dentro de ProductList:", products);
     return (
         <AuthenticatedLayout
             header={
@@ -16,7 +30,7 @@ export default function Shop() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            You're logged in!
+                            <ProductList products={products} />
                         </div>
                     </div>
                 </div>
