@@ -48,7 +48,7 @@ export default function Login({
                         name="email"
                         placeholder='Email'
                         value={data.email}
-                        className="mt-1 block w-full bg-[rgba(0,0,0,0)]"
+                        className="mt-1 block w-full bg-transparent"
                         autoComplete="username"
                         isFocused={true}
                         onChange={(e) => setData('email', e.target.value)}
@@ -65,7 +65,7 @@ export default function Login({
                         name="password"
                         placeholder='Contraseña'
                         value={data.password}
-                        className="mt-1 block w-full bg-[rgba(0,0,0,0)]"
+                        className="mt-1 block w-full bg-transparent"
                         autoComplete="current-password"
                         onChange={(e) => setData('password', e.target.value)}
                     />

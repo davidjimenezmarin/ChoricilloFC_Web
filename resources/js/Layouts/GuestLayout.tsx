@@ -5,10 +5,7 @@ import { PropsWithChildren } from 'react';
 export default function Guest({ children }: PropsWithChildren) {
     return (
         <div className="flex min-h-screen flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-[url('/recursos/guestBackground.jpg')]
-             before:absolute before:inset-0 before:bg-black before:opacity-40 before:z-0">
-            
-            
-
+             before:absolute before:inset-0 before:bg-black before:opacity-30 before:z-0">
             {/* Contenedor principal */}
             <div className="flex flex-col items-center w-full z-10 px-4 sm:px-6 mt-16 sm:mt-0">
                 {/*Logo: centrado en pantallas pequeñas y alineado a la izquierda en pantallas grandes */}
