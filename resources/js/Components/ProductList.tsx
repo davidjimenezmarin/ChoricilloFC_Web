@@ -14,7 +14,6 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ products = [] }) => {
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Productos Disponibles</h1>
 
             {products.length === 0 ? (
                 <p>No hay productos disponibles.</p>
@@ -26,15 +25,11 @@ const ProductList: React.FC<ProductListProps> = ({ products = [] }) => {
                                 <img
                                     src={`/recursos/products/${product.image}`}
                                     alt={product.name}
-                                    className="mt-2 rounded w-full h-40 object-cover"
+                                    className="mt-2 mx-auto h-[200px] w-1/2 object-cover"
                                 />
                             )}
                             <h2 className="text-lg font-semibold">{product.name}</h2>
                             <p>Precio: ${(Number(product.price)).toFixed(2)}</p>
-
-                            <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition">
-                                Ver Detalles
-                            </button>
                         </div>
                     ))}
                 </div>

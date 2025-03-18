@@ -16,24 +16,47 @@ export default function Authenticated({
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+            <nav className="border-b border-gray-100 bg-red-700">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="w-14 h-auto fill-current" />
+                                    <ApplicationLogo className="w-14 h-auto fill-current hover:opacity-80" />
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink
                                     href={route('shop')}
-                                    active={route().current('shop')}
+                                    active={route().current('shop') 
+                                        && !route().current('shop', 'camisetas') 
+                                        && !route().current('shop', 'pantalones') 
+                                        && !route().current('shop', 'accesorios')}
                                 >
-                                    Shop
+                                    Inicio
                                 </NavLink>
                             </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('shop', 'camisetas')} active={route().current('shop', 'camisetas')}>
+                                    Camisetas
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('shop', 'pantalones')} active={route().current('shop', 'pantalones')}>
+                                    Pantalones
+                                </NavLink>
+                            </div>
+
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink href={route('shop','accesorios')} active={route().current('shop', 'accesorios')}>
+                                    Accesorios
+                                </NavLink>
+                            </div>
+
+
                         </div>
 
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
@@ -48,7 +71,7 @@ export default function Authenticated({
                                                 {user.name}
 
                                                 <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
+                                                    className="-me-0.5 ms-2 h-4 w-4 "
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"

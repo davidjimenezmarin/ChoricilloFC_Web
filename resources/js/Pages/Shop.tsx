@@ -1,37 +1,65 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import ProductList from '@/Components/ProductList';
 
 type Product = {
     id: number;
     name: string;
     price: number;
-    image_path?: string;
+    image?: string;
 };
 
-interface ShopProps {
-    products: Product[];
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
 }
 
-export default function Shop({products}: ShopProps) {
-    
-    console.log("Productos dentro de ProductList:", products);
+interface ProductsByCategory {
+    [categoryId: string]: Product[];
+}
+
+interface ShopProps {
+    productsByCategory: ProductsByCategory;
+    categories: Category[];
+    selectedCategory?: Category | null;
+}
+
+export default function Shop({ productsByCategory = {}, categories = [], selectedCategory }: ShopProps) {
+    const isFiltered = !!selectedCategory;
+
     return (
         <AuthenticatedLayout
             header={
                 <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Shop
+                    {isFiltered ? selectedCategory?.name : 'Shop'}
                 </h2>
             }
         >
-            <Head title="Shop" />
+            <Head title={isFiltered ? selectedCategory?.name : 'Shop'} />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900">
-                            <ProductList products={products} />
-                        </div>
+            <div className="py-12 h-auto w-100vw">
+                <div className="mx-auto w-full sm:px-0 lg:px-0">
+                    <div className="overflow-hidden bg-white shadow-sm ">
+                        {isFiltered ? (
+                            // Mostrar solo productos de la categoría seleccionada
+                            <div key={selectedCategory?.id} className="mb-8">
+                                <ProductList products={productsByCategory[selectedCategory?.id || ''] || []} />
+                            </div>
+                        ) : (
+                            // Mostrar todas las categorías y sus productos
+                            Object.keys(productsByCategory).map((categoryId) => {
+                                const category = categories.find((c) => c.id.toString() === categoryId);
+                                return (
+                                    <div key={categoryId} className="mb-8">
+                                        <h3 className="text-lg font-semibold mb-4">
+                                            {category ? category.name : `Categoría ${categoryId}`}
+                                        </h3>
+                                        <ProductList products={productsByCategory[categoryId]} />
+                                    </div>
+                                );
+                            })
+                        )}
                     </div>
                 </div>
             </div>

@@ -55,6 +55,13 @@ class ProductSeeder extends Seeder
                 'price' => 25.00,
                 'image' => 'panti3.jpg',
             ],
+            [
+                'category_id' => 3,
+                'name' => 'Balón',
+                'description' => 'Balón oficial del ChoricilloFC',
+                'price' => 25.00,
+                'image' => 'balon.jpg',
+            ]
         ];
         foreach ($products as $product) {
             \App\Models\Product::create($product);
