@@ -4,6 +4,14 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useState } from 'react';
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+  } from "@/shadcn/ui/sheet"
 
 export default function Authenticated({
     header,
@@ -16,57 +24,26 @@ export default function Authenticated({
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-red-700">
+            <nav className="border-b border-gray-100 bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
+                    <div className="flex h-14 justify-between">
+                        
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="w-14 h-auto fill-current hover:opacity-80" />
+                                <Link href="/" className='text-black hover:text-gray-600'>
+                                    Salir de la tienda
                                 </Link>
                             </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('shop')}
-                                    active={route().current('shop') 
-                                        && !route().current('shop', 'camisetas') 
-                                        && !route().current('shop', 'pantalones') 
-                                        && !route().current('shop', 'accesorios')}
-                                >
-                                    Inicio
-                                </NavLink>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('shop', 'camisetas')} active={route().current('shop', 'camisetas')}>
-                                    Camisetas
-                                </NavLink>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('shop', 'pantalones')} active={route().current('shop', 'pantalones')}>
-                                    Pantalones
-                                </NavLink>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('shop','accesorios')} active={route().current('shop', 'accesorios')}>
-                                    Accesorios
-                                </NavLink>
-                            </div>
-
-
                         </div>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
-                            <div className="relative ms-3">
+                        <div className="flex items-center sm:ms-6 sm:flex sm:items-center sm:gap-4">
+                            <div className=" hidden sm:block sm:relative sm:ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-black transition duration-150 ease-in-out hover:text-gray-600 focus:outline-none"
                                             >
                                                 {user.name}
 
@@ -90,17 +67,29 @@ export default function Authenticated({
                                         <Dropdown.Link
                                             href={route('profile.edit')}
                                         >
-                                            Profile
+                                            Perfil
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route('logout')}
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            Cerrar Sesión
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
+                            </div>
+                            <div className='sm:block relative ms-28 sm:ms-0'>
+                                <Sheet>
+                                    <SheetTrigger className='text-black hover:text-gray-600'>
+                                        Carrito
+                                    </SheetTrigger>
+                                    <SheetContent className="w-[83vw]" side="right">
+                                        <SheetHeader>
+                                            <SheetTitle className='font-normal'>Carrito</SheetTitle>
+                                        </SheetHeader>
+                                    </SheetContent>
+                                </Sheet>
                             </div>
                         </div>
 
@@ -156,9 +145,39 @@ export default function Authenticated({
                     <div className="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
                             href={route('shop')}
-                            active={route().current('shop')}
+                            active={route().current('shop')
+                                && !route().current('shop', 'camisetas') 
+                                && !route().current('shop', 'pantalones') 
+                                && !route().current('shop', 'accesorios')}
                         >
-                            Shop
+                            Inicio
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            href={route('shop', 'camisetas')}
+                            active={route().current('shop', 'camisetas')}
+                        >
+                            Camisetas
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            href={route('shop', 'pantalones')}
+                            active={route().current('shop', 'pantalones')}
+                        >
+                            Pantalones
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div className="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            href={route('shop', 'accesorios')}
+                            active={route().current('shop', 'accesorios')}
+                        >
+                            Accesorios
                         </ResponsiveNavLink>
                     </div>
 
@@ -174,14 +193,14 @@ export default function Authenticated({
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route('profile.edit')}>
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"
                                 href={route('logout')}
                                 as="button"
                             >
-                                Log Out
+                                Cerrar Sesión
                             </ResponsiveNavLink>
                         </div>
                     </div>

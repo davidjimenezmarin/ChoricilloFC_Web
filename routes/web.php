@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/shop/{slug?}', [ProductController::class, 'index'])->name('shop');
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
 
 
 require __DIR__.'/auth.php';

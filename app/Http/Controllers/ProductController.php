@@ -54,6 +54,15 @@ class ProductController extends Controller
         ]);
     }
 
+    public function show($slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('ProductDetail', [
+            'product' => $product
+        ]);
+    }
+
 
    
 
