@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/react';
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import {Link} from '@inertiajs/react';
 
 export default function Edit({
     mustVerifyEmail,
@@ -12,9 +13,14 @@ export default function Edit({
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Profile
-                </h2>
+                <div className='flex justify-between'>
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                        Perfil
+                    </h2>
+                    <Link href={route('shop')} className="text-black hover:underline">Salir</Link>
+                </div>
+                
+                
             }
         >
             <Head title="Profile" />

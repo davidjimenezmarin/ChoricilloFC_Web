@@ -23,20 +23,24 @@ export default function Authenticated({
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+        <div className="min-h-screen bg-white">
+            <nav className=" bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-14 justify-between">
-                        
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
-                                <Link href="/" className='text-black hover:text-gray-600'>
-                                    Salir de la tienda
+                                <Link href="/" className="text-black hover:text-gray-600">
+                                    <span className="hidden sm:inline">Salir de la tienda</span>
+                                    <span className="inline sm:hidden">Salir</span>
                                 </Link>
                             </div>
                         </div>
+                        
+                        <a href={route('shop')} title="Logo">
+                            <img src="/recursos/logoChoricilloNegro.png" alt="Our Shop" className="w-full h-full object-contain" />
+                        </a>
 
-                        <div className="flex items-center sm:ms-6 sm:flex sm:items-center sm:gap-4">
+                        <div className="flex items-center gap-2 sm:ms-6 sm:flex sm:items-center sm:gap-4">
                             <div className=" hidden sm:block sm:relative sm:ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -79,7 +83,7 @@ export default function Authenticated({
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
-                            <div className='sm:block relative ms-28 sm:ms-0'>
+                            <div className='sm:block relative  sm:ms-0'>
                                 <Sheet>
                                     <SheetTrigger className='text-black hover:text-gray-600'>
                                         Carrito
@@ -91,50 +95,51 @@ export default function Authenticated({
                                     </SheetContent>
                                 </Sheet>
                             </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                            <div className="-me-2 flex items-center sm:hidden">
+                                <button
+                                    onClick={() =>
+                                        setShowingNavigationDropdown(
+                                            (previousState) => !previousState,
+                                        )
+                                    }
+                                    className="inline-flex items-center justify-center text-gray-700 focus:text-gray-700 focus:outline-none"
                                 >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                                    <svg
+                                        className="h-6 w-6"
+                                        stroke="currentColor"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            className={
+                                                !showingNavigationDropdown
+                                                    ? 'inline-flex'
+                                                    : 'hidden'
+                                            }
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                        <path
+                                            className={
+                                                showingNavigationDropdown
+                                                    ? 'inline-flex'
+                                                    : 'hidden'
+                                            }
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                        
 
                 <div
                     className={
@@ -208,8 +213,8 @@ export default function Authenticated({
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <header className="bg-white border-b border-gray-300">
+                    <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
                         {header}
                     </div>
                 </header>

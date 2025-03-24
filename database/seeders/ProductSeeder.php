@@ -18,6 +18,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Camiseta - Primera Equipación',
                 'description' => 'Camiseta oficial de la Primera Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'cami1.jpg',
             ],
             [
@@ -25,6 +26,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pantaloneta - Primera Equipación',
                 'description' => 'Pantaloneta oficial de la Primera Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'panti1.jpg',
             ],
             [
@@ -32,6 +34,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Camiseta - Segunda Equipación',
                 'description' => 'Camiseta oficial de la Segunda Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'cami2.jpg',
             ],
             [
@@ -39,6 +42,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pantaloneta - Segunda Equipación',
                 'description' => 'Pantaloneta oficial de la Segunda Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'panti2.jpg',
             ],
             [
@@ -46,6 +50,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Camiseta - Tercera Equipación',
                 'description' => 'Camiseta oficial de la Tercera Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'cami3.jpg',
             ],
             [
@@ -53,6 +58,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Pantaloneta - Tercera Equipación',
                 'description' => 'Pantaloneta oficial de la Tercera Equipación del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => true,
                 'image' => 'panti3.jpg',
             ],
             [
@@ -60,6 +66,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Balón',
                 'description' => 'Balón oficial del ChoricilloFC',
                 'price' => 25.00,
+                'stock' => false,
                 'image' => 'balon.jpg',
             ]
         ];

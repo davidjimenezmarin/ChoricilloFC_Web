@@ -1,19 +1,26 @@
-import { ImgHTMLAttributes } from 'react';
+import { ImgHTMLAttributes } from "react";
 
-export default function ApplicationLogo(props: ImgHTMLAttributes<HTMLImageElement>) {
+interface ApplicationLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
+    src?: string; // Hacemos que el src sea opcional
+}
+
+export default function ApplicationLogo({
+    src = "/recursos/logoChoricillo.png", // Valor por defecto
+    ...props
+}: ApplicationLogoProps) {
     return (
-        <img 
-            src="/recursos/logoChoricillo.png" 
-            alt="Logo Choricillo" 
+        <img
+            src={src} // Usa el src dinámico
+            alt="Logo Choricillo"
             style={{
                 border: "none",
                 objectFit: "contain",
                 maxWidth: "100px",
                 height: "auto",
                 boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                ...props.style // Esto asegura que cualquier estilo pasado por props se respete
+                ...props.style, // Permite estilos adicionales desde props
             }}
-            {...props} // Aplica cualquier otra prop como className, id, etc.
+            {...props} // Aplica otras props como className, id, etc.
         />
     );
 }

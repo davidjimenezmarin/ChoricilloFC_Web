@@ -3,26 +3,7 @@ import { Head, usePage } from '@inertiajs/react';
 import ProductList from '@/Components/ProductList';
 import NavLink from '@/Components/NavLink';
 import { Link } from '@inertiajs/react';
-
-// Definimos las interfaz de los productos y categorías
-type Product = {
-    id: number;
-    name: string;
-    slug?: string;
-    price: number;
-    image?: string;
-};
-
-interface Category {
-    id: number;
-    name: string;
-    slug: string;
-}
-
-// Definimos las interfaces de los productos por categoría y de las propiedades del componente
-interface ProductsByCategory {
-    [categoryId: string]: Product[];
-}
+import { Category, ProductsByCategory } from '@/types/types';
 
 interface ShopProps {
     productsByCategory: ProductsByCategory;
@@ -31,10 +12,13 @@ interface ShopProps {
 }
 
 export default function Shop({ productsByCategory = {}, categories = [], selectedCategory }: ShopProps) {
+    // Equivalente a const isFiltered = selectedCategory !== null && selectedCategory !== undefined;
     const isFiltered = !!selectedCategory;
 
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+            header={isFiltered && selectedCategory?.name && <h2 className='px-2 bg-black w-fit rounded-lg border text-white'>{selectedCategory.name}</h2>}
+        >
             
             <Head title={isFiltered ? selectedCategory?.name : 'Inicio'} />
 
@@ -46,7 +30,7 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
 
             <div className='hidden sm:flex sm:py-6'>
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink
+                        <NavLink 
                             href={route('shop')}
                             active={route().current('shop') 
                                 && !route().current('shop', 'camisetas') 
@@ -82,11 +66,7 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
                         {isFiltered ? (
                             // Mostrar solo productos de la categoría seleccionada
                             <div key={selectedCategory?.id} className="mb-8">
-                                {productsByCategory[selectedCategory?.id || '']?.map((product) => (
-                                    <Link key={product.id} href={route('product.show', product.slug)}>
-                                        <ProductList products={[product]} />
-                                    </Link>
-                                ))}
+                                <ProductList products={productsByCategory[selectedCategory?.id || ''] || []} />
                             </div>
                         ) : (
                             // Mostrar todas las categorías y sus productos
@@ -97,11 +77,7 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
                                         <h3 className="text-lg font-semibold mb-4">
                                             {category ? category.name : `Categoría ${categoryId}`}
                                         </h3>
-                                        {productsByCategory[categoryId].map((product) => (
-                                            <Link key={product.id} href={route('product.show', product.slug)}>
-                                                <ProductList products={[product]} />
-                                            </Link>
-                                        ))}
+                                        <ProductList products={productsByCategory[categoryId]} />
                                     </div>
                                 );
                             })

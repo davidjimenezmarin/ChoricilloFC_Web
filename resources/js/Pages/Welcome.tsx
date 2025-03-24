@@ -151,11 +151,11 @@ export default function Welcome({
 
                         {/* <!-- Tienda --> */}
                         <div className="text-center animate-fade-in">
-                            <a href="https://shop.madlions.com/en/" title="Our Shop">
+                            <a href={route('shop')} title="Our Shop">
                             <img src="/recursos/tienda.jpg" alt="Our Shop" className="mx-auto h-[250px] w-full object-cover rounded" />
                             </a>
                             <h2 className="mt-4 text-lg font-bold text-[#191919]">
-                            <a href="https://shop.madlions.com/en/" className="text-[#c6aa76]">NUESTRA TIENDA</a>
+                            <a href={route('shop')} className="text-[#c6aa76]">NUESTRA TIENDA</a>
                             </h2>
                             <p className="mt-2">Para quienes quieran representar al equipo en casa, no busquen más.</p>
                             <Link href={route('shop')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">COMPRA AHORA</Link>

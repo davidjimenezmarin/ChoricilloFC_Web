@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('price', 10, 2);
             $table->string('image');
-            $table->integer('stock_quantity')->nullable()->default(null);
+            $table->boolean('stock')->nullable()->default(null);
             $table->enum('size', ['S', 'M', 'L', 'XL']);
             $table->timestamps();
             $table->softDeletes();
