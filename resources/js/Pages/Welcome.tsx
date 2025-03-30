@@ -73,7 +73,7 @@ export default function Welcome({
                             </Sheet>
                         </div>
                         <Link href="/">
-                            <ApplicationLogo className="w-16 h-auto fill-current hover:opacity-80" />
+                            <ApplicationLogo className="w-16 h-auto fill-current hover:opacity-80 sm:w-40 sm:h-40" />
                         </Link>
                     </div>
                     <nav className="hidden sm:flex flex-row justify-end pr-8 z-10 ">

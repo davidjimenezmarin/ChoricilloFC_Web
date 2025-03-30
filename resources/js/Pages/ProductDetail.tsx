@@ -2,24 +2,22 @@ import { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
-import NavLink from '@/Components/NavLink';
+import NavCategorias from '@/Components/NavCategorias';
 import { Button } from "@/shadcn/ui/button";
-
-type Product = {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    image?: string;
-    size?: string; // Puede ser "S", "M", "L" o "XL"
-    stock: boolean; // Nuevo campo como booleano
-};
+import { Product } from '@/types/types';
+import { useForm } from '@inertiajs/react';
 
 interface ProductDetailProps {
     product: Product;
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
+    const { data, setData, post, processing, errors } = useForm({
+        productId: product.id,
+        size: product.size || "", // Si no tiene talla, queda vacío
+        slug: product.slug,
+    });
+
     const [selectedSize, setSelectedSize] = useState<string | null>(product.size || null);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -38,6 +36,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         console.log("Producto agregado al carrito:", {
             productId: product.id,
             size: selectedSize,
+            slug: product.slug,
+        });
+        post(route('product.addToCart', {slug:product.slug}), {
+            onSuccess: () => alert("Producto agregado al carrito con éxito!"),
+            onError: () => alert("Error al agregar el producto al carrito."),
         });
     };
 
@@ -50,35 +53,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                             Volver
                         </Link>
                     </div>    
-                    <div className="hidden sm:flex">
-                        <NavLink
-                            href={route('shop')}
-                            active={route().current('shop') 
-                                && !route().current('shop', 'camisetas') 
-                                && !route().current('shop', 'pantalones') 
-                                && !route().current('shop', 'accesorios')}
-                        >
-                            Inicio
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop', 'camisetas')} active={route().current('shop', 'camisetas')}>
-                            Camisetas
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop', 'pantalones')} active={route().current('shop', 'pantalones')}>
-                            Pantalones
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop','accesorios')} active={route().current('shop', 'accesorios')}>
-                            Accesorios
-                        </NavLink>
-                    </div>
+                    <NavCategorias/>
                 </div>
             }
         >

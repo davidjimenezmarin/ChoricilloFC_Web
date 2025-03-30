@@ -1,9 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import ProductList from '@/Components/ProductList';
-import NavLink from '@/Components/NavLink';
-import { Link } from '@inertiajs/react';
 import { Category, ProductsByCategory } from '@/types/types';
+import NavCategorias from '@/Components/NavCategorias';
 
 interface ShopProps {
     productsByCategory: ProductsByCategory;
@@ -28,36 +27,8 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
                 </div>
             )}
 
-            <div className='hidden sm:flex sm:py-6'>
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink 
-                            href={route('shop')}
-                            active={route().current('shop') 
-                                && !route().current('shop', 'camisetas') 
-                                && !route().current('shop', 'pantalones') 
-                                && !route().current('shop', 'accesorios')}
-                        >
-                            Inicio
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop', 'camisetas')} active={route().current('shop', 'camisetas')}>
-                            Camisetas
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop', 'pantalones')} active={route().current('shop', 'pantalones')}>
-                            Pantalones
-                        </NavLink>
-                    </div>
-
-                    <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink href={route('shop','accesorios')} active={route().current('shop', 'accesorios')}>
-                            Accesorios
-                        </NavLink>
-                    </div>
+            <div className='hidden sm:flex sm:py-6 sm:pl-6'>
+                    <NavCategorias/>
             </div>
 
             <div className=" h-auto w-auto">

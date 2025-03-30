@@ -17,6 +17,9 @@ Route::get('/', function () {
 //     return Inertia::render('Shop');
 // })->middleware(['auth', 'verified'])->name('shop');
 
+
+
+
 Route::get('/shop', [ProductController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('shop');
@@ -27,9 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/product/{slug?}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/shop/{slug?}', [ProductController::class, 'index'])->name('shop');
-Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
-
-
+Route::post('/product/{slug?}/added',[ProductController::class, 'addToCart'])->name('product.addToCart');
 
 require __DIR__.'/auth.php';

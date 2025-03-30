@@ -5,7 +5,7 @@ interface ApplicationLogoProps extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 export default function ApplicationLogo({
-    src = "/recursos/logoChoricillo.png", // Valor por defecto
+    src = "/recursos/logoChoricilloBlanco.png", // Valor por defecto
     ...props
 }: ApplicationLogoProps) {
     return (
@@ -15,9 +15,9 @@ export default function ApplicationLogo({
             style={{
                 border: "none",
                 objectFit: "contain",
-                maxWidth: "100px",
+                maxWidth: "auto",
                 height: "auto",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                boxShadow: "none",
                 ...props.style, // Permite estilos adicionales desde props
             }}
             {...props} // Aplica otras props como className, id, etc.

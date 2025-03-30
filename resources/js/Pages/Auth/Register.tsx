@@ -28,11 +28,10 @@ export default function Register() {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="name" value="Nombre" />
-
                     <TextInput
                         id="name"
                         name="name"
+                        placeholder='Nombre'
                         value={data.name}
                         className="mt-1 block w-full bg-transparent"
                         autoComplete="name"
@@ -45,12 +44,11 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
-
                     <TextInput
                         id="email"
                         type="email"
                         name="email"
+                        placeholder='Email'
                         value={data.email}
                         className="mt-1 block w-full bg-transparent"
                         autoComplete="username"
@@ -62,12 +60,11 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Contraseña" />
-
                     <TextInput
                         id="password"
                         type="password"
                         name="password"
+                        placeholder='Contraseña'
                         value={data.password}
                         className="mt-1 block w-full bg-transparent"
                         autoComplete="new-password"
@@ -79,15 +76,11 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirmar Contraseña"
-                    />
-
                     <TextInput
                         id="password_confirmation"
                         type="password"
                         name="password_confirmation"
+                        placeholder='Repite la contraseña'
                         value={data.password_confirmation}
                         className="mt-1 block w-full bg-transparent"
                         autoComplete="new-password"
