@@ -1,3 +1,5 @@
+export type ProductSize = 'S' | 'M' | 'L' | 'XL' | undefined;
+
 export type Product = {
     id: number;
     name: string;
@@ -5,17 +7,31 @@ export type Product = {
     description: string;
     slug?: string;
     image?: string;
-    size?: string; // Puede ser "S", "M", "L" o "XL"
+    size?: ProductSize; // Puede ser "S", "M", "L" o "XL"
     stock: boolean; // Nuevo campo como booleano
 };
 
-export type Detail = {
+
+
+export type OrderDetail = {
     id: number;
     order_id: number;
-    product_id:number;
-    quantity?: number;
-    unit_price?: number;
-}
+    product_id: number;
+    quantity: number;
+    unit_price: number;
+    product: Product; // Relación con el producto
+};
+
+export type Order = {
+    id: number;
+    user_id: number;
+    status?: 'pending' | 'completed' | 'cancelled'; // Estado de la orden
+    total: number;
+    shipping_cost?: number;
+    details: OrderDetail[]; // Array de items del carrito
+    order_date?: string; // Fecha de la orden
+   
+};
 
 export interface Category {
     id: number;

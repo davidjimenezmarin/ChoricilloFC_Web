@@ -64,20 +64,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function addToCart($id):Response
-    {
-        $product = Product::findOrFail($id);
-        $detail = new OrderDetail();
-        $detail->product_id = $product->id;
-        $detail->quantity = 1; 
-        $detail->unit_price = $product->price;
-
-        return Inertia::render('Components/Cart', [
-            'successMessage' => 'Producto agregado al carrito!',
-            'product' => $product,
-            'detail' => $detail,
-        ]);
-    }
+   
 
 
    

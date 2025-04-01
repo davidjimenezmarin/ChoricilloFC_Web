@@ -10,12 +10,12 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/shadcn/ui/sheet"
-import {Detail} from '@/types/types';
+import Cart from '@/Components/Cart';
 
 export default function Authenticated({
     header,
     children,
-}: PropsWithChildren<{ header?: ReactNode, details?: Detail[] }>) {
+}: PropsWithChildren<{ header?: ReactNode }>) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -91,6 +91,7 @@ export default function Authenticated({
                                         <SheetHeader>
                                             <SheetTitle className='font-normal'>Carrito</SheetTitle>
                                         </SheetHeader>
+                                        <Cart />
                                     </SheetContent>
                                 </Sheet>
                             </div>

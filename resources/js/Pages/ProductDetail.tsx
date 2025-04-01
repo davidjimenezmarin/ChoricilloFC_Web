@@ -12,37 +12,40 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, } = useForm({
         productId: product.id,
         size: product.size || "", // Si no tiene talla, queda vacío
-        slug: product.slug,
+        //slug: product.slug,
     });
 
     const [selectedSize, setSelectedSize] = useState<string | null>(product.size || null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+    
         if (!selectedSize) {
             alert("Por favor, selecciona una talla antes de agregar al carrito.");
             return;
         }
-        
+    
         if (!product.stock) {
             alert("Este producto está agotado.");
             return;
         }
-
-        // Aquí enviaríamos los datos al backend
-        console.log("Producto agregado al carrito:", {
+    
+        setData({
             productId: product.id,
-            size: selectedSize,
-            slug: product.slug,
+            size: selectedSize,  // Se actualiza con la talla seleccionada
+           // slug: product.slug,
         });
-        post(route('product.addToCart', {slug:product.slug}), {
+    
+        post(route('details.addToCart'), {
             onSuccess: () => alert("Producto agregado al carrito con éxito!"),
             onError: () => alert("Error al agregar el producto al carrito."),
+            onFinish: () => setSelectedSize(null), // Reinicia la selección de talla después de agregar al carrito
         });
     };
+    
 
     return (
         <AuthenticatedLayout 

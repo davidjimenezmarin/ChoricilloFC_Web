@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderDetailController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -32,6 +33,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/product/{slug?}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/shop/{slug?}', [ProductController::class, 'index'])->name('shop');
-Route::post('/product/{slug?}/added',[ProductController::class, 'addToCart'])->name('product.addToCart');
+Route::post('/cart',[OrderDetailController::class, 'addToCart'])->name('details.addToCart');
 
 require __DIR__.'/auth.php';
