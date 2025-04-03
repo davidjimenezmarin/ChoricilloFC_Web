@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->string('image');
             $table->boolean('stock')->nullable()->default(null);
-            $table->enum('size', ['S', 'M', 'L', 'XL']);
+            $table->enum('size', ['S', 'M', 'L', 'XL'])->nullable()->default('S');
             $table->timestamps();
             $table->softDeletes();
 

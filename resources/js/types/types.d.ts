@@ -11,8 +11,6 @@ export type Product = {
     stock: boolean; // Nuevo campo como booleano
 };
 
-
-
 export type OrderDetail = {
     id: number;
     order_id: number;

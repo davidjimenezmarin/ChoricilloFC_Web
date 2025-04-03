@@ -7,56 +7,63 @@ use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderDetailController extends Controller
 {
-   
-    public function addToCart(Request $request)
-    {
-        $userId = Auth::id();
-        $validated = $request->validate([
-            'productId' => 'required|exists:products,id',
-            'size' => 'nullable|string',
-        ]);
-        
-        $product = Product::findOrFail($validated['productId']);
+        public function addToCart(Request $request)
+        {
+            Log::debug('Datos recibidos en addToCart:', $request->all());
 
-        // Obtener la orden activa del usuario (su carrito actual)
-        $order = Order::firstOrCreate(
-         ['user_id' => $userId, 'status' => 'pending'], // Buscar una orden pendiente
-        ['total' => 0, 'user_id' => $userId]  // Si no existe, la crea con total = 0
-        );
-
-        // Verificar si el producto ya está en el carrito
-        $detail = OrderDetail::where('order_id', $order->id)
-                            ->where('product_id', $product->id)
-                            ->first();
-
-        if ($detail) {
-            // Si ya existe, aumentar la cantidad
-            $detail->quantity += 1;
-            $detail->save();
-        } else {
-            // Si no existe, crear un nuevo detalle de pedido
-            OrderDetail::create([
-                'order_id' => $order->id,
-                'product_id' => $product->id,
-                'quantity' => 1,
-                'unit_price' => $product->price,
+            $userId = Auth::id();
+            $validated = $request->validate([
+                'productId' => 'required|exists:products,id',
+                'size' => 'nullable|string|in:S,M,L,XL',
             ]);
-        }
 
-        // Recalcular el total del carrito
-        $order->update([
-            'total' => $order->details->sum(function($detail) {
-                return $detail->quantity * $detail->unit_price;
+            Log::debug('user:', ['id' => $userId]);
+            
+            $product = Product::findOrFail($validated['productId']);
+
+            // Obtener o crear la orden
+            $order = Order::firstOrCreate(
+                ['user_id' => $userId, 'status' => 'pending'],
+                ['total' => 0, 'user_id' => $userId, 'status' => 'pending']
+            );
+
+            // Buscar si ya existe el producto en el carrito
+            $detail = OrderDetail::where('order_id', $order->id)
+            ->where('product_id', $product->id)
+            ->whereHas('product', function($query) use ($validated) {
+                if ($validated['size']) {
+                    $query->where('size', $validated['size']);
+                }
             })
-        ]);
-
-        return Inertia::render('Components/Cart', [
-            'cart' => $order->load('details.product'),
-        ]);
-    }
+            ->first();
+            
+            //Log::debug('Producto existente en el carrito:', $detail->toArray());
+    
+            if ($detail) {
+                $detail->increment('quantity');
+            } else {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => 1,
+                    'unit_price' => $product->price,
+                ]);
+            }
+    
+            // Actualizar total
+            $order->update([
+                'total_amount' => $order->details->sum(function($detail) {
+                    return $detail->quantity * $detail->unit_price;
+                })
+            ]);
+           return back()->with('success', 'Producto agregado al carrito');
+            
+        }
+    
 
     public function removeFromCart(OrderDetail $detail)
     {
@@ -65,7 +72,7 @@ class OrderDetailController extends Controller
         // Recalcular total
         $order = $detail->order;
         $order->update([
-            'total' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
+            'total_amount' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
         ]);
         
         return redirect()->back();
@@ -77,7 +84,7 @@ class OrderDetailController extends Controller
         
         $order = $detail->order;
         $order->update([
-            'total' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
+            'total_amount' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
         ]);
         
         return redirect()->back();

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -29,10 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/product/{slug?}', [ProductController::class, 'show'])->name('product.show');
+    Route::get('/shop/{slug?}', [ProductController::class, 'index'])->name('shop');
+    Route::post('/cart/add',[OrderDetailController::class, 'addToCart'])->name('details.addToCart');
 });
 
-Route::get('/product/{slug?}', [ProductController::class, 'show'])->name('product.show');
-Route::get('/shop/{slug?}', [ProductController::class, 'index'])->name('shop');
-Route::post('/cart',[OrderDetailController::class, 'addToCart'])->name('details.addToCart');
 
 require __DIR__.'/auth.php';

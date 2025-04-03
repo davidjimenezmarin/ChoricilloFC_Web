@@ -67,6 +67,7 @@ class ProductSeeder extends Seeder
                 'description' => 'Balón oficial del ChoricilloFC',
                 'price' => 25.00,
                 'stock' => false,
+                'size' => null,
                 'image' => 'balon.jpg',
             ]
         ];

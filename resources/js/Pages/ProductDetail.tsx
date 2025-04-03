@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
@@ -6,23 +6,31 @@ import NavCategorias from '@/Components/NavCategorias';
 import { Button } from "@/shadcn/ui/button";
 import { Product } from '@/types/types';
 import { useForm } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 
 interface ProductDetailProps {
     product: Product;
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-    const { data, setData, post, } = useForm({
+    const { data, setData, post, processing } = useForm({
         productId: product.id,
         size: product.size || "", // Si no tiene talla, queda vacío
-        //slug: product.slug,
     });
 
     const [selectedSize, setSelectedSize] = useState<string | null>(product.size || null);
 
+    // Sincronizamos el estado local con el form de Inertia
+    useEffect(() => {
+        setData('size', selectedSize || '');
+    }, [selectedSize, setData]);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-    
+        console.log('Enviando datos:', { 
+            productId: data.productId, 
+            size: data.size 
+        });
         if (!selectedSize) {
             alert("Por favor, selecciona una talla antes de agregar al carrito.");
             return;
@@ -36,11 +44,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         setData({
             productId: product.id,
             size: selectedSize,  // Se actualiza con la talla seleccionada
-           // slug: product.slug,
         });
     
         post(route('details.addToCart'), {
-            onSuccess: () => alert("Producto agregado al carrito con éxito!"),
+            onSuccess: () => {
+                Inertia.reload({ only: ['cart'] });
+                alert("Producto agregado al carrito con éxito!"); 
+            },
             onError: () => alert("Error al agregar el producto al carrito."),
             onFinish: () => setSelectedSize(null), // Reinicia la selección de talla después de agregar al carrito
         });
@@ -87,35 +97,56 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         {/* Formulario */}
                         <form onSubmit={handleSubmit} className="mt-4">
                             {/* Selección de tallas */}
-                            {['S', 'M', 'L', 'XL'].some(size => size === product.size) ? (
-                                <div>
-                                    <p className="font-semibold">Talla</p>
-                                    <div className="flex gap-4">
+                            {['S', 'M', 'L', 'XL'].some(size => size === product.size) && (
+                                <div className="mb-4">
+                                    <p className="font-semibold mb-2">Talla</p>
+                                    <div className="flex gap-2">
                                         {['S', 'M', 'L', 'XL'].map((size) => (
-                                            <button 
+                                            <button
                                                 type="button"
-                                                key={size} 
-                                                onClick={() => setSelectedSize(size)}
-                                                className={`border px-4 py-1 rounded transition
-                                                    ${selectedSize === size ? 'bg-gray-900 text-white' : 'hover:bg-gray-200'}`}
+                                                key={size}
+                                                onClick={() => {
+                                                    setSelectedSize(size);
+                                                    setData('size', size); // Actualizamos ambos estados
+                                                }}
+                                                className={`
+                                                    border px-4 py-1 rounded transition
+                                                    ${selectedSize === size 
+                                                        ? 'bg-gray-900 text-white border-gray-900' 
+                                                        : 'border-gray-300 hover:bg-gray-100'
+                                                    }
+                                                    ${processing ? 'opacity-50 cursor-not-allowed' : ''}
+                                                `}
+                                                disabled={processing}
                                             >
                                                 {size}
                                             </button>
                                         ))}
                                     </div>
                                 </div>
-                            ) : (
-                                <p className="text-gray-500">Talla única</p>
                             )}
 
                             {/* Botón de agregar al carrito */}
                             <Button 
                                 type="submit" 
-                                disabled={!product.stock}
-                                className={`mt-4 px-6 py-2 transition 
-                                    ${product.stock ? '' : 'bg-gray-400 cursor-not-allowed'}`}
+                                disabled={!product.stock || processing || (product.size && !data.size)}
+                                className={`mt-4 px-6 py-2 transition ${
+                                    !product.stock 
+                                        ? 'bg-gray-400 cursor-not-allowed' 
+                                        : processing 
+                                            ? 'bg-gray-400 cursor-wait'
+                                            : 'bg-gray-700 hover:bg-gray-900'
+                                } text-white `}
                             >
-                                {product.stock ? 'Agregar al carrito' : 'No disponible'}
+                                {processing ? (
+                                    'Añadiendo...'
+                                ) : !product.stock ? (
+                                    'No disponible'
+                                ) : product.size && !data.size ? (
+                                    'Selecciona talla'
+                                ) : (
+                                    'Agregar al carrito'
+                                )}
                             </Button>
                         </form>
                     </div>

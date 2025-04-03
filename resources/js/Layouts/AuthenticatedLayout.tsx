@@ -1,7 +1,8 @@
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
-import { PropsWithChildren, ReactNode, useState } from 'react';
+import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+import { PageProps } from '@inertiajs/core';
 import {
     Sheet,
     SheetContent,
@@ -10,17 +11,24 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/shadcn/ui/sheet"
-import Cart from '@/Components/Cart';
+import Cart from '@/Pages/Components/Cart';
+
+import { Order } from '@/types/types';
+
+interface CustomPageProps extends PageProps {
+    cart: Order;
+}
 
 export default function Authenticated({
     header,
     children,
-}: PropsWithChildren<{ header?: ReactNode }>) {
+}: { children: React.ReactNode, header?: ReactNode }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    const { cart } = usePage<CustomPageProps>().props;
     return (
         <div className="min-h-screen bg-white">
             <nav className=" bg-white">
@@ -83,17 +91,22 @@ export default function Authenticated({
                                 </Dropdown>
                             </div>
                             <div className='sm:block relative  sm:ms-0'>
-                                <Sheet>
-                                    <SheetTrigger className='text-black hover:text-gray-600'>
-                                        Carrito
-                                    </SheetTrigger>
-                                    <SheetContent className="w-[83vw]" side="right">
-                                        <SheetHeader>
-                                            <SheetTitle className='font-normal'>Carrito</SheetTitle>
-                                        </SheetHeader>
-                                        <Cart />
-                                    </SheetContent>
-                                </Sheet>
+                              <Sheet>
+                                        <SheetTrigger className="text-black hover:text-gray-600 flex items-center gap-1">
+                                        <span>Carrito</span> 
+                                        {(cart?.details?.length ?? 0) > 0 && (
+                                            <span className="bg-gray-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                                {(cart?.details?.reduce((sum, item) => sum + item.quantity, 0)) ?? 0}
+                                            </span>
+                                        )}
+                                        </SheetTrigger>
+                                        <SheetContent className="w-[83vw]" side="right">
+                                            <SheetHeader>
+                                                <SheetTitle className="font-normal">Tu Carrito</SheetTitle>
+                                            </SheetHeader>
+                                           <Cart />
+                                        </SheetContent>
+                                    </Sheet>
                             </div>
                             <div className="-me-2 flex items-center sm:hidden">
                                 <button
@@ -224,3 +237,4 @@ export default function Authenticated({
         </div>
     );
 }
+
