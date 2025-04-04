@@ -11,17 +11,24 @@ use Illuminate\Support\Facades\Log;
 
 class OrderDetailController extends Controller
 {
+        private function updateOrderTotal($order){
+            $order->update([
+                'total_amount' => $order->details->sum(function($detail) {
+                    return $detail->quantity * $detail->unit_price;
+                })
+            ]);
+        }
+        
         public function addToCart(Request $request)
         {
             Log::debug('Datos recibidos en addToCart:', $request->all());
 
             $userId = Auth::id();
+
             $validated = $request->validate([
                 'productId' => 'required|exists:products,id',
                 'size' => 'nullable|string|in:S,M,L,XL',
             ]);
-
-            Log::debug('user:', ['id' => $userId]);
             
             $product = Product::findOrFail($validated['productId']);
 
@@ -34,60 +41,71 @@ class OrderDetailController extends Controller
             // Buscar si ya existe el producto en el carrito
             $detail = OrderDetail::where('order_id', $order->id)
             ->where('product_id', $product->id)
-            ->whereHas('product', function($query) use ($validated) {
-                if ($validated['size']) {
-                    $query->where('size', $validated['size']);
-                }
-            })
+            ->where('size', $validated['size'])
             ->first();
-            
-            //Log::debug('Producto existente en el carrito:', $detail->toArray());
-    
+                
             if ($detail) {
                 $detail->increment('quantity');
             } else {
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
+                    'size' => $validated['size'],
                     'quantity' => 1,
                     'unit_price' => $product->price,
                 ]);
             }
     
             // Actualizar total
-            $order->update([
-                'total_amount' => $order->details->sum(function($detail) {
-                    return $detail->quantity * $detail->unit_price;
-                })
-            ]);
-           return back()->with('success', 'Producto agregado al carrito');
-            
+            $this->updateOrderTotal($order);
+
+            return back()->with(['cart' => $order->load('details.product')]);
+
         }
     
+        public function removeFromCart($id)
+        {
+            $detail = OrderDetail::findOrFail($id);
+            
+            $detail->delete(); // Eliminamos el detalle del pedido
+            
+            $this->updateOrderTotal($detail->order); // Actualizamos el total de la orden
 
-    public function removeFromCart(OrderDetail $detail)
-    {
-        $detail->delete();
-        
-        // Recalcular total
-        $order = $detail->order;
-        $order->update([
-            'total_amount' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
-        ]);
-        
-        return redirect()->back();
-    }
+            return back()->with([
+                'cart' => $detail->order->load('details.product'), // Recargamos el carrito
+            ]);
+        }
 
-    public function updateQuantity(OrderDetail $detail, Request $request)
-    {
-        $detail->update(['quantity' => $request->quantity]);
+
+        public static function getCart()
+        {
+            $userId = Auth::id();
+            return Order::with('details.product')->where([
+                'user_id' => $userId,
+                'status' => 'pending'
+            ])->first();
+        }
+
+        // CartController.php
+
+        public function updateCart(Request $request)
+        {
+            $request->validate([
+                'itemId' => 'required|integer',
+                'quantity' => 'required|integer|min:1',
+            ]);
+
+            $detail = OrderDetail::findOrFail($request->itemId);
+
+            $detail->quantity = $request->quantity;
+            $detail->save();
+
+            $this->updateOrderTotal($detail->order); // Actualizamos el total de la orden
+
+            return back(); // o redirect, o respuesta JSON
+        }
+
         
-        $order = $detail->order;
-        $order->update([
-            'total_amount' => $order->details->sum(fn($d) => $d->quantity * $d->unit_price)
-        ]);
-        
-        return redirect()->back();
-    }
+     
 
 }

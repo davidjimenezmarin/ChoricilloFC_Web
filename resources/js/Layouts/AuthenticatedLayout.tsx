@@ -11,13 +11,7 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/shadcn/ui/sheet"
-import Cart from '@/Pages/Components/Cart';
-
-import { Order } from '@/types/types';
-
-interface CustomPageProps extends PageProps {
-    cart: Order;
-}
+import Cart from '@/Components/Cart';
 
 export default function Authenticated({
     header,
@@ -28,7 +22,7 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const { cart } = usePage<CustomPageProps>().props;
+    const { cart } = usePage<PageProps>().props;
     return (
         <div className="min-h-screen bg-white">
             <nav className=" bg-white">
@@ -92,21 +86,25 @@ export default function Authenticated({
                             </div>
                             <div className='sm:block relative  sm:ms-0'>
                               <Sheet>
-                                        <SheetTrigger className="text-black hover:text-gray-600 flex items-center gap-1">
-                                        <span>Carrito</span> 
-                                        {(cart?.details?.length ?? 0) > 0 && (
-                                            <span className="bg-gray-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                                {(cart?.details?.reduce((sum, item) => sum + item.quantity, 0)) ?? 0}
-                                            </span>
-                                        )}
-                                        </SheetTrigger>
-                                        <SheetContent className="w-[83vw]" side="right">
-                                            <SheetHeader>
-                                                <SheetTitle className="font-normal">Tu Carrito</SheetTitle>
-                                            </SheetHeader>
-                                           <Cart />
-                                        </SheetContent>
-                                    </Sheet>
+                                    <SheetTrigger className="text-black hover:text-gray-600 flex items-center gap-1">
+                                    <span>Carrito</span> 
+                                    {(cart?.details?.length ?? 0) > 0 && (
+                                        <span className="bg-gray-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                            {(cart?.details?.reduce((sum, item) => sum + item.quantity, 0)) ?? 0}
+                                        </span>
+                                    )}
+                                    </SheetTrigger>
+                                    <SheetContent className="w-[90vw]" side="right">
+                                        <SheetHeader>
+                                            <SheetTitle className="font-normal">
+                                                <div className="flex justify-between items-center border-b pb-3">
+                                                    <h2 className="text-xl font-bold">Tu cesta | {cart?.details.length ?? 0} Artículo(s)</h2>
+                                                </div>
+                                            </SheetTitle>
+                                        </SheetHeader>
+                                        <Cart />
+                                    </SheetContent>
+                                </Sheet>
                             </div>
                             <div className="-me-2 flex items-center sm:hidden">
                                 <button

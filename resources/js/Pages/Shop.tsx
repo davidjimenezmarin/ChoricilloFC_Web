@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import ProductList from '@/Components/ProductList';
-import { Category, ProductsByCategory } from '@/types/types';
+import { Category, ProductsByCategory } from '@/types/index';
 import NavCategorias from '@/Components/NavCategorias';
 
 interface ShopProps {

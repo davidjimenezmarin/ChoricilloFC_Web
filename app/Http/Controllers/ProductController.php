@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\OrderDetail;
+use App\Models\Cart;
 
 
 class ProductController extends Controller

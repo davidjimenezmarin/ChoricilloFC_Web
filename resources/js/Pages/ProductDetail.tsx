@@ -4,7 +4,7 @@ import { Head, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import NavCategorias from '@/Components/NavCategorias';
 import { Button } from "@/shadcn/ui/button";
-import { Product } from '@/types/types';
+import { Product } from '@/types/index';
 import { useForm } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -18,19 +18,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         size: product.size || "", // Si no tiene talla, queda vacío
     });
 
-    const [selectedSize, setSelectedSize] = useState<string | null>(product.size || null);
-
+    const [selectedSize, setSelectedSize] = useState<string | null>(
+        product.size && ['S', 'M', 'L', 'XL'].includes(product.size) ? product.size : null
+    );
     // Sincronizamos el estado local con el form de Inertia
     useEffect(() => {
-        setData('size', selectedSize || '');
-    }, [selectedSize, setData]);
+        if (selectedSize) {
+            setData('size', selectedSize);
+        }
+    }, [selectedSize]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Enviando datos:', { 
-            productId: data.productId, 
-            size: data.size 
-        });
+        
         if (!selectedSize) {
             alert("Por favor, selecciona una talla antes de agregar al carrito.");
             return;
@@ -46,7 +46,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             size: selectedSize,  // Se actualiza con la talla seleccionada
         });
     
-        post(route('details.addToCart'), {
+        post(route('details.add'), {
             onSuccess: () => {
                 Inertia.reload({ only: ['cart'] });
                 alert("Producto agregado al carrito con éxito!"); 
@@ -97,7 +97,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         {/* Formulario */}
                         <form onSubmit={handleSubmit} className="mt-4">
                             {/* Selección de tallas */}
-                            {['S', 'M', 'L', 'XL'].some(size => size === product.size) && (
+                            {['S', 'M', 'L', 'XL'].length > 0 && (
                                 <div className="mb-4">
                                     <p className="font-semibold mb-2">Talla</p>
                                     <div className="flex gap-2">
