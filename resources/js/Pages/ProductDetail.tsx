@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router} from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
 import NavCategorias from '@/Components/NavCategorias';
 import { Button } from "@/shadcn/ui/button";
 import { Product } from '@/types/index';
 import { useForm } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia';
+import Cart from '@/Components/Cart';
 
 interface ProductDetailProps {
     product: Product;
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-    const { data, setData, post, processing } = useForm({
+    const { data, setData, post, processing} = useForm({
         productId: product.id,
         size: product.size || "", // Si no tiene talla, queda vacío
     });
@@ -21,12 +21,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
     const [selectedSize, setSelectedSize] = useState<string | null>(
         product.size && ['S', 'M', 'L', 'XL'].includes(product.size) ? product.size : null
     );
-    // Sincronizamos el estado local con el form de Inertia
-    useEffect(() => {
-        if (selectedSize) {
-            setData('size', selectedSize);
-        }
-    }, [selectedSize]);
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,20 +31,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             return;
         }
     
-        if (!product.stock) {
-            alert("Este producto está agotado.");
-            return;
-        }
-    
-        setData({
-            productId: product.id,
-            size: selectedSize,  // Se actualiza con la talla seleccionada
-        });
-    
         post(route('details.add'), {
+            preserveScroll: true, 
+            preserveState: false,
             onSuccess: () => {
-                Inertia.reload({ only: ['cart'] });
-                alert("Producto agregado al carrito con éxito!"); 
+                alert("Producto agregado al carrito con éxito!");
+                router.reload({ 
+                    only: ['cart'], 
+                }); 
             },
             onError: () => alert("Error al agregar el producto al carrito."),
             onFinish: () => setSelectedSize(null), // Reinicia la selección de talla después de agregar al carrito
@@ -69,6 +58,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                     <NavCategorias/>
                 </div>
             }
+            cartComponent={<Cart />}
         >
             <Head title={product.name} />
             <div className="container mx-auto py-12 bg-slate-100">
@@ -77,7 +67,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         <img 
                             src={`/recursos/products/${product.image}`} 
                             alt={product.name} 
-                            className="w-3/4 sm:w-full shadow-lg" 
+                            className="w-3/4 sm:w-80% shadow-lg" 
                         />
                     </div>
                     <div>

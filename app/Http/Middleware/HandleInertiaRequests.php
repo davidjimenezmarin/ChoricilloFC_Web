@@ -36,6 +36,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'cart' => Auth::check() ? OrderDetailController::getCart() : null, // Solo si está autenticado
+
         ];
     }
 

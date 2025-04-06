@@ -5,6 +5,7 @@ import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import {Link} from '@inertiajs/react';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function Edit({
     mustVerifyEmail,
@@ -17,10 +18,12 @@ export default function Edit({
                     <h2 className="text-xl font-semibold leading-tight text-gray-800">
                         Perfil
                     </h2>
-                    <Link href={route('shop')} className="text-black hover:underline">Salir</Link>
+                    <PrimaryButton className="w-auto" onClick={() => window.history.back()}>
+                        Volver
+                    </PrimaryButton>
                 </div>
                 
-                
+            
             }
         >
             <Head title="Profile" />

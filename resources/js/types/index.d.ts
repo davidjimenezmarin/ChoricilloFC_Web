@@ -57,4 +57,6 @@ export type PageProps<
         user: User;
     };
     cart: Order;
+    
+    
 };

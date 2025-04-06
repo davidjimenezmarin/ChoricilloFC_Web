@@ -3,6 +3,7 @@ import { Head, usePage } from '@inertiajs/react';
 import ProductList from '@/Components/ProductList';
 import { Category, ProductsByCategory } from '@/types/index';
 import NavCategorias from '@/Components/NavCategorias';
+import Cart from '@/Components/Cart';
 
 interface ShopProps {
     productsByCategory: ProductsByCategory;
@@ -17,6 +18,7 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
     return (
         <AuthenticatedLayout
             header={isFiltered && selectedCategory?.name && <h2 className='px-2 bg-black w-fit rounded-lg border text-white'>{selectedCategory.name}</h2>}
+            cartComponent={<Cart />}
         >
             
             <Head title={isFiltered ? selectedCategory?.name : 'Inicio'} />

@@ -3,9 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -34,8 +32,16 @@ class OrderDetailController extends Controller
 
             // Obtener o crear la orden
             $order = Order::firstOrCreate(
-                ['user_id' => $userId, 'status' => 'pending'],
-                ['total' => 0, 'user_id' => $userId, 'status' => 'pending']
+                [
+                    'user_id' => $userId, 
+                    'status' => 'pending'
+                ],
+                [
+                'total_amount' => 0, 
+                'user_id' => $userId,
+                'status' => 'pending',
+                'order_date' => now(),
+                ]
             );
 
             // Buscar si ya existe el producto en el carrito
@@ -59,7 +65,7 @@ class OrderDetailController extends Controller
             // Actualizar total
             $this->updateOrderTotal($order);
 
-            return back()->with(['cart' => $order->load('details.product')]);
+            return redirect()->back();
 
         }
     
@@ -71,41 +77,32 @@ class OrderDetailController extends Controller
             
             $this->updateOrderTotal($detail->order); // Actualizamos el total de la orden
 
-            return back()->with([
-                'cart' => $detail->order->load('details.product'), // Recargamos el carrito
-            ]);
+            return back(); 
         }
 
+        public function updateCart(Request $request, $id)
+        {
+            $request->validate([
+                'quantity' => 'required|integer|min:1',
+            ]);
 
+            $detail = OrderDetail::findOrFail($id);
+            $detail->quantity = $request->quantity;
+            $detail->save();
+
+            $this->updateOrderTotal($detail->order);
+
+            return back();
+        }
+        
         public static function getCart()
         {
             $userId = Auth::id();
+            
             return Order::with('details.product')->where([
                 'user_id' => $userId,
                 'status' => 'pending'
             ])->first();
         }
-
-        // CartController.php
-
-        public function updateCart(Request $request)
-        {
-            $request->validate([
-                'itemId' => 'required|integer',
-                'quantity' => 'required|integer|min:1',
-            ]);
-
-            $detail = OrderDetail::findOrFail($request->itemId);
-
-            $detail->quantity = $request->quantity;
-            $detail->save();
-
-            $this->updateOrderTotal($detail->order); // Actualizamos el total de la orden
-
-            return back(); // o redirect, o respuesta JSON
-        }
-
-        
-     
 
 }

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderDetailController;
-use App\Models\OrderDetail;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/add',[OrderDetailController::class, 'addToCart'])->name('details.add');
     Route::delete('/cart/remove/{id}', [OrderDetailController::class, 'removeFromCart'])
     ->name('details.remove');
-    Route::post('/cart/update', [OrderDetailController::class, 'updateCart'])->name('details.update');
+    Route::post('/cart/update/{id}', [OrderDetailController::class, 'updateCart'])->name('details.update');
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
 });
 
 

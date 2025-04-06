@@ -2,27 +2,19 @@ import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
-import { PageProps } from '@inertiajs/core';
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-  } from "@/shadcn/ui/sheet"
-import Cart from '@/Components/Cart';
+
 
 export default function Authenticated({
     header,
     children,
-}: { children: React.ReactNode, header?: ReactNode }) {
+    cartComponent,
+}: { children: React.ReactNode, header?: ReactNode, cartComponent?: ReactNode }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    const { cart } = usePage<PageProps>().props;
+
     return (
         <div className="min-h-screen bg-white">
             <nav className=" bg-white">
@@ -37,9 +29,9 @@ export default function Authenticated({
                             </div>
                         </div>
                         
-                        <a href={route('shop')} title="Logo">
+                        <Link href={route('shop')} title="Logo">
                             <img src="/recursos/logoChoricilloNegro.png" alt="Our Shop" className="w-full h-full object-contain" />
-                        </a>
+                        </Link>
 
                         <div className="flex items-center gap-2 sm:ms-6 sm:flex sm:items-center sm:gap-4">
                             <div className=" hidden sm:block sm:relative sm:ms-3">
@@ -84,28 +76,12 @@ export default function Authenticated({
                                     </Dropdown.Content>
                                 </Dropdown>
                             </div>
-                            <div className='sm:block relative  sm:ms-0'>
-                              <Sheet>
-                                    <SheetTrigger className="text-black hover:text-gray-600 flex items-center gap-1">
-                                    <span>Carrito</span> 
-                                    {(cart?.details?.length ?? 0) > 0 && (
-                                        <span className="bg-gray-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                            {(cart?.details?.reduce((sum, item) => sum + item.quantity, 0)) ?? 0}
-                                        </span>
-                                    )}
-                                    </SheetTrigger>
-                                    <SheetContent className="w-[90vw]" side="right">
-                                        <SheetHeader>
-                                            <SheetTitle className="font-normal">
-                                                <div className="flex justify-between items-center border-b pb-3">
-                                                    <h2 className="text-xl font-bold">Tu cesta | {cart?.details.length ?? 0} Artículo(s)</h2>
-                                                </div>
-                                            </SheetTitle>
-                                        </SheetHeader>
-                                        <Cart />
-                                    </SheetContent>
-                                </Sheet>
-                            </div>
+                            {cartComponent && (
+                                    <div className='sm:block relative  sm:ms-0'>
+                                        {cartComponent}
+                                    </div>
+                            
+                            )} 
                             <div className="-me-2 flex items-center sm:hidden">
                                 <button
                                     onClick={() =>
