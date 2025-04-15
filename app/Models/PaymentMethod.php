@@ -15,4 +15,8 @@ class PaymentMethod extends Model
         'name',
         'description',
     ];
+    public function order()
+    {
+        return $this->hasOne(Order::class);
+    }
 }

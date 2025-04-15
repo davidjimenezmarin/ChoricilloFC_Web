@@ -48,6 +48,15 @@ export default function Edit({
                     </div>
 
                     <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+                        <Link
+                            href={route('checkout.index')}
+                            className="text-sm text-gray-700 dark:text-gray-500 underline"
+                        >
+                            Ver mis pedidos
+                        </Link>
+                    </div>
+
+                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
                         <DeleteUserForm className="max-w-xl" />
                     </div>
                 </div>

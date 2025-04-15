@@ -100,7 +100,7 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
 
             <div className="flex gap-4">
                 <PrimaryButton type="submit" disabled={processing}>
-                    {mode === "edit" ? "Actualizar dirección" : "Crear dirección"}
+                    {mode === "edit" ? "Actualizar dirección" : "Añadir dirección"}
                 </PrimaryButton>
                 {mode === "edit" && onCancel && (
                     <Button type="button" variant="outline" onClick={onCancel}>

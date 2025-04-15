@@ -41,6 +41,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/update/{id}', [OrderDetailController::class, 'updateCart'])->name('details.update');
 
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::put('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
+
+
     Route::post('/addresses', [ShippingAddressController::class, 'store'])->name('addresses.store');
     Route::put('/addresses/{address}', [ShippingAddressController::class, 'update'])->name('addresses.update');
     Route::delete('/addresses/{address}', [ShippingAddressController::class, 'destroy'])->name('addresses.destroy');

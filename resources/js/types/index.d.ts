@@ -15,6 +15,12 @@ export type ShippingAddress = {
     main: boolean; // Indica si es la dirección principal
 }
 
+export type PaymentMethod = {
+    id: number;
+    name: string;
+    description: string;
+}
+
 export type Order = {
     id: number;
     user_id: number;
@@ -70,7 +76,7 @@ export type PageProps<
         user: User;
     };
     cart: Order;
-    addresses: Address[];
-    
+    addresses: ShippingAddress[];
+    methods: PaymentMethod[];
     
 };

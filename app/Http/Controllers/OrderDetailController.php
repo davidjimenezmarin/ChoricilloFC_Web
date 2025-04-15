@@ -19,8 +19,6 @@ class OrderDetailController extends Controller
         
         public function addToCart(Request $request)
         {
-            Log::debug('Datos recibidos en addToCart:', $request->all());
-
             $userId = Auth::id();
 
             $validated = $request->validate([
