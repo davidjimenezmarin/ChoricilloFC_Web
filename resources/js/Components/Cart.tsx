@@ -71,7 +71,7 @@ export default function Cart() {
                             </header>
                         </SheetTitle>
                     </SheetHeader>
-                    {!cart.details || cart.details.length === 0 ?(
+                    {!cart || !cart.details || cart.details.length === 0 ?(
                         <section className="p-4 text-center">
                             <p className="text-gray-600">Tu carrito está vacío</p>
                             <Link 

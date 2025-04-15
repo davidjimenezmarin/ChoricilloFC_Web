@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\ShippingAddress;
 
 class User extends Authenticatable
 {
@@ -33,6 +34,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(ShippingAddress::class);
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -45,5 +57,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
 }

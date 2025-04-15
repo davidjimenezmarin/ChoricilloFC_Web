@@ -5,6 +5,16 @@ export interface User {
     email_verified_at?: string;
 }
 
+export type ShippingAddress = {
+    id: number;
+    street: string;
+    city: string;
+    province: string;
+    country: string;
+    zip_code: string;
+    main: boolean; // Indica si es la dirección principal
+}
+
 export type Order = {
     id: number;
     user_id: number;
@@ -13,6 +23,8 @@ export type Order = {
     shipping_cost?: number;
     details: OrderDetail[]; // Array de items del carrito
     order_date?: string; // Fecha de la orden
+    shipping_method?: number; // Método de envío
+    shipping_address?: number; // Dirección de envío
    
 };
 
@@ -33,6 +45,7 @@ export type Product = {
     description: string;
     slug?: string;
     image?: string;
+    image_detail?: string;
     size?: ProductSize; // Puede ser "S", "M", "L" o "XL"
     stock: boolean; // Nuevo campo como booleano
 };
@@ -57,6 +70,7 @@ export type PageProps<
         user: User;
     };
     cart: Order;
+    addresses: Address[];
     
     
 };

@@ -21,6 +21,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'addresses' => $request->user()->addresses,
         ]);
     }
 
@@ -59,5 +60,16 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+    public function deleteOrders(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // Eliminar las órdenes del usuario
+        $user->orders()->delete();
+
+        return Redirect::route('profile.edit')->with('status', 'Órdenes eliminadas correctamente.');
     }
 }

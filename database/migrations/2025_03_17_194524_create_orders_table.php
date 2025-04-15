@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('shipping_address_id')->nullable();
             $table->date('order_date')->default(now());
             $table->decimal('total_amount', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered'])->default('pending');
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
 

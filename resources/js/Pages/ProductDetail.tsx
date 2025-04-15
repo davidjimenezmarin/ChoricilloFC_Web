@@ -65,7 +65,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 <div className="grid gap-10 col-1 pl-3  sm:grid-cols-2 sm:gap-20">
                     <div className="flex justify-center items-center">
                         <img 
-                            src={`/recursos/products/${product.image}`} 
+                            src={`/recursos/products/${product.image_detail}`} 
                             alt={product.name} 
                             className="w-3/4 sm:w-80% shadow-lg" 
                         />

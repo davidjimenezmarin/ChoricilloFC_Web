@@ -46,9 +46,9 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
                             Object.keys(productsByCategory).map((categoryId) => {
                                 const category = categories.find((c) => c.id.toString() === categoryId);
                                 return (
-                                    <div key={categoryId} className="mb-8">
-                                        <h3 className="text-lg font-semibold mb-4">
-                                            {category ? category.name : `Categoría ${categoryId}`}
+                                    <div key={categoryId} className="mb-8 flex flex-col">
+                                        <h3 className="self-center text-lg font-semibold mb-4 bg-black text-white w-fit rounded-lg border px-2">
+                                            {category ? category.name : `${categoryId}`}
                                         </h3>
                                         <ProductList products={productsByCategory[categoryId]} />
                                     </div>
