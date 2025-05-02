@@ -12,8 +12,10 @@ import { Button } from "@/shadcn/ui/button"
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Welcome({
-    auth,
+    auth,notices
 }: PageProps){
+    const mainNotice = notices.length > 0 ? notices[0] : null;
+    const secondaryNotices = notices.slice(1);
     return (
         <>
             <Head title="Welcome" />    
@@ -44,13 +46,13 @@ export default function Welcome({
                                         </div>
                                         <div className='grid grid-row gap-4'>
                                             <Link
-                                                href={route('shop')}
+                                                href={route('team')}
                                                 className="rounded-md px-3 py-2 text-black/90 ring-1 ring-transparent transition hover:text-black/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                             >
                                                 Equipo
                                             </Link>
                                             <Link
-                                                href={route('shop')}
+                                                href={route('notices')}
                                                 className="rounded-md px-3 py-2 text-black/90 ring-1 ring-transparent transition hover:text-black/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                             >
                                                 Noticias
@@ -78,7 +80,7 @@ export default function Welcome({
                     </div>
                     <nav className="hidden sm:flex flex-row justify-end pr-8 z-10 ">
                         <Link
-                            href={route('shop')}
+                            href={route('notices')}
                             className="rounded-md px-3 py-2 text-white/90 ring-1 ring-transparent transition hover:text-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             Noticias
@@ -136,7 +138,8 @@ export default function Welcome({
                             </a>
                             <h2 className="mt-4 text-lg font-bold text-[#c6aa76]">NOTICIAS</h2>
                             <p className="mt-2">No te pierdas ningún detalle de todo lo que ocurre dentro y fuera del terreno de juego.</p>
-                            <a href="/game-changers-val" className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</a>
+                            <Link href={route('notices')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</Link>
+
                         </div>
 
                         {/* <!-- Resultados --> */}
@@ -163,6 +166,41 @@ export default function Welcome({
                         </div>
                     </div>
                 </section> 
+                <section className="py-10 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4">
+                    {/* Noticia principal */}
+                    {mainNotice && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                            <img
+                                src={`/recursos/${mainNotice.image}`}
+                                alt={mainNotice.title}
+                                className="w-full h-auto object-cover rounded-lg shadow-md"
+                            />
+                            <div className="bg-gray-100 rounded-lg flex items-center justify-center p-8">
+                                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+                                    {mainNotice.title}
+                                </h2>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Noticias secundarias */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                        {secondaryNotices.map((notice) => (
+                            <div key={notice.id} className="bg-white rounded-lg shadow hover:shadow-lg transition">
+                                <img
+                                    src={`/recursos/${notice.image}`}
+                                    alt={notice.title}
+                                    className="w-full h-40 object-cover rounded-t-lg"
+                                />
+                                <div className="p-4">
+                                    <h3 className="text-sm font-semibold text-gray-900">{notice.title}</h3>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
             </div>
         </>
     );

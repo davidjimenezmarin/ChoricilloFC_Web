@@ -9,20 +9,20 @@ use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\NoticeController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
+        'notices' => \App\Models\Notice::latest()->take(5)->get(),
     ]);
 });
 
-// Route::get('/shop', function () {
-//     return Inertia::render('Shop');
-// })->middleware(['auth', 'verified'])->name('shop');
-
 
 Route::get('/team', [PlayerController::class, 'index'])->name('team');
+
+Route::get('/notices', [NoticeController::class, 'index'])->name('notices');
 
 Route::get('/shop', [ProductController::class, 'index'])
     ->middleware(['auth', 'verified'])

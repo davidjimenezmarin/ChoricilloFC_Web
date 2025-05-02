@@ -71,6 +71,15 @@ export interface Player {
     image: string;
   }
 
+export interface Notice{
+    id: number;
+    title: string;
+    short_description: string;
+    description: string;
+    image: string;
+    date: string;
+}
+
 // Definimos las interfaces de los productos por categoría 
 export interface ProductsByCategory {
     [categoryId: string]: Product[];
@@ -85,6 +94,6 @@ export type PageProps<
     cart: Order;
     addresses: ShippingAddress[];
     methods: PaymentMethod[];
-    
+    notices: Notice[];
     
 };
