@@ -9,19 +9,24 @@ export function OrderList({ orders }: { orders: Order[] }) {
             <table className="hidden w-full bg-white md:table">
                 <thead className="bg-gray-50">
                     <tr>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">ID</th>
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Método de pago</th>
                         <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                     {orders.map((order) => (
                         <tr key={order.id} className="hover:bg-gray-50 transition-colors">
-                            <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">#{order.id}</td>
                             <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-500">
                                 {order.order_date}
+                            </td>
+                            <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {order.shipping_address 
+                                ? `${order.shipping_address.street}, ${order.shipping_address.city}, ${order.shipping_address.country}` 
+                                : 'Aún no asignada'}
                             </td>
                             <td className="py-4 px-4 whitespace-nowrap">
                                 <span className={`px-2 py-1 text-xs rounded-full ${
@@ -35,7 +40,10 @@ export function OrderList({ orders }: { orders: Order[] }) {
                             <td className="py-4 px-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                                 ${order.total_amount}
                             </td>
-                            <td className="py-4 px-4 whitespace-nowrap text-right text-sm font-medium">
+                            <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-700">
+                                {order.payment_method?.name || 'Aún no asignado'}
+                            </td>
+                            <td className="py-4 px-4 whitespace-nowrap text-left text-sm font-medium">
                                 <PrimaryButton 
                                     className="w-auto bg-blue-600 hover:bg-blue-700"
                                     onClick={() => window.location.href = `/orders/${order.id}`}
@@ -54,8 +62,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                     <div key={order.id} className="bg-white p-4 rounded-lg shadow border border-gray-200">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Pedido #</p>
-                                <p className="text-lg font-semibold">#{order.id}</p>
+                                <p className="text-sm font-medium text-gray-500">Pedido #{order.id}</p>
                             </div>
                             <span className={`px-2 py-1 text-xs rounded-full ${
                                 order.status === 'completed' ? 'bg-green-100 text-green-800' :
@@ -79,7 +86,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                         
                         <div className="mt-4">
                             <PrimaryButton 
-                                className="w-full bg-blue-600 hover:bg-blue-700"
+                                className="w-full"
                                 onClick={() => window.location.href = `/orders/${order.id}`}
                             >
                                 Ver Detalles

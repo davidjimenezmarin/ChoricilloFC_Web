@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingAddressController;
+use App\Http\Controllers\PlayerController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -21,7 +22,7 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('shop');
 
 
-
+Route::get('/team', [PlayerController::class, 'index'])->name('team');
 
 Route::get('/shop', [ProductController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
     ->name('details.remove');
     Route::post('/cart/update/{id}', [OrderDetailController::class, 'updateCart'])->name('details.update');
 
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     Route::put('/checkout', [OrderController::class, 'store'])->name('checkout.store');
     Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
 

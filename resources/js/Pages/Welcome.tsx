@@ -39,7 +39,7 @@ export default function Welcome({
                                     <div className='grid grid-rows-2 gap-2'>
                                         <div className='flex justify-center items-center h-[30vh]'>
                                             <Link href="/">
-                                                <ApplicationLogo className="w-30 h-auto fill-current hover:opacity-80" />
+                                                <ApplicationLogo className="w-30 h-auto fill-current hover:opacity-80" src='/recursos/logoChoricilloNegro.png'/>
                                             </Link>
                                         </div>
                                         <div className='grid grid-row gap-4'>
@@ -126,7 +126,7 @@ export default function Welcome({
                             <a href="/lec/" className="text-[#c6aa76]">EQUIPO</a>
                             </h2>
                             <p className="mt-2">Compitiendo en el mayor nivel de la MLA, estas son las personas que lo hacen posible.</p>
-                            <a href="/lec/" className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</a>
+                            <Link href={route('team')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">VER EQUIPO</Link>
                         </div>
 
                         {/* <!-- Noticias --> */}

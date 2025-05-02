@@ -18,8 +18,6 @@ export default function Guest({ children }: PropsWithChildren) {
                 <div className="w-full max-w-sm bg-white bg-opacity-80 px-6 py-4 shadow-md rounded-lg sm:max-w-md sm:rounded-xl">
                     {children}
                 </div>
-
-
             </div>
         </div>
     );

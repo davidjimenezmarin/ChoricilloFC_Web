@@ -1,6 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia';
 import { Trash2, Minus, Plus } from "lucide-react"; // Iconos
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/shadcn/ui/sheet"; // Componente de hoja
 import { useState } from 'react'; // Hook de estado
@@ -103,18 +102,18 @@ export default function Cart() {
                                     {/* Controles cantidad */}
                                     <div className="flex flex-row items-center col-span-2 justify-between">
                                     <div className="flex items-center gap-2">
-                                            <button
-                                                className="p-1 border rounded hover:bg-gray-200"
-                                                onClick={() => {
-                                                    const currentQty = quantities[item.id] ?? item.quantity;
-                                                    if (currentQty > 1) {
-                                                        handleUpdateQuantity(item.id, currentQty - 1);
-                                                    } else {
-                                                        handleRemoveItem(item.id);
-                                                    }
-                                                }}
-                                            >
-                                        <Minus size={16} />
+                                        <button
+                                            className="p-1 border rounded hover:bg-gray-200"
+                                            onClick={() => {
+                                                const currentQty = quantities[item.id] ?? item.quantity;
+                                                if (currentQty > 1) {
+                                                    handleUpdateQuantity(item.id, currentQty - 1);
+                                                } else {
+                                                    handleRemoveItem(item.id);
+                                                }
+                                            }}
+                                        >
+                                            <Minus size={16} />
                                         </button>
                                         <span className="text-lg font-semibold">{quantities[item.id] ?? item.quantity}</span>
                                         <button
@@ -151,7 +150,7 @@ export default function Cart() {
                                 <Link href="/shop" className="flex-1 text-center border py-2 rounded text-blue-600 hover:bg-blue-100">
                                     Seguir Comprando
                                 </Link>
-                                <Link href="/checkout" className="flex-1 text-center bg-gray-700 text-white py-2 rounded hover:bg-gray-900">
+                                <Link href="/order/checkout" className="flex-1 text-center bg-gray-700 text-white py-2 rounded hover:bg-gray-900">
                                     Completar Pedido
                                 </Link>
                                 </div>

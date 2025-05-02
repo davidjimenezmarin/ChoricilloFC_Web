@@ -23,8 +23,6 @@ export default function Edit({
                         Volver
                     </PrimaryButton>
                 </div>
-                
-            
             }
         >
             <Head title="Profile" />

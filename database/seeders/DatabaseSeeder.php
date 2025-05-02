@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Player;
 use App\Models\User;
 use Faker\Provider\ar_EG\Payment;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             ProductSeeder::class,
             PaymentMethodSeeder::class,
+            PlayerSeeder::class,
         ]);
     }
 }

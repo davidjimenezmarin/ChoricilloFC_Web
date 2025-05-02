@@ -59,21 +59,19 @@ class OrderDetailController extends Controller
                     'unit_price' => $product->price,
                 ]);
             }
-    
             // Actualizar total
             $this->updateOrderTotal($order);
 
             return redirect()->back();
-
         }
     
         public function removeFromCart($id)
         {
             $detail = OrderDetail::findOrFail($id);
             
-            $detail->delete(); // Eliminamos el detalle del pedido
+            $detail->delete(); 
             
-            $this->updateOrderTotal($detail->order); // Actualizamos el total de la orden
+            $this->updateOrderTotal($detail->order); 
 
             return back(); 
         }

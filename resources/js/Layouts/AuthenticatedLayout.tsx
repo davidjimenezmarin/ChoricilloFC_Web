@@ -8,7 +8,7 @@ export default function Authenticated({
     header,
     children,
     cartComponent,
-}: { children: React.ReactNode, header?: ReactNode, cartComponent?: ReactNode }) {
+}: { children: ReactNode, header?: ReactNode, cartComponent?: ReactNode }) {
     const user = usePage().props.auth.user;
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] =

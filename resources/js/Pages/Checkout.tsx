@@ -4,25 +4,35 @@ import { useState } from "react";
 import { Head, router} from '@inertiajs/react';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
 import { useForm } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 
 export default function Checkout() {
-    const { setData, put, processing } = useForm();
-
     const { cart,addresses,methods } = usePage().props;
+
+    const { data, setData, put, processing } = useForm({
+        shipping_address_id: addresses?.[0]?.id || '',
+        payment_method_id: methods?.[0]?.id || '',
+    });
     
     const user = usePage().props.auth.user;
 
-    const [selectedAddress, setSelectedAddress] = useState(addresses?.[0]?.id || '');
+    const [selectedAddress, setSelectedAddress] = useState(addresses[0].id || '');
 
     const [selectedMethod, setSelectedMethod] = useState(methods[0]);
 
+    const handleAddressChange = (id: number) => {
+        setSelectedAddress(id);
+        setData('shipping_address_id', id);
+    };
+    
+    const handleMethodChange = (method: any) => {
+        setSelectedMethod(method);
+        setData('payment_method_id', method.id);
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        setData({
-            address_id: selectedAddress,  
-            payment_method_id: selectedMethod.id, 
-        });
-    
+        console.log(data);
         put(route('checkout.store')); 
     }
 
@@ -49,7 +59,7 @@ export default function Checkout() {
                             {addresses && addresses.length > 0 ? (
                                 <Listbox 
                                     value={selectedAddress} 
-                                    onChange={setSelectedAddress}
+                                    onChange={handleAddressChange}
                                     as="div" 
                                     className="relative"
                                 >
@@ -79,7 +89,7 @@ export default function Checkout() {
                                 ) : (
                                     <div>
                                         <p className="text-sm text-gray-500 italic">No tienes direcciones guardadas</p>
-                                        <Button>Añadir</Button>
+                                        <Link href='/profile'>Añadir</Link>
                                     </div> 
                                 )}
                         </div>
@@ -88,7 +98,7 @@ export default function Checkout() {
                             {methods && methods.length > 0 ? (
                                 <Listbox 
                                     value={selectedMethod} 
-                                    onChange={setSelectedMethod}
+                                    onChange={handleMethodChange}
                                     as="div"
                                     className="relative"
                                 >

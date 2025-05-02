@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\PaymentMethod;
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -22,19 +23,15 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'address_id' => 'required|exists:shipping_addresses,id',
-            'payment_method_id' => 'required|exists:payment_methods,id',
-        ]);
-
-        $order = Auth::user()->orders()
+        $order = Auth::user()->orders
             ->where('status', 'pending')
             ->first();
 
         $order->update([
-            'shipping_address_id' => $request->address_id,
+            'shipping_address_id' => $request->shipping_address_id,
             'payment_method_id' => $request->payment_method_id,
             'status' => 'completed',
+            'order_date' => now(),
         ]);
 
         return redirect()->route('shop')->with('success', 'Order placed successfully!');
@@ -44,7 +41,6 @@ class OrderController extends Controller
     {
         $orders = Order::with(['details.product', 'shippingAddress', 'paymentMethod'])
             ->where('user_id', Auth::id())
-            ->where('status', 'completed')
             ->get();
 
         return Inertia::render('Orders', [

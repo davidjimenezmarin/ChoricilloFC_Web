@@ -26,12 +26,10 @@ export type Order = {
     user_id: number;
     status?: 'pending' | 'completed' | 'cancelled'; // Estado de la orden
     total_amount: number;
-    shipping_cost?: number;
     details: OrderDetail[]; // Array de items del carrito
     order_date?: string; // Fecha de la orden
-    shipping_method?: number; // Método de envío
-    shipping_address?: number; // Dirección de envío
-   
+    payment_method?: PaymentMethod; // Método de envío
+    shipping_address?: ShippingAddress; // Dirección de envío
 };
 
 export type OrderDetail = {
@@ -64,6 +62,15 @@ export interface Category {
     slug: string;
 }
 
+export interface Player {
+    id: number;
+    name: string;
+    surname: string;
+    position: string;
+    number: number;
+    image: string;
+  }
+
 // Definimos las interfaces de los productos por categoría 
 export interface ProductsByCategory {
     [categoryId: string]: Product[];
@@ -78,5 +85,6 @@ export type PageProps<
     cart: Order;
     addresses: ShippingAddress[];
     methods: PaymentMethod[];
+    
     
 };

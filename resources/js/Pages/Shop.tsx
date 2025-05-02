@@ -22,7 +22,7 @@ export default function Shop({ productsByCategory = {}, categories = [], selecte
         >
             
             <Head title={isFiltered ? selectedCategory?.name : 'Inicio'} />
-
+          
             {!isFiltered && (
                 <div className="h-[70vh] w-auto bg-cover bg-[center_bottom_59%] bg-no-repeat bg-[url('/recursos/tiendaInicio.jpg')] ">
 
