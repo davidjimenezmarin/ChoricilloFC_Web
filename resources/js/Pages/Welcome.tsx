@@ -10,6 +10,7 @@ import {
   } from "@/shadcn/ui/sheet"
 import { Button } from "@/shadcn/ui/button"
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import { HeadNotices } from '@/Components/HeadNotices';
 
 export default function Welcome({
     auth,notices
@@ -19,7 +20,7 @@ export default function Welcome({
     return (
         <>
             <Head title="Welcome" />    
-            <div className='flex flex-col w-auto h-auto'>
+            <main className='flex flex-col w-auto h-auto'>
                 <header className="h-[60vh] grid grid-cols-2 items-center gap-2 bg-cover bg-[center_bottom_59%] bg-no-repeat bg-[url('/recursos/mainBackground.jpg')]
                 before:absolute before:inset-0 before:bg-black before:opacity-20 before:z-0 before:h-[60vh]">
                     <div className="flex justify-start z-10 sm:pl-8">
@@ -166,42 +167,13 @@ export default function Welcome({
                         </div>
                     </div>
                 </section> 
-                <section className="py-10 bg-gray-50">
-                <div className="max-w-7xl mx-auto px-4">
-                    {/* Noticia principal */}
-                    {mainNotice && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                            <img
-                                src={`/recursos/${mainNotice.image}`}
-                                alt={mainNotice.title}
-                                className="w-full h-auto object-cover rounded-lg shadow-md"
-                            />
-                            <div className="bg-gray-100 rounded-lg flex items-center justify-center p-8">
-                                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
-                                    {mainNotice.title}
-                                </h2>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Noticias secundarias */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                        {secondaryNotices.map((notice) => (
-                            <div key={notice.id} className="bg-white rounded-lg shadow hover:shadow-lg transition">
-                                <img
-                                    src={`/recursos/${notice.image}`}
-                                    alt={notice.title}
-                                    className="w-full h-40 object-cover rounded-t-lg"
-                                />
-                                <div className="p-4">
-                                    <h3 className="text-sm font-semibold text-gray-900">{notice.title}</h3>
-                                </div>
-                            </div>
-                        ))}
+                <section className="bg-[#191919] text-white shadow-lg">
+                    <div className="container mx-auto px-4 py-8">
+                        <h2 className="inline sm:hidden text-2xl font-bold text-center">ÚLTIMAS NOTICIAS</h2>
+                        <HeadNotices notices={notices} />
                     </div>
-                </div>
-            </section>
-            </div>
+                </section>
+            </main>
         </>
     );
 }

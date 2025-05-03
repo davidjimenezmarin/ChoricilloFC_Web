@@ -15,14 +15,16 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'notices' => \App\Models\Notice::latest()->take(5)->get(),
+        'notices' => \App\Models\Notice::latest()->take(5)->get(),  
     ]);
 });
-
 
 Route::get('/team', [PlayerController::class, 'index'])->name('team');
 
 Route::get('/notices', [NoticeController::class, 'index'])->name('notices');
+
+Route::get('/notices/{slug}', [NoticeController::class, 'show'])->name('notice.show');
+
 
 Route::get('/shop', [ProductController::class, 'index'])
     ->middleware(['auth', 'verified'])

@@ -78,6 +78,7 @@ export interface Notice{
     description: string;
     image: string;
     date: string;
+    slug: string;
 }
 
 // Definimos las interfaces de los productos por categoría 

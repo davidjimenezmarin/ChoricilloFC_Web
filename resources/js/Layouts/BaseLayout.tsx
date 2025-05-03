@@ -11,7 +11,7 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                 <Link href="/">
                     <ApplicationLogo className="w-16 h-auto fill-current hover:opacity-80 sm:w-40 sm:h-40" />
                 </Link>
-                <h1 className="text-lg font-bold text-center self-center sm:mr-10 sm:text-3xl">{titulo}</h1>
+                <h1 className="text-lg font-bold text-center sm:mr-10 sm:text-3xl">{titulo}</h1>
                     {auth?.user ? (
                         <Link
                             href={route('shop')}

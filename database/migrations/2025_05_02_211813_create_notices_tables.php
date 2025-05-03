@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image');
             $table->date('date');
+            $table->string('slug')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

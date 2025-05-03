@@ -16,4 +16,13 @@ class NoticeController extends Controller
             'notices' => $notices,
         ]);
     }
+
+    public function show($slug)
+    {
+        $notice = Notice::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('NoticeDetail', [
+            'notice' => $notice,
+        ]);
+    }
 }
