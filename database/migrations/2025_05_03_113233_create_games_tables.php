@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('matches', function (Blueprint $table) {
+        Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('home_team');
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('away_team_score')->nullable();
             $table->string('location')->nullable();
             $table->enum('status', ['scheduled', 'in_progress', 'completed'])->default('scheduled');
+            $table->string('slug')->unique();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('matches');
+        Schema::dropIfExists('games');
     }
 };

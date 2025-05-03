@@ -14,16 +14,16 @@ export const HeadNotices: React.FC<Props> = ({ notices }) => {
     return (
         <section className="py-10 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4">
-            {(auth?.user?.is_admin || auth?.user?.is_player) && (
-                <div className="mb-6 flex justify-end">
-                    <Link
-                        href={route('notices.manage')}
-                        className="inline-flex items-center px-4 py-2 bg-gray-950 text-white rounded hover:bg-gray-700 transition"
-                    >
-                        Gestionar noticias
-                    </Link>
-                </div>
-            )}
+                {(auth?.user?.is_admin || auth?.user?.is_player) ?(
+                    <div className="mb-6 flex justify-end">
+                        <Link
+                            href={route('notices.manage')}
+                            className="inline-flex items-center px-4 py-2 bg-gray-950 text-white rounded hover:bg-gray-700 transition"
+                        >
+                            Gestionar noticias
+                        </Link>
+                    </div>
+                ): null}
                 {/* Noticia principal */}
                 {mainNotice && (
                     <Link key={mainNotice.id} href={route('notice.show', mainNotice.slug)} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">

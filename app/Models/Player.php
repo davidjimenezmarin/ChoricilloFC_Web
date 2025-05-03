@@ -17,4 +17,9 @@ class Player extends Model
         'position',
         'image',
     ];
+
+    public function matchParticipations()
+    {
+        return $this->hasMany(MatchPlayer::class, 'player_id');
+    }
 }

@@ -21,7 +21,7 @@ const TeamSection: React.FC<Props> = ({ players }) => {
         <Head title="Equipo" />
         
         <div className="max-w-7xl mx-auto px-4 bg-white bg-opacity-80 rounded-lg shadow-lg py-8">
-        {auth?.user?.is_admin && (
+        {auth?.user?.is_admin ? (
             <div className="mb-6 flex justify-end">
                 <Link
                     href={route('team.manage')}
@@ -30,7 +30,7 @@ const TeamSection: React.FC<Props> = ({ players }) => {
                     Gestionar jugadores
                 </Link>
             </div>
-        )}
+        ):null}
           {goalkeepers.length > 0 && (  
             <>
               <h3 className="text-2xl font-semibold mb-6 text-gray-800">Porteros</h3>

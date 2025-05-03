@@ -87,6 +87,17 @@ export interface ProductsByCategory {
     [categoryId: string]: Product[];
 }
 
+type MatchPlayer = {
+    id: number;
+    player: Player;
+    is_starter: boolean;
+    minutes_played: number;
+    goals: number;
+    assists: number;
+    yellow_cards: number;
+    red_cards: number;
+};
+
 export interface Match  {
     id: number;
     date: string;
@@ -96,7 +107,9 @@ export interface Match  {
     away_team_score: number | null;
     location: string | null;
     status: 'scheduled' | 'in_progress' | 'completed';
+    players_match: MatchPlayer[];
 }
+
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,

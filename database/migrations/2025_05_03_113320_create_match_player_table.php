@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('match_player', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('match_id');
+            $table->unsignedBigInteger('game_id');
             $table->unsignedBigInteger('player_id');
             $table->boolean('is_starter')->default(false);
             $table->integer('minutes_played')->default(0);
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('match_id')->references('id')->on('matches');
+            $table->foreign('game_id')->references('id')->on('games');
             $table->foreign('player_id')->references('id')->on('players');
         });
     }

@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             PlayerSeeder::class,
             NoticeSeeder::class,
+            GameSeeder::class,
+            MatchPlayerSeeder::class,
         ]);
     }
 }

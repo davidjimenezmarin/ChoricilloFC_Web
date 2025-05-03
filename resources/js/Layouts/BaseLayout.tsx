@@ -17,7 +17,7 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                     {auth?.user ? (
                         <Link
                             href={route('shop')}
-                            className="text-md sm:text-xl rounded-md px-3 py-2 text-white/90 ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            className="text-md sm:text-lg rounded-md px-3 py-2 text-white/90 ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             Tienda
                         </Link>
@@ -25,20 +25,20 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                         <div className="flex items-center sm:space-x-4">
                         <Link
                             href={route('register')}
-                            className="text-sm sm:text-xl rounded-md px-3 py-2 text-white/90 sm:ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            className="text-sm sm:text-lg rounded-md px-3 py-2 text-white/90 sm:ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             Regístrate
                         </Link>
                         <Link
                             href={route('login')}
-                            className="text-sm sm:text-xl rounded-md px-3 py-2 text-white/90 sm:ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            className="text-sm sm:text-lg rounded-md px-3 py-2 text-white/90 sm:ring-1 ring-white transition hover:text-white/50 hover:ring-white/50 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             Login
                         </Link>
                             </div>
                     )}
             </header>
-            <nav className="hidden sm:flex flex-row justify-start pr-8 gap-2 shadow-sm">
+            <nav className="flex flex-row justify-start pr-8 gap-2 shadow-sm">
                 <Link
                     href={route('notices')}
                     className={`text-md sm:text-xl px-3 py-2 text-black/90 border-b-2 transition
@@ -58,9 +58,9 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                     Equipo
                 </Link>
                 <Link
-                    href={route('notices')}
+                    href={route('matches')}
                     className={`text-md sm:text-xl px-3 py-2 text-black/90 border-b-2 transition
-                        ${url.startsWith('/matchs') ? 'border-gray-500 text-gray-500' : 'border-transparent hover:border-black/50 hover:text-black/50'}
+                        ${url.startsWith('/matches') ? 'border-gray-500 text-gray-500' : 'border-transparent hover:border-black/50 hover:text-black/50'}
                         focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white`
                     }
                 >

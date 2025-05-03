@@ -10,11 +10,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingAddressController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\NoticeController;
-use App\Http\Controllers\MatchController;
+use App\Http\Controllers\GameController;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAdminOrPlayer;
-
-
+use App\Models\Game;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -28,7 +27,7 @@ Route::get('/team', [PlayerController::class, 'index'])->name('team');
 
 Route::get('/notices', [NoticeController::class, 'index'])->name('notices');
 
-Route::get('/matches', [MatchController::class, 'index'])->name('matches');
+Route::get('/matches', [GameController::class, 'index'])->name('matches');
 
 
 Route::get('/shop', [ProductController::class, 'index'])
@@ -42,6 +41,13 @@ Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
     Route::post('/players', [PlayerController::class, 'store'])->name('players.store');
     Route::post('/players/{player}', [PlayerController::class, 'update'])->name('players.update');
+
+    Route::get('/matches/manage', [GameController::class, 'manage'])->name('matches.manage');
+    Route::get('/matches/create', [GameController::class, 'create'])->name('matches.create');
+    Route::post('/matches', [GameController::class, 'store'])->name('matches.store');
+    Route::get('/matches/{match}/edit', [GameController::class, 'edit'])->name('matches.edit');
+    Route::post('/matches/{match}', [GameController::class, 'update'])->name('matches.update');
+    Route::delete('/matches/{match}', [GameController::class, 'destroy'])->name('matches.destroy');
 });    
 
 Route::middleware(['auth', 'verified', IsAdminOrPlayer::class])->group(function () {
@@ -78,6 +84,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/notices/{slug}', [NoticeController::class, 'show'])->name('notice.show');
+
+Route::get('/matches/{id}', [GameController::class, 'show'])->name('match.show');
 
 
 require __DIR__.'/auth.php';

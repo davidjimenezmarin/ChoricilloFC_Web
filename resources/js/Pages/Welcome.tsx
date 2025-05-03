@@ -122,11 +122,11 @@ export default function Welcome({
 
                         {/* Equipo */}
                         <div className="text-center animate-fade-in">
-                            <a href="/lec" title="Sin título-1">
+                            <Link href={route('team')} title="Sin título-1">
                             <img src="/recursos/equipo.jpg" alt="Equipo" className="mx-auto h-[250px] w-full object-cover rounded" />
-                            </a>
+                            </Link>
                             <h2 className="mt-4 text-lg font-bold">  
-                            <a href="/lec/" className="text-[#c6aa76]">EQUIPO</a>
+                                <Link href={route('team')} className="text-[#c6aa76]">EQUIPO</Link>
                             </h2>
                             <p className="mt-2">Compitiendo en el mayor nivel de la MLA, estas son las personas que lo hacen posible.</p>
                             <Link href={route('team')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">VER EQUIPO</Link>
@@ -134,10 +134,12 @@ export default function Welcome({
 
                         {/* <!-- Noticias --> */}
                         <div className="text-center animate-fade-in">
-                            <a href="/game-changers-val" title="Game Changers">
+                            <Link href={route('notices')} title="Game Changers">
                             <img src="/recursos/noticias.jpg" alt="Valorant Game Changers" className="mx-auto h-[250px] w-full object-cover rounded" />
-                            </a>
-                            <h2 className="mt-4 text-lg font-bold text-[#c6aa76]">NOTICIAS</h2>
+                            </Link>
+                            <h2 className="mt-4 text-lg font-bold text-[#c6aa76]">
+                                <Link href={route('notices')} className="text-[#c6aa76]">NOTICIAS</Link>
+                            </h2>
                             <p className="mt-2">No te pierdas ningún detalle de todo lo que ocurre dentro y fuera del terreno de juego.</p>
                             <Link href={route('notices')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</Link>
 
@@ -145,21 +147,23 @@ export default function Welcome({
 
                         {/* <!-- Resultados --> */}
                         <div className="text-center animate-fade-in">
-                            <a href="/our-partners/" title="MDK">
+                            <Link href={route('matches')} title="Resultados">
                             <img src="/recursos/resultados.jpg" alt="Our Partners" className="mx-auto h-[250px] w-full object-cover rounded" />
-                            </a>
-                            <h2 className="mt-4 text-lg font-bold text-[#c6aa76]">RESULTADOS</h2>
+                            </Link>
+                            <h2 className="mt-4 text-lg font-bold text-[#c6aa76]">
+                                <Link href={route('matches')} className="text-[#c6aa76]">RESULTADOS</Link>
+                            </h2>
                             <p className="mt-2">Mantente al día con cada resultado y vive la pasión del fútbol en cada partido.</p>
-                            <a href="/our-partners/" className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</a>
+                            <a href={route('matches')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">SABER MÁS</a>
                         </div>
 
                         {/* <!-- Tienda --> */}
                         <div className="text-center animate-fade-in">
-                            <Link href={route('shop')} title="Our Shop">
-                            <img src="/recursos/tienda.jpg" alt="Our Shop" className="mx-auto h-[250px] w-full object-cover rounded" />
+                            <Link href={route('shop')} title="Tienda">
+                                <img src="/recursos/tienda.jpg" alt="Tienda" className="mx-auto h-[250px] w-full object-cover rounded" />
                             </Link>
                             <h2 className="mt-4 text-lg font-bold text-[#191919]">
-                            <Link href={route('shop')} className="text-[#c6aa76]">NUESTRA TIENDA</Link>
+                                <Link href={route('shop')} className="text-[#c6aa76]">NUESTRA TIENDA</Link>
                             </h2>
                             <p className="mt-2">Para quienes quieran representar al equipo en casa, no busquen más.</p>
                             <Link href={route('shop')} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">COMPRA AHORA</Link>
