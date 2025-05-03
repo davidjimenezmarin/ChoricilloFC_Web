@@ -3,6 +3,8 @@ export interface User {
     name: string;
     email: string;
     email_verified_at?: string;
+    is_admin?: boolean;
+    is_player?: boolean;
 }
 
 export type ShippingAddress = {
@@ -81,9 +83,19 @@ export interface Notice{
     slug: string;
 }
 
-// Definimos las interfaces de los productos por categoría 
 export interface ProductsByCategory {
     [categoryId: string]: Product[];
+}
+
+export interface Match  {
+    id: number;
+    date: string;
+    home_team: string;
+    away_team: string;
+    home_team_score: number | null;
+    away_team_score: number | null;
+    location: string | null;
+    status: 'scheduled' | 'in_progress' | 'completed';
 }
 
 export type PageProps<

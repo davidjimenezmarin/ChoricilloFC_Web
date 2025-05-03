@@ -56,9 +56,16 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
                         </button>
                     </div>
                 </div>
-                <img src={`/recursos/${notice.image}`} alt={notice.title} className="w-full h-auto rounded-lg mb-4" />
+                <img src={`/recursos/${notice.image}`} alt={notice.title} className="w-full h-auto self-center rounded-lg mb-4" />
+                <div className="flex flex-col items-center justify-between self-center mb-8 px-4 border-x-2 border-gray-500 w-fit">
+                    <p className="max-w-3xl text-lg sm:text-xl text-gray-700 mb-4 italic text-center leading-relaxed">
+                        {notice.short_description}
+                    </p>
+                    <p className="max-w-3xl text-base sm:text-lg text-gray-800 leading-7 text-justify">
+                        {notice.description}
+                    </p>
+                </div>
 
-                <p className="max-w-4xl self-center text-3xl text-gray-700 mb-2">{notice.description}</p>
             </div>
         </BaseLayout>
     );

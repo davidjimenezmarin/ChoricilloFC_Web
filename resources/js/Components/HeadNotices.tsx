@@ -1,5 +1,6 @@
 import {Notice} from "@/types";
 import { Link } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 
 type Props = {
   notices: Notice[];
@@ -8,9 +9,21 @@ type Props = {
 export const HeadNotices: React.FC<Props> = ({ notices }) => {
     const mainNotice = notices.length > 0 ? notices[0] : null;
     const secondaryNotices = notices.slice(1);
+    const { auth } = usePage().props;
+
     return (
         <section className="py-10 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4">
+            {(auth?.user?.is_admin || auth?.user?.is_player) && (
+                <div className="mb-6 flex justify-end">
+                    <Link
+                        href={route('notices.manage')}
+                        className="inline-flex items-center px-4 py-2 bg-gray-950 text-white rounded hover:bg-gray-700 transition"
+                    >
+                        Gestionar noticias
+                    </Link>
+                </div>
+            )}
                 {/* Noticia principal */}
                 {mainNotice && (
                     <Link key={mainNotice.id} href={route('notice.show', mainNotice.slug)} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">

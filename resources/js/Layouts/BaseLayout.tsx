@@ -5,6 +5,8 @@ import { PageProps } from '@/types';
 
 export default function BaseLayout({ children, titulo }: { children:ReactNode, titulo?: string}) {
    const auth = usePage<PageProps>().props.auth;
+   const { url } = usePage();
+
     return (
         <div className="min-h-screen flex flex-col">
             <header className="flex flex-row justify-between items-center h-auto w-auto bg-[#191919] text-white p-4">
@@ -36,6 +38,35 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                             </div>
                     )}
             </header>
+            <nav className="hidden sm:flex flex-row justify-start pr-8 gap-2 shadow-sm">
+                <Link
+                    href={route('notices')}
+                    className={`text-md sm:text-xl px-3 py-2 text-black/90 border-b-2 transition
+                        ${url.startsWith('/notices') ? 'border-gray-500 text-gray-500' : 'border-transparent hover:border-black/50 hover:text-black/50'}
+                        focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white`
+                    }
+                >
+                    Noticias
+                </Link>
+                <Link
+                    href={route('team')}
+                    className={`text-md sm:text-xl px-3 py-2 text-black/90 border-b-2 transition
+                        ${url.startsWith('/team') ? 'border-gray-500 text-gray-500' : 'border-transparent hover:border-black/50 hover:text-black/50'}
+                        focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white`
+                    }
+                >
+                    Equipo
+                </Link>
+                <Link
+                    href={route('notices')}
+                    className={`text-md sm:text-xl px-3 py-2 text-black/90 border-b-2 transition
+                        ${url.startsWith('/matchs') ? 'border-gray-500 text-gray-500' : 'border-transparent hover:border-black/50 hover:text-black/50'}
+                        focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white`
+                    }
+                >
+                    Partidos
+                </Link>
+            </nav>
             <main className="flex-grow p-0 bg-slate-100">
                 {children}
             </main>
