@@ -4,7 +4,7 @@ import { Match } from '@/types';
 export default function GameCard({ match }: { match: Match }) {
     return (
         <Link
-            href={route('match.show', match.id)}
+            href={route('match.show', match.slug)}
             key={match.id}
             className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between hover:shadow-lg transition"
         >

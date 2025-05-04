@@ -19,16 +19,17 @@ class GameController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $game = Game::where('id', $id)
+        $game = Game::where('slug', $slug)
             ->firstOrFail();
-        
+            
         $players = $game->playersMatch()->with('player')->get();
 
         return Inertia::render('MatchDetail', [
             'game' => $game,
             'players' => $players,
+
         ]);
     }
 
@@ -61,6 +62,8 @@ class GameController extends Controller
 
     public function store(Request $request)
     {
+        $localGoals = 0;
+
         $request->validate([
             'date' => 'required|date',
             'home_team' => 'required|string|max:255',
@@ -73,17 +76,18 @@ class GameController extends Controller
             'stats.*.player_id' => 'required|exists:players,id',
         ]);
 
+        // Primero creamos el partido SIN el marcador final (lo dejamos vacío por ahora)
         $game = Game::create([
             'date' => $request->date,
             'home_team' => $request->home_team,
             'away_team' => $request->away_team,
-            'home_team_score' => $request->home_team_score,
+            'home_team_score' => 0,  // temporalmente 0
             'away_team_score' => $request->away_team_score,
             'location' => $request->location,
             'status' => $request->status,
         ]);
 
-        // Guardar las estadísticas usando game_id
+        // Ahora procesamos cada stat
         foreach ($request->stats as $stat) {
             if (!empty($stat['minutes_played']) && $stat['minutes_played'] > 0) {
                 MatchPlayer::create([
@@ -96,15 +100,23 @@ class GameController extends Controller
                     'yellow_cards' => $stat['yellow_cards'] ?? 0,
                     'red_cards' => $stat['red_cards'] ?? 0,
                 ]);
+
+                // Aquí sumamos los goles (suponiendo que todos los jugadores son del equipo local)
+                $localGoals += $stat['goals'] ?? 0;
             }
         }
-        
+
+        // Actualizamos el marcador local con la suma real de goles de jugadores
+        $game->update(['home_team_score' => $localGoals]);
 
         return redirect()->route('matches.manage')->with('success', 'Partido creado correctamente');
     }
 
+
     public function update(Request $request, Game $match)
     {
+        $localGoals = 0; // contador de goles locales
+    
         $request->validate([
             'date' => 'required|date',
             'home_team' => 'required|string|max:255',
@@ -116,37 +128,53 @@ class GameController extends Controller
             'stats' => 'array',
             'stats.*.player_id' => 'required|exists:players,id',
         ]);
-
+    
+        // Primero actualizamos la info básica del partido SIN el marcador local definitivo
         $match->update([
             'date' => $request->date,
             'home_team' => $request->home_team,
             'away_team' => $request->away_team,
-            'home_team_score' => $request->home_team_score,
+            'home_team_score' => 0, // temporalmente 0
             'away_team_score' => $request->away_team_score,
             'location' => $request->location,
             'status' => $request->status,
         ]);
-
-        // Aquí hacemos update o create de cada MatchPlayer usando game_id
+    
+        // Ahora recorremos los stats y actualizamos/creamos cada participación de jugador
         foreach ($request->stats as $stat) {
-            MatchPlayer::updateOrCreate(
-                [
-                    'game_id' => $match->id,  // 👈 CAMBIO aquí
+            if (!empty($stat['minutes_played']) && $stat['minutes_played'] > 0) {
+                MatchPlayer::updateOrCreate(
+                    [
+                        'game_id' => $match->id,
+                        'player_id' => $stat['player_id'],
+                    ],
+                    [
+                        'is_starter' => $stat['is_starter'] ?? false,
+                        'minutes_played' => $stat['minutes_played'],
+                        'goals' => $stat['goals'] ?? 0,
+                        'assists' => $stat['assists'] ?? 0,
+                        'yellow_cards' => $stat['yellow_cards'] ?? 0,
+                        'red_cards' => $stat['red_cards'] ?? 0,
+                    ]
+                );
+    
+                // Sumamos los goles para recalcular el marcador local
+                $localGoals += $stat['goals'] ?? 0;
+            } else {
+                // Si el jugador ya existía pero ahora se elimina (minutos = 0), puedes eliminarlo si quieres:
+                MatchPlayer::where([
+                    'game_id' => $match->id,
                     'player_id' => $stat['player_id'],
-                ],
-                [
-                    'is_starter' => $stat['is_starter'] ?? false,
-                    'minutes_played' => $stat['minutes_played'] ?? 0,
-                    'goals' => $stat['goals'] ?? 0,
-                    'assists' => $stat['assists'] ?? 0,
-                    'yellow_cards' => $stat['yellow_cards'] ?? 0,
-                    'red_cards' => $stat['red_cards'] ?? 0,
-                ]
-            );
+                ])->delete();
+            }
         }
-
+    
+        // ✅ Actualizamos el marcador local final con la suma calculada
+        $match->update(['home_team_score' => $localGoals]);
+    
         return redirect()->route('matches.manage')->with('success', 'Partido actualizado correctamente');
     }
+    
 
     public function destroy(Game $match)
     {

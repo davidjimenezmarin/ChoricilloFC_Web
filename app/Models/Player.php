@@ -16,10 +16,29 @@ class Player extends Model
         'number',
         'position',
         'image',
+        'slug'
     ];
 
     public function matchParticipations()
     {
         return $this->hasMany(MatchPlayer::class, 'player_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($player) {
+            $baseSlug = \Illuminate\Support\Str::slug($player->name . ' ' . $player->surname);
+            $slug = $baseSlug;
+            $count = 1;
+
+            while (Player::where('slug', $slug)->exists()) {
+                $slug = $baseSlug . '-' . $count;
+                $count++;
+            }
+
+            $player->slug = $slug;
+        });
     }
 }

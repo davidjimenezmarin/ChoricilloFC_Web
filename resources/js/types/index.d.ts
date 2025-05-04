@@ -71,6 +71,7 @@ export interface Player {
     position: string;
     number: number;
     image: string;
+    slug?: string;
   }
 
 export interface Notice{
@@ -107,6 +108,7 @@ export interface Match  {
     away_team_score: number | null;
     location: string | null;
     status: 'scheduled' | 'in_progress' | 'completed';
+    slug?: string;
     players_match: MatchPlayer[];
 }
 

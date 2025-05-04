@@ -67,7 +67,7 @@ export default function BaseLayout({ children, titulo }: { children:ReactNode, t
                     Partidos
                 </Link>
             </nav>
-            <main className="flex-grow p-0 bg-slate-100">
+            <main className="flex-grow p-2 bg-slate-100">
                 {children}
             </main>
             <footer className="bg-[#191919] text-white p-4">

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('number');
             $table->string('position');
             $table->string('image')->nullable();
+            $table->string('slug')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

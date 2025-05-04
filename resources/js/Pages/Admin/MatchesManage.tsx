@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { Match } from '@/types';
 import BaseLayout from '@/Layouts/BaseLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
+import { router } from '@inertiajs/react';
 
 type Props = {
     matches: Match[];
@@ -30,7 +31,7 @@ const MatchesManage: React.FC<Props> = ({ matches }) => {
                         >
                             Crear Partido
                         </Link>
-                        <PrimaryButton className="w-auto" onClick={() => window.history.back()}>
+                        <PrimaryButton className="w-auto" onClick={() => router.visit(route('matches'))}>
                             Volver
                         </PrimaryButton>
                     </div>

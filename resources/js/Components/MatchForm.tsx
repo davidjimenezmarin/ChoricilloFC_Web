@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Match, Player } from '@/types';
+import PrimaryButton from '@/Components/PrimaryButton';
+import { router } from '@inertiajs/react';
 
 type Props = {
     match?: Match | null;
@@ -190,47 +192,63 @@ const FormMatch: React.FC<Props> = ({ match, players, onSuccessRoute }) => {
                                     </label>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
-                                    <input
-                                        type="number"
-                                        placeholder="Minutos"
-                                        value={stat.minutes_played}
-                                        onChange={(e) => handleStatChange(index, 'minutes_played', e.target.value)}
-                                        className="px-3 py-1 border rounded"
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Goles"
-                                        value={stat.goals}
-                                        onChange={(e) => handleStatChange(index, 'goals', e.target.value)}
-                                        className="px-3 py-1 border rounded"
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Asistencias"
-                                        value={stat.assists}
-                                        onChange={(e) => handleStatChange(index, 'assists', e.target.value)}
-                                        className="px-3 py-1 border rounded"
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Amarillas"
-                                        value={stat.yellow_cards}
-                                        onChange={(e) => handleStatChange(index, 'yellow_cards', e.target.value)}
-                                        className="px-3 py-1 border rounded"
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Rojas"
-                                        value={stat.red_cards}
-                                        onChange={(e) => handleStatChange(index, 'red_cards', e.target.value)}
-                                        className="px-3 py-1 border rounded"
-                                    />
+                                    <div>
+                                        {isEditMode && <label className="block text-gray-700 mb-1 text-xs">Minutos</label>}
+                                        <input
+                                            type="number"
+                                            placeholder={!isEditMode ? 'Minutos' : ''}
+                                            value={stat.minutes_played}
+                                            onChange={(e) => handleStatChange(index, 'minutes_played', e.target.value)}
+                                            className="w-full px-3 py-1 border rounded"
+                                        />
+                                    </div>
+                                    <div>
+                                        {isEditMode && <label className="block text-gray-700 mb-1 text-xs">Goles</label>}
+                                        <input
+                                            type="number"
+                                            placeholder={!isEditMode ? 'Goles' : ''}
+                                            value={stat.goals}
+                                            onChange={(e) => handleStatChange(index, 'goals', e.target.value)}
+                                            className="w-full px-3 py-1 border rounded"
+                                        />
+                                    </div>
+                                    <div>
+                                        {isEditMode && <label className="block text-gray-700 mb-1 text-xs">Asistencias</label>}
+                                        <input
+                                            type="number"
+                                            placeholder={!isEditMode ? 'Asistencias' : ''}
+                                            value={stat.assists}
+                                            onChange={(e) => handleStatChange(index, 'assists', e.target.value)}
+                                            className="w-full px-3 py-1 border rounded"
+                                        />
+                                    </div>
+                                    <div>
+                                        {isEditMode && <label className="block text-gray-700 mb-1 text-xs">Amarillas</label>}
+                                        <input
+                                            type="number"
+                                            placeholder={!isEditMode ? 'Amarillas' : ''}
+                                            value={stat.yellow_cards}
+                                            onChange={(e) => handleStatChange(index, 'yellow_cards', e.target.value)}
+                                            className="w-full px-3 py-1 border rounded"
+                                        />
+                                    </div>
+                                    <div>
+                                        {isEditMode && <label className="block text-gray-700 mb-1 text-xs">Rojas</label>}
+                                        <input
+                                            type="number"
+                                            placeholder={!isEditMode ? 'Rojas' : ''}
+                                            value={stat.red_cards}
+                                            onChange={(e) => handleStatChange(index, 'red_cards', e.target.value)}
+                                            className="w-full px-3 py-1 border rounded"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         );
                     })}
                 </div>
             </div>
+
 
             {/* Botón */}
             <div className="flex justify-end">

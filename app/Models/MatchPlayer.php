@@ -24,7 +24,7 @@ class MatchPlayer extends Model
         'red_cards',
     ];
 
-    public function match()
+    public function game()
     {
         return $this->belongsTo(Game::class);
     }

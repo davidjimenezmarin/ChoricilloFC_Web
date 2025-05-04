@@ -2,7 +2,7 @@ import React from 'react';
 import BaseLayout from '@/Layouts/BaseLayout';
 import { Head } from '@inertiajs/react';
 import { Match } from '@/types'; // Asegúrate de importar el tipo correcto para el partido
-
+import PrimaryButton from '@/Components/PrimaryButton'; // Asegúrate de que este componente exista
 type Props = {
     game: Match;
     players?: any[]; // Puedes ajustar el tipo según tu estructura de datos
@@ -13,6 +13,9 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
         <BaseLayout titulo="Detalle del Partido">
             <Head title={`Partido: ${game.home_team} vs ${game.away_team}`} />
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
+                <PrimaryButton className="w-auto mb-3" onClick={() => window.history.back()}>
+                    Volver
+                </PrimaryButton>
                 <div className="mb-6 text-center">
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">
                         {game.home_team} vs {game.away_team}

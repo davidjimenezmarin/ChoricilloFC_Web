@@ -85,7 +85,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/notices/{slug}', [NoticeController::class, 'show'])->name('notice.show');
 
-Route::get('/matches/{id}', [GameController::class, 'show'])->name('match.show');
+Route::get('/matches/{slug}', [GameController::class, 'show'])->name('match.show');
 
+Route::get('/players/{slug}', [PlayerController::class, 'show'])->name('player.show');
 
 require __DIR__.'/auth.php';

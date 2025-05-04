@@ -92,4 +92,74 @@ class PlayerController extends Controller
 
         return redirect()->route('team.manage')->with('success', 'Jugador actualizado correctamente');
     }
+
+    public function show($slug)
+    {
+        // Estadísticas globales sumadas
+        $player = Player::where('slug', $slug)
+            ->with(['matchParticipations.game'])
+            ->firstOrFail();
+        $globalStats = $player->matchParticipations()
+            ->selectRaw('
+                SUM(minutes_played) as total_minutes,
+                SUM(goals) as total_goals,
+                SUM(assists) as total_assists,
+                SUM(yellow_cards) as total_yellow_cards,
+                SUM(red_cards) as total_red_cards
+            ')
+            ->first();
+
+        // Estadísticas por partido con la info del partido (Game)
+        $matches = $player->matchParticipations()
+            ->with('game')
+            ->get()
+            ->map(function ($mp) {
+                return [
+                    'id' => $mp->id,
+                    'is_starter' => $mp->is_starter,
+                    'minutes_played' => $mp->minutes_played,
+                    'goals' => $mp->goals,
+                    'assists' => $mp->assists,
+                    'yellow_cards' => $mp->yellow_cards,
+                    'red_cards' => $mp->red_cards,
+                    'game' => [
+                        'id' => $mp->game->id,
+                        'date' => $mp->game->date,
+                        'home_team' => $mp->game->home_team,
+                        'away_team' => $mp->game->away_team,
+                        'slug' => $mp->game->slug,
+                    ],
+                ];
+            });
+
+        return Inertia::render('PlayerDetail', [
+            'player' => $player,
+            'globalStats' => $globalStats,
+            'matches' => $matches,
+        ]);
+    }
+
+    // public function show($slug)
+    // {
+    //     $player = Player::where('slug', $slug)
+    //         ->with(['matchParticipations.match']) // <-- Esto si quieres cargar el partido asociado a la participación
+    //         ->firstOrFail();
+
+    //     // Calcular stats globales
+    //     $stats = [
+    //         'total_matches' => $player->matchParticipations->count(),
+    //         'total_minutes' => $player->matchParticipations->sum('minutes_played'),
+    //         'total_goals' => $player->matchParticipations->sum('goals'),
+    //         'total_assists' => $player->matchParticipations->sum('assists'),
+    //         'total_yellow_cards' => $player->matchParticipations->sum('yellow_cards'),
+    //         'total_red_cards' => $player->matchParticipations->sum('red_cards'),
+    //     ];
+
+    //     return Inertia::render('PlayerDetail', [
+    //         'player' => $player,
+    //         'globalStats' => $stats,
+    //         'matches' => $player->matchParticipations, // Incluye detalles de cada partido
+    //     ]);
+    // }
+
 }
