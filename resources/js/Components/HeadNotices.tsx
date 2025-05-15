@@ -12,7 +12,7 @@ export const HeadNotices: React.FC<Props> = ({ notices }) => {
     const { auth } = usePage().props;
 
     return (
-        <section className="py-10 bg-gray-50">
+        <section className="py-10 bg-gray-200">
             <div className="max-w-7xl mx-auto px-4">
                 {(auth?.user?.is_admin || auth?.user?.is_player) ?(
                     <div className="mb-6 flex justify-end">

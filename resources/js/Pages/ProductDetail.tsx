@@ -61,7 +61,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             cartComponent={<Cart />}
         >
             <Head title={product.name} />
-            <div className="container mx-auto py-12 bg-slate-100">
+            <div className=" mx-auto py-12 bg-slate-100">
                 <div className="grid gap-10 col-1 pl-3  sm:grid-cols-2 sm:gap-20">
                     <div className="flex justify-center items-center">
                         <img 

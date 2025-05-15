@@ -26,7 +26,7 @@ const ProductList: React.FC<ProductListProps> = ({ products = [] }) => {
                                 <img
                                     src={`/recursos/products/${product.image}`}
                                     alt={product.name}
-                                    className="mt-2 mx-auto h-[200px] w-1/2 object-cover"
+                                    className="mt-2 mx-auto h-auto w-1/2 object-cover"
                                 />
                             )}
                             <h2 className="text-lg font-semibold">{product.name}</h2>

@@ -16,7 +16,9 @@ export default function Checkout() {
     
     const user = usePage().props.auth.user;
 
-    const [selectedAddress, setSelectedAddress] = useState(addresses[0].id || '');
+    const [selectedAddress, setSelectedAddress] = useState(
+        addresses && addresses.length > 0 ? addresses[0].id : ''
+    );
 
     const [selectedMethod, setSelectedMethod] = useState(methods[0]);
 

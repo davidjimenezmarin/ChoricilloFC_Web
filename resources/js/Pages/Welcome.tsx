@@ -172,7 +172,7 @@ export default function Welcome({
                     </div>
                 </section> 
                 <section className="bg-[#191919] text-white shadow-lg">
-                    <div className="container mx-auto px-4 py-8">
+                    <div className="container mx-auto px-4 py-8 max-w-full">
                         <h2 className="inline sm:hidden text-2xl font-bold text-center">ÚLTIMAS NOTICIAS</h2>
                         <HeadNotices notices={notices} />
                     </div>
