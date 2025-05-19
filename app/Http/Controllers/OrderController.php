@@ -53,7 +53,6 @@ class OrderController extends Controller
         $order = Order::with(['details.product', 'shippingAddress', 'paymentMethod'])
             ->where('id', $id)
             ->where('user_id', Auth::id())
-            ->where('status', 'completed')
             ->firstOrFail();
 
         return Inertia::render('OrderDetails', [

@@ -1,7 +1,7 @@
 import { Order } from '@/types/index';
 import { useForm } from '@inertiajs/react';
 import PrimaryButton from './PrimaryButton';
-
+import { Link } from '@inertiajs/react';
 export function OrderList({ orders }: { orders: Order[] }) {
     return (
         <div className="w-full overflow-x-auto rounded-lg shadow-sm">
@@ -44,12 +44,11 @@ export function OrderList({ orders }: { orders: Order[] }) {
                                 {order.payment_method?.name || 'Aún no asignado'}
                             </td>
                             <td className="py-4 px-4 whitespace-nowrap text-left text-sm font-medium">
-                                <PrimaryButton 
-                                    className="w-auto bg-blue-600 hover:bg-blue-700"
-                                    onClick={() => window.location.href = `/orders/${order.id}`}
+                                <Link
+                                    href={route('orders.show', order.id)}                                  
                                 >
                                     Ver Detalles
-                                </PrimaryButton>
+                                </Link>
                             </td>
                         </tr>
                     ))}

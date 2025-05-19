@@ -138,28 +138,4 @@ class PlayerController extends Controller
             'matches' => $matches,
         ]);
     }
-
-    // public function show($slug)
-    // {
-    //     $player = Player::where('slug', $slug)
-    //         ->with(['matchParticipations.match']) // <-- Esto si quieres cargar el partido asociado a la participación
-    //         ->firstOrFail();
-
-    //     // Calcular stats globales
-    //     $stats = [
-    //         'total_matches' => $player->matchParticipations->count(),
-    //         'total_minutes' => $player->matchParticipations->sum('minutes_played'),
-    //         'total_goals' => $player->matchParticipations->sum('goals'),
-    //         'total_assists' => $player->matchParticipations->sum('assists'),
-    //         'total_yellow_cards' => $player->matchParticipations->sum('yellow_cards'),
-    //         'total_red_cards' => $player->matchParticipations->sum('red_cards'),
-    //     ];
-
-    //     return Inertia::render('PlayerDetail', [
-    //         'player' => $player,
-    //         'globalStats' => $stats,
-    //         'matches' => $player->matchParticipations, // Incluye detalles de cada partido
-    //     ]);
-    // }
-
 }

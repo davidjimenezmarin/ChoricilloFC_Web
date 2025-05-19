@@ -1,12 +1,25 @@
 import { OrderList } from "@/Components/OrderList";
 import { Order } from "@/types/index";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Head } from '@inertiajs/react';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 export default function Orders({ orders }: { orders: Order[] }) {
     return (
-        <AuthenticatedLayout>
+        <AuthenticatedLayout
+                    header={
+                        <div className='flex justify-between'>
+                            <h2 className="text-xl font-semibold leading-tight text-gray-800">
+                                Mis Pedidos
+                            </h2>
+                            <PrimaryButton className="w-auto" onClick={() => window.history.back()}>
+                                Volver
+                            </PrimaryButton>
+                        </div>
+                    }
+                >
+            <Head title="Mis Pedidos" />
             <div className="overflow-x-auto">
-                <h1 className="text-2xl font-bold mb-4 pl-2">Mis Pedidos</h1>
                 <OrderList orders={orders} />
             </div>
         </AuthenticatedLayout>

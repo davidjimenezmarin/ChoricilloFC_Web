@@ -7,7 +7,7 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 import UpdateAddresses from './Partials/UpdateAddresses';
 import {Link} from '@inertiajs/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-
+import Cart from '@/Components/Cart';
 export default function Edit({
     mustVerifyEmail,
     addresses,
@@ -24,6 +24,7 @@ export default function Edit({
                     </PrimaryButton>
                 </div>
             }
+            cartComponent={<Cart />}
         >
             <Head title="Profile" />
 
@@ -47,7 +48,7 @@ export default function Edit({
 
                     <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
                         <Link
-                            href={route('checkout.index')}
+                            href={route('orders.index')}
                             className="text-sm text-gray-700 dark:text-gray-500 underline"
                         >
                             Ver mis pedidos

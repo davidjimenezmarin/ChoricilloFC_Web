@@ -117,7 +117,7 @@ export default function Welcome({
                     </div>
                 </header>
                 <section className="bg-[#191919] text-white shadow-lg">
-                    <div className="container mx-auto px-4 py-8">
+                    <div className="flex mx-auto px-4 py-8">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
 
                         {/* Equipo */}

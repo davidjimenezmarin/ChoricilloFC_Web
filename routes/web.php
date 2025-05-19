@@ -74,8 +74,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/order/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
     Route::put('/checkout', [OrderController::class, 'store'])->name('checkout.store');
-    Route::get('/checkout', [OrderController::class, 'index'])->name('checkout.index');
-
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 
     Route::post('/addresses', [ShippingAddressController::class, 'store'])->name('addresses.store');
     Route::put('/addresses/{address}', [ShippingAddressController::class, 'update'])->name('addresses.update');

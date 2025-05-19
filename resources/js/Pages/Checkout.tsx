@@ -1,32 +1,32 @@
-import { usePage } from "@inertiajs/react";
+import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/shadcn/ui/button";
-import { useState } from "react";
-import { Head, router} from '@inertiajs/react';
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
-import { useForm } from "@inertiajs/react";
-import { Link } from "@inertiajs/react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
+import AddressFormModal from '@/Components/AddressFormModal';
+
 
 export default function Checkout() {
-    const { cart,addresses,methods } = usePage().props;
-
+    const { cart, addresses, methods } = usePage().props;
     const { data, setData, put, processing } = useForm({
         shipping_address_id: addresses?.[0]?.id || '',
         payment_method_id: methods?.[0]?.id || '',
     });
-    
+
     const user = usePage().props.auth.user;
-
-    const [selectedAddress, setSelectedAddress] = useState(
-        addresses && addresses.length > 0 ? addresses[0].id : ''
-    );
-
-    const [selectedMethod, setSelectedMethod] = useState(methods[0]);
+    const [selectedAddress, setSelectedAddress] = useState(addresses[0]?.id || '');
+    const [selectedMethod, setSelectedMethod] = useState(methods[0] || null);
+    const [formError, setFormError] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleAddressChange = (id: number) => {
         setSelectedAddress(id);
         setData('shipping_address_id', id);
     };
-    
+
     const handleMethodChange = (method: any) => {
         setSelectedMethod(method);
         setData('payment_method_id', method.id);
@@ -34,141 +34,155 @@ export default function Checkout() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(data);
-        put(route('checkout.store')); 
-    }
+
+        if (!data.shipping_address_id || !data.payment_method_id) {
+            setFormError("Selecciona dirección y método de pago.");
+            toast.error("Faltan datos requeridos.");
+            return;
+        }
+
+        setFormError(null);
+
+        put(route('checkout.store'), {
+            onSuccess: () => toast.success("¡Pedido realizado con éxito!"),
+            onError: () => toast.error("Error al procesar el pedido."),
+        });
+    };
 
     return (
-        <section className="grid grid-cols-1 p-4 justify-items-center bg-slate-100 gap-12 h-screen sm:grid-cols-2 sm:gap-0 sm:p-0 sm:items-center">
-            <Head title="Checkout"/>
-            <div className="flex flex-col w-full text-center gap-0 sm:grid sm:grid-cols-2 sm:gap-4 sm:w-auto">
-            <h1 className="text-2xl font-bold mb-4 col-span-2">Datos personales</h1>
-                <div className="max-w-auto border-r-solid gap-2 border-gray-300 pr-4 flex flex-col h-full sm:border-r-2">
-                    <div className="flex flex-col text-start gap-2 border rounded-md bg-white p-4 w-full h-full">
-                        <span className="flex flex-col gap-1">
-                            <p className="font-bold text-lg">Nombre</p>
-                            <p>{user.name}</p>
-                        </span>
-                        <span className="flex flex-col gap-1">
-                            <p className="font-bold text-lg">Email</p>
-                            <p>{user.email}</p>
-                        </span>
-                    </div>
-                </div>
-                <form id="checkout-form" onSubmit={handleSubmit} className="flex flex-col gap-2 mt-2 sm:mt-0">
-                    <div className="flex flex-col gap-2 border rounded-md bg-white p-4 w-full">
-                            <label htmlFor="address" className="font-medium">Dirección de envío:</label>
-                            {addresses && addresses.length > 0 ? (
-                                <Listbox 
-                                    value={selectedAddress} 
-                                    onChange={handleAddressChange}
-                                    as="div" 
-                                    className="relative"
-                                >
-                                {/* Botón que muestra la opción seleccionada */}
-                                <ListboxButton className="w-full border rounded-md p-2 bg-white text-left flex justify-between items-center">
-                                {addresses.find(a => a.id === selectedAddress)?.street || "Selecciona una dirección"}
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                </svg>
-                                </ListboxButton>
-                            
-                                {/* Opciones desplegables */}
-                                <ListboxOptions className="absolute z-10 mt-1 w-full max-h-60 overflow-auto border rounded-md bg-white shadow-lg">
-                                {addresses.map((address) => (
-                                    <ListboxOption
-                                    key={address.id}
-                                    value={address.id}
-                                    className={({ active }) => 
-                                        `p-2 cursor-pointer ${active ? 'bg-blue-100 text-blue-900' : 'text-gray-900'}`
-                                    }
-                                    >
-                                    {address.street}, {address.city}, {address.zip_code}
-                                    </ListboxOption>
-                                ))}
-                                </ListboxOptions>
-                            </Listbox>
-                                ) : (
-                                    <div>
-                                        <p className="text-sm text-gray-500 italic">No tienes direcciones guardadas</p>
-                                        <Link href='/profile'>Añadir</Link>
-                                    </div> 
-                                )}
+        <AuthenticatedLayout
+                    header={
+                        <div className='flex justify-between'>
+                            <PrimaryButton className="w-auto" onClick={() => window.history.back()}>
+                                Volver
+                            </PrimaryButton>
                         </div>
-                        <div className="flex flex-col gap-2 border rounded-md bg-white p-4">
-                            <label htmlFor="methods" className="font-medium">Métodos de pago:</label>
-                            {methods && methods.length > 0 ? (
-                                <Listbox 
-                                    value={selectedMethod} 
-                                    onChange={handleMethodChange}
-                                    as="div"
-                                    className="relative"
-                                >
-                                    <ListboxButton className="w-full border rounded-md p-2 bg-white text-left flex justify-between items-center">
-                                        {selectedMethod.name}
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                    </svg>
-                                    </ListboxButton>
-                                    <ListboxOptions className="absolute z-10 mt-1 border rounded-md bg-white shadow-lg">
-                                        {methods.map((method) => (
-                                            <ListboxOption
-                                                key={method.id}
-                                                value={method}
-                                                className="p-2 hover:bg-blue-100 cursor-pointer"
-                                            >
-                                                {method.name}
-                                            </ListboxOption>
-                                        ))}
-                                    </ListboxOptions>
+                    }
+                >
+        <section className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 py-8">
+            <Head title="Checkout" />
+            <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 lg:px-8">
+                
+                {/* Formulario */}
+                <form
+                    id="checkout-form"
+                    onSubmit={handleSubmit}
+                    className="lg:col-span-2 bg-white p-6 rounded-xl shadow-md flex flex-col gap-6"
+                >
+                    <h1 className="text-3xl font-bold text-gray-800">Finalizar compra</h1>
+
+                    {formError && (
+                        <div className="bg-red-100 text-red-700 p-3 rounded">{formError}</div>
+                    )}
+
+                    <section className="grid gap-4">
+                        <div>
+                            <h2 className="text-lg font-semibold text-gray-700 mb-1">Datos personales</h2>
+                            <div className="text-sm text-gray-800">
+                                <p><strong>Nombre:</strong> {user.name}</p>
+                                <p><strong>Email:</strong> {user.email}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Dirección de envío</label>
+                            {addresses.length > 0 ? (
+                                <Listbox value={selectedAddress} onChange={handleAddressChange}>
+                                    <div className="relative">
+                                        <ListboxButton className={`w-full border rounded-lg p-2 bg-white text-left shadow-sm ${!data.shipping_address_id && formError ? 'border-red-500' : 'border-gray-300'}`}>
+                                            {addresses.find(a => a.id === selectedAddress)?.street || "Selecciona una dirección"}
+                                        </ListboxButton>
+                                        <ListboxOptions className="absolute z-10 mt-1 w-full border rounded-lg bg-white shadow">
+                                            {addresses.map(address => (
+                                                <ListboxOption
+                                                    key={address.id}
+                                                    value={address.id}
+                                                    className={({ active }) => `p-2 text-sm ${active ? 'bg-blue-100' : ''}`}
+                                                >
+                                                    {address.street}, {address.city}, {address.zip_code}
+                                                </ListboxOption>
+                                            ))}
+                                        </ListboxOptions>
+                                    </div>
                                 </Listbox>
-                                ) : (
-                                    <div>
-                                        <p className="text-sm text-gray-500 italic">No es posible realizar una compra en estos momentos</p>
-                                    </div> 
-                                )
-                            }
+                            ) : (
+                                <p className="text-sm text-gray-500">
+                                    No tienes direcciones.{' '}
+                                    <SecondaryButton
+                                    onClick={() => setModalOpen(true)}
+                                    
+                                    >
+                                    Añadir
+                                    </SecondaryButton>
+                                    <AddressFormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+                                </p>
+                            )}
                         </div>
-                </form>
-                <Button variant="default" className="w-full col-span-2 mt-2" onClick={() => window.history.back()}>
-                        Volver
-                </Button>
-            </div>
-            
-            <div className="w-auto max-w-lg bg-white rounded-lg shadow-lg p-6 h-screen flex flex-col gap-4">
-                <div className="max-w-auto border-r-solid flex flex-col items-start justify-center">
-                    <p className="text-2xl font-bold mb-2">Resumen de la compra</p>
-                    <p className="text-sm text-gray-600 mb-4">Por favor, revisa los productos en tu carrito antes de proceder al pago.</p>
-                </div>
-                {/* Scroll solo en productos */}
-                <div className="space-y-4 overflow-y-auto h-full ">
-                    {cart.details.map((item) => (
-                    <div key={item.id} className="grid grid-rows-1 grid-cols-2 gap-6 p-2 border rounded-md">
-                        {/* Imagen del producto */}
-                        <img
-                        src={`/recursos/products/${item.product.image}`}
-                        alt={item.product?.name}
-                        className="w-auto h-auto object-cover rounded-md justify-self-center"
-                        />
-                        {/* Info producto */}
-                        <div className="flex flex-col justify-center">
-                            <h3 className="font-semibold">{item.product.name}</h3>
-                            <p className="text-sm text-gray-600">Talla: {item.size}</p>
-                            <p className="font-semibold mt-2">€{item.unit_price}</p>
-                            <p className="text-sm text-gray-600">Cantidad: {item.quantity}</p>
-                            <p className=" text-md self-end ">Subtotal: {item.unit_price * item.quantity}€</p>
+
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Método de pago</label>
+                            {methods.length > 0 ? (
+                                <Listbox value={selectedMethod} onChange={handleMethodChange}>
+                                    <div className="relative">
+                                        <ListboxButton className={`w-full border rounded-lg p-2 bg-white text-left shadow-sm ${!data.payment_method_id && formError ? 'border-red-500' : 'border-gray-300'}`}>
+                                            {selectedMethod?.name || "Selecciona un método de pago"}
+                                        </ListboxButton>
+                                        <ListboxOptions className="absolute z-10 mt-1 w-full border rounded-lg bg-white shadow">
+                                            {methods.map(method => (
+                                                <ListboxOption
+                                                    key={method.id}
+                                                    value={method}
+                                                    className={({ active }) => `p-2 text-sm ${active ? 'bg-blue-100' : ''}`}
+                                                >
+                                                    {method.name}
+                                                </ListboxOption>
+                                            ))}
+                                        </ListboxOptions>
+                                    </div>
+                                </Listbox>
+                            ) : (
+                                <p className="text-sm text-gray-500">No hay métodos de pago disponibles.</p>
+                            )}
                         </div>
+                    </section>
+
+                    <div className="flex justify-end">
+                        <Button
+                            type="submit"
+                            disabled={processing}
+                            className="w-full sm:w-auto px-8 py-3 text-lg font-semibold"
+                        >
+                            Pagar
+                        </Button>
                     </div>
-                    ))}
-                </div>
-                <div className="mt-4 space-y-4 flex flex-col justify-end">
-                    <p className="self-end text-lg"><strong>Total : {cart.total_amount} €</strong> </p>
-                    <Button variant="default" className="w-auto" disabled={processing} type="submit" form="checkout-form">
-                        Pagar
-                    </Button>
+                </form>
+
+                {/* Resumen */}
+                <div className="bg-white p-6 rounded-xl shadow-md h-fit flex flex-col">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">Resumen del pedido</h2>
+                    <div className="space-y-4 overflow-y-auto max-h-[400px] pr-1">
+                        {cart.details.map(item => (
+                            <div key={item.id} className="flex gap-4 pb-3">
+                                <img
+                                    src={`/recursos/products/${item.product.image}`}
+                                    alt={item.product.name}
+                                    className="w-20 h-20 object-cover rounded-sm"
+                                />
+                                <div className="flex-1 text-sm text-gray-700">
+                                    <p className="font-medium">{item.product.name}</p>
+                                    <p>Talla: {item.size}</p>
+                                    <p>Cantidad: {item.quantity}</p>
+                                    <p className="font-semibold">€{item.unit_price * item.quantity}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="mt-4 border-t pt-4 text-right text-lg font-bold text-gray-800">
+                        Total: €{cart.total_amount}
+                    </div>
                 </div>
             </div>
         </section>
+        </AuthenticatedLayout>
     );
 }
-
