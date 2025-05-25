@@ -10,6 +10,11 @@ class OrderDetail extends Model
 {
     use SoftDeletes, HasFactory;
 
+    /**
+     * Atributos que se pueden asignar de forma masiva.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'order_id',
         'product_id',
@@ -18,11 +23,23 @@ class OrderDetail extends Model
         'unit_price',
     ];
 
+    /**
+     * Relación inversa muchos a uno con el producto.
+     * Cada detalle de orden está asociado a un producto.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Relación inversa muchos a uno con la orden.
+     * Cada detalle pertenece a una orden específica.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function order()
     {
         return $this->belongsTo(Order::class);

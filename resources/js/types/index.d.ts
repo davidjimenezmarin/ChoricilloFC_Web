@@ -112,6 +112,11 @@ export interface Match  {
     players_match: MatchPlayer[];
 }
 
+export type Highlights = {
+  top_scorer: Player;
+  scorer_of_the_month: Player;
+  most_booked: Player;
+};
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>,
@@ -123,5 +128,6 @@ export type PageProps<
     addresses: ShippingAddress[];
     methods: PaymentMethod[];
     notices: Notice[];
+    highlights: Highlights;
     
 };

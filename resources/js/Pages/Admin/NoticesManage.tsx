@@ -33,9 +33,11 @@ const NoticesManage: React.FC<Props> = ({ notices }) => {
                         >
                             Crear Noticia
                         </Link>
-                        <PrimaryButton className="w-auto" onClick={() => window.history.back()}>
-                            Volver
-                        </PrimaryButton>
+                        <Link href={route('notices')}>
+                            <PrimaryButton className="h-full">
+                                Volver
+                            </PrimaryButton>
+                        </Link>
                     </div>
                 </div>
 

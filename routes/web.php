@@ -15,13 +15,33 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAdminOrPlayer;
 use App\Models\Game;
 
+use App\Models\Player;
+use App\Models\Notice;
+
+
 Route::get('/', function () {
+    $players = Player::with(['matchParticipations'])->get();
+
+    $topScorer = $players->sortByDesc(fn($p) => $p->matchParticipations->sum('goals'))->first();
+    $scorerOfMonth = $players->sortByDesc(fn($p) =>
+        $p->matchParticipations->where('created_at', '>=', now()->subMonth())->sum('goals')
+    )->first();
+    $mostBooked = $players->sortByDesc(fn($p) =>
+        $p->matchParticipations->sum('yellow_cards') + $p->matchParticipations->sum('red_cards')
+    )->first();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'notices' => \App\Models\Notice::latest()->take(5)->get(),  
+        'notices' => Notice::latest()->take(5)->get(),
+        'highlights' => [
+            'top_scorer' => $topScorer,
+            'scorer_of_the_month' => $scorerOfMonth,
+            'most_booked' => $mostBooked,
+        ],
     ]);
-});
+})->name('dashboard');
+
 
 Route::get('/team', [PlayerController::class, 'index'])->name('team');
 

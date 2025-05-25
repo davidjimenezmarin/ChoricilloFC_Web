@@ -64,6 +64,8 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
                     onChange={(e) => setData("city", e.target.value)}
                     className="p-2 border rounded"
                 />
+                {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
+
                 <input
                     type="text"
                     placeholder={t('profile.addresses.form.placeholders.province')}
@@ -71,6 +73,7 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
                     onChange={(e) => setData("province", e.target.value)}
                     className="p-2 border rounded"
                 />
+                {errors.province && <p className="text-red-500 text-sm">{errors.province}</p>}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -81,6 +84,8 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
                     onChange={(e) => setData("country", e.target.value)}
                     className="p-2 border rounded"
                 />
+                {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
+
                 <input
                     type="text"
                     placeholder={t('profile.addresses.form.placeholders.zip')}
@@ -88,6 +93,7 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
                     onChange={(e) => setData("zip_code", e.target.value)}
                     className="p-2 border rounded"
                 />
+                {errors.zip_code && <p className="text-red-500 text-sm">{errors.zip_code}</p>}
             </div>
 
             <label className="flex items-center space-x-2">

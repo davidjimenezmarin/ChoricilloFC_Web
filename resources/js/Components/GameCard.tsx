@@ -1,7 +1,10 @@
 import { Link } from '@inertiajs/react';
 import { Match } from '@/types';
+import { useTranslation } from 'react-i18next';
 
 export default function GameCard({ match }: { match: Match }) {
+    const { t, i18n } = useTranslation();
+
     return (
         <Link
             href={route('match.show', match.slug)}
@@ -10,13 +13,15 @@ export default function GameCard({ match }: { match: Match }) {
         >
             <div className="mb-4 text-center">
                 <p className="text-sm text-gray-500">
-                    {new Date(match.date).toLocaleDateString('es-ES', {
+                    {new Date(match.date).toLocaleDateString(i18n.language === 'en' ? 'en-GB' : 'es-ES', {
                         day: '2-digit',
                         month: 'long',
                         year: 'numeric',
                     })}
                 </p>
-                <p className="text-xs text-gray-400">{match.location || 'Ubicación no especificada'}</p>
+                <p className="text-xs text-gray-400">
+                    {match.location || t('matches.no_location')}
+                </p>
             </div>
 
             <div className="flex items-center justify-between mb-4">
@@ -29,7 +34,9 @@ export default function GameCard({ match }: { match: Match }) {
                             {match.home_team_score} - {match.away_team_score}
                         </span>
                     ) : (
-                        <span className="text-gray-500 text-sm">Próximamente</span>
+                        <span className="text-gray-500 text-sm">
+                            {t('matches.upcoming')}
+                        </span>
                     )}
                 </div>
                 <div className="text-center w-1/3">
@@ -40,17 +47,17 @@ export default function GameCard({ match }: { match: Match }) {
             <div className="text-center">
                 {match.status === 'scheduled' && (
                     <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
-                        Programado
+                        {t('matches.status.scheduled')}
                     </span>
                 )}
                 {match.status === 'in_progress' && (
                     <span className="inline-block px-3 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full animate-pulse">
-                        En juego
+                        {t('matches.status.in_progress')}
                     </span>
                 )}
                 {match.status === 'completed' && (
                     <span className="inline-block px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-                        Finalizado
+                        {t('matches.status.completed')}
                     </span>
                 )}
             </div>

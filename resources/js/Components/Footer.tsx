@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import  LanguageSwitcher  from '@/Components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
-
+import {Spoiler} from 'spoiled';
 export default function Footer() {
   const { t } = useTranslation();
 
@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
 
       <div className="mt-8 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Choricillo FC — {t('layout.copyright')}
+        © {new Date().getFullYear()} Choricillo FC — <Spoiler>{t('layout.copyright')}</Spoiler>
       </div>
     </footer>
   );

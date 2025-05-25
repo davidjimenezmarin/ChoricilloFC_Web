@@ -1,30 +1,38 @@
-import { router, usePage } from '@inertiajs/react';
-import { Link } from '@inertiajs/react';
-import { Trash2, Minus, Plus } from "lucide-react";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/shadcn/ui/sheet";
+// Componente del carrito de compras accesible desde cualquier parte de la aplicación.
+// Permite al usuario ver los productos agregados, modificar cantidades, eliminar artículos y proceder al checkout.
+
+import { router, usePage } from '@inertiajs/react'; // Hook para obtener datos de la página e interactuar con el backend
+import { Link } from '@inertiajs/react'; // Enlaces cliente-servidor
+import { Trash2, Minus, Plus } from "lucide-react"; // Iconos utilizados para acciones dentro del carrito
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/shadcn/ui/sheet"; // Componente deslizante lateral (off-canvas)
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'; // Hook para i18n
 
 export default function Cart() {
     const { t } = useTranslation();
-    const { cart } = usePage().props;
+    const { cart } = usePage().props; // Se obtiene el carrito desde los props compartidos por Inertia
 
+    // Estado local para manejar la cantidad de cada producto (sin modificar el original hasta confirmar)
     const [quantities, setQuantities] = useState<{ [key: number]: number }>(
         Object.fromEntries(cart?.details?.map(item => [item.id, item.quantity]) || [])
     );
 
+    // Estado para clonar el carrito localmente y poder revertir cambios si ocurre un error
     const [localCart, setLocalCart] = useState(cart);
 
+    // Maneja la eliminación de un ítem del carrito
     const handleRemoveItem = (id: number) => {
-        const updatedItems = localCart.details.filter(d => d.id !== id);
+        const updatedItems = localCart.details.filter(d => d.id !== id); // Elimina del estado local
         setLocalCart({ ...localCart, details: updatedItems });
 
+        // Realiza la eliminación real vía router
         router.delete(`/cart/remove/${id}`, {
             preserveState: true,
-            onError: () => setLocalCart(cart),
+            onError: () => setLocalCart(cart), // Revertir si falla
         });
     };
 
+    // Maneja la actualización de la cantidad de un ítem
     const handleUpdateQuantity = (id: number, quantity: number) => {
         try {
             setQuantities(prev => ({ ...prev, [id]: quantity }));
@@ -39,10 +47,12 @@ export default function Cart() {
                 }
             });
         } catch {
+            // Si hay un error, se vuelve a la cantidad anterior
             setQuantities(prev => ({ ...prev, [id]: prev[id] }));
         }
     };
 
+    // Calcula la cantidad total de ítems en el carrito
     const totalItems = cart?.details?.reduce((sum, item) => {
         const qty = quantities[item.id] ?? item.quantity ?? 0;
         return sum + qty;
@@ -50,6 +60,7 @@ export default function Cart() {
 
     return (
         <Sheet>
+            {/* Botón que activa la apertura del carrito */}
             <SheetTrigger className="text-black hover:text-gray-600 flex items-center gap-1">
                 <span>{t('shop.cart.label')}</span>
                 {(cart?.details?.length ?? 0) > 0 && (
@@ -58,6 +69,8 @@ export default function Cart() {
                     </span>
                 )}
             </SheetTrigger>
+
+            {/* Contenido del carrito deslizable desde la derecha */}
             <SheetContent className="w-[90vw]" side="right">
                 <SheetHeader>
                     <SheetTitle className="font-normal">
@@ -69,6 +82,7 @@ export default function Cart() {
                     </SheetTitle>
                 </SheetHeader>
 
+                {/* Si el carrito está vacío, muestra mensaje y botón para ir a la tienda */}
                 {!cart || !cart.details || cart.details.length === 0 ? (
                     <section className="p-4 text-center">
                         <p className="text-gray-600">{t('shop.cart.empty')}</p>
@@ -81,9 +95,11 @@ export default function Cart() {
                     </section>
                 ) : (
                     <section className="w-auto max-w-lg bg-white rounded-lg shadow-lg p-6 h-auto flex flex-col">
+                        {/* Lista de productos en el carrito con scroll limitado */}
                         <div className="space-y-4 overflow-y-auto max-h-[60vh] pr-2 sm:max-h-[65vh]">
                             {cart.details.map((item) => (
                                 <div key={item.id} className="grid grid-rows-1 grid-cols-2 gap-1 p-3 border rounded-md">
+                                    {/* Imagen del producto */}
                                     <img
                                         src={`/recursos/products/${item.product.image}`}
                                         alt={item.product.name}
@@ -97,8 +113,10 @@ export default function Cart() {
                                         <p className="font-semibold mt-2">€{item.unit_price}</p>
                                     </div>
 
+                                    {/* Controles para modificar cantidad y eliminar ítem */}
                                     <div className="flex flex-row items-center col-span-2 justify-between">
                                         <div className="flex items-center gap-2">
+                                            {/* Botón para reducir cantidad o eliminar si es 1 */}
                                             <button
                                                 className="p-1 border rounded hover:bg-gray-200"
                                                 onClick={() => {
@@ -135,6 +153,7 @@ export default function Cart() {
                             ))}
                         </div>
 
+                        {/* Totales y acciones */}
                         <div className="mt-4 space-y-4">
                             <div className="flex justify-between font-bold text-lg">
                                 <span>{t('shop.cart.total')}</span>
@@ -146,8 +165,9 @@ export default function Cart() {
                                 </span>
                             </div>
 
+                            {/* Botones de navegación */}
                             <div className="flex flex-col gap-2 sm:gap-4 sm:flex-row">
-                                <Link href="/shop" className="flex-1 text-center border py-2 rounded text-blue-600 hover:bg-blue-100">
+                                <Link href="/shop" className="flex-1 text-center border py-2 rounded text-black hover:bg-slate-100">
                                     {t('shop.cart.continue_shopping')}
                                 </Link>
                                 <Link href="/order/checkout" className="flex-1 text-center bg-gray-700 text-white py-2 rounded hover:bg-gray-900">

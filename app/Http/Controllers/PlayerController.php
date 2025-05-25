@@ -11,7 +11,13 @@ use Illuminate\Support\Str;
 
 class PlayerController extends Controller
 {
-    public function index(){
+    /**
+     * Muestra la lista de jugadores.
+     *
+     * @return \Inertia\Response
+     */
+    public function index()
+    {
         $players = Player::all();
 
         return Inertia::render('Team', [
@@ -21,7 +27,14 @@ class PlayerController extends Controller
             ],
         ]);
     }
-    public function create(){
+
+    /**
+     * Muestra el formulario de creación de un nuevo jugador.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
         return Inertia::render('Admin/CreatePlayer', [
             'positions' => [
                 'Goalkeeper',
@@ -31,7 +44,15 @@ class PlayerController extends Controller
             ],
         ]);
     }
-    public function edit(Player $player){
+
+    /**
+     * Muestra el formulario de edición de un jugador existente.
+     *
+     * @param Player $player
+     * @return \Inertia\Response
+     */
+    public function edit(Player $player)
+    {
         return Inertia::render('Admin/EditPlayer', [
             'player' => $player,
             'positions' => [
@@ -42,18 +63,42 @@ class PlayerController extends Controller
             ],
         ]);
     }
-    public function destroy(Player $player){
+
+    /**
+     * Elimina un jugador del sistema.
+     *
+     * @param Player $player
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Player $player)
+    {
         $player->delete();
+
         return redirect()->route('team.manage')->with('success', 'Jugador eliminado correctamente');
     }
+
+    /**
+     * Muestra la vista de administración del equipo.
+     *
+     * @return \Inertia\Response
+     */
     public function manage()
     {
         $players = Player::all();
+
         return Inertia::render('Admin/TeamManage', [
             'players' => $players,
         ]);
     }
-    public function store(Request $request){
+
+    /**
+     * Guarda un nuevo jugador en la base de datos.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
@@ -68,6 +113,7 @@ class PlayerController extends Controller
         $player->position = $request->position;
         $player->number = $request->number;
 
+        // Procesa y almacena la imagen si se proporciona
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('/recursos/players', 'public');
             $player->image = $path;
@@ -77,8 +123,14 @@ class PlayerController extends Controller
 
         return redirect()->route('team.manage')->with('success', 'Jugador creado correctamente');
     }
-   
 
+    /**
+     * Actualiza los datos de un jugador existente.
+     *
+     * @param Request $request
+     * @param Player $player
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Player $player)
     {
         $request->validate([
@@ -94,13 +146,12 @@ class PlayerController extends Controller
         $player->position = $request->position;
         $player->number = $request->number;
 
+        // Reemplaza la imagen anterior si se carga una nueva
         if ($request->hasFile('image')) {
-            // Elimina la imagen anterior si existe
             if ($player->image && Storage::disk('public')->exists($player->image)) {
                 Storage::disk('public')->delete($player->image);
             }
 
-            // Guarda la nueva imagen con nombre único
             $path = $request->file('image')->storeAs(
                 'recursos/players',
                 Str::uuid().'.'.$request->file('image')->extension(),
@@ -115,13 +166,20 @@ class PlayerController extends Controller
         return redirect()->route('team.manage')->with('success', 'Jugador actualizado correctamente');
     }
 
-
+    /**
+     * Muestra el detalle de un jugador incluyendo estadísticas agregadas y por partido.
+     *
+     * @param string $slug
+     * @return \Inertia\Response
+     */
     public function show($slug)
     {
-        // Estadísticas globales sumadas
+        // Carga el jugador con sus participaciones y los partidos relacionados
         $player = Player::where('slug', $slug)
             ->with(['matchParticipations.game'])
             ->firstOrFail();
+
+        // Estadísticas globales agregadas del jugador
         $globalStats = $player->matchParticipations()
             ->selectRaw('
                 SUM(minutes_played) as total_minutes,
@@ -132,7 +190,7 @@ class PlayerController extends Controller
             ')
             ->first();
 
-        // Estadísticas por partido con la info del partido (Game)
+        // Datos por partido
         $matches = $player->matchParticipations()
             ->with('game')
             ->get()

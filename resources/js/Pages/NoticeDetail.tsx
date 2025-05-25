@@ -1,6 +1,7 @@
 import {Notice} from "@/types";
 import BaseLayout from "@/Layouts/BaseLayout";
 import { Head } from "@inertiajs/react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     notice: Notice;
@@ -25,6 +26,7 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
             alert('El enlace ha sido copiado al portapapeles.');
         }
     };
+    const { t } = useTranslation();
 
     return (
         <BaseLayout>
@@ -36,25 +38,27 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
                     <div className="flex justify-end mb-2">
                         <button
                             onClick={handleShare}
-                            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition"
+                            className="group flex items-center gap-2 text-gray-600 hover:text-gray-800 transition"
                             title="Compartir esta noticia"
                         >
                             {/* Icono SVG */}
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
                                 viewBox="0 0 24 24"
-                                strokeWidth={1.5}
+                                fill="none"
                                 stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M13.828 10.172a4 4 0 00-5.656 0L4.93 13.414a4 4 0 105.656 5.656l1.415-1.414m2.828-2.828a4 4 0 005.656 0 4 4 0 000-5.656l-1.414-1.415a4 4 0 00-5.656 0L11.414 8.586"
-                                />
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="w-6 h-6 transition-transform duration-200 group-hover:scale-110"
+                                >
+                                <circle cx="18" cy="5" r="3" />
+                                <circle cx="6" cy="12" r="3" />
+                                <circle cx="18" cy="19" r="3" />
+                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
                             </svg>
-                            <span className="hidden sm:inline">Compartir</span>
+                            <span className="hidden sm:inline">{t("notices.share")}</span>
                         </button>
                     </div>
                 </div>

@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ShippingAddressController extends Controller
 {
-     /**
-     * Guarda una nueva dirección de envío
+    /**
+     * Almacena una nueva dirección de envío asociada al usuario autenticado.
+     *
+     * @param Request $request Instancia de la petición HTTP con los datos de la dirección
+     * @return \Illuminate\Http\RedirectResponse Redirección de vuelta tras guardar la dirección
      */
     public function store(Request $request)
     {
@@ -24,24 +27,31 @@ class ShippingAddressController extends Controller
             'main'      => 'boolean',
         ]);
 
+        // Si se marca como principal, desactivar otras direcciones principales del usuario
         if ($validated['main']) {
-            // Desactivar otras direcciones principales
             ShippingAddress::where('user_id', Auth::id())->update(['main' => false]);
         }
 
+        // Crea la nueva dirección asociada al usuario
         $user->addresses()->create($validated);
 
         return back();
     }
 
     /**
-     * Actualiza una dirección existente
+     * Actualiza los datos de una dirección de envío existente.
+     *
+     * @param Request $request Instancia de la petición con los nuevos datos
+     * @param ShippingAddress $address Dirección que se desea actualizar
+     * @return \Illuminate\Http\RedirectResponse Redirección de vuelta tras la actualización
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException Si el usuario no es propietario de la dirección
      */
     public function update(Request $request, ShippingAddress $address)
     {
-        // Asegurarse de que el usuario es el propietario
+        // Verifica que la dirección pertenece al usuario autenticado
         if ($address->user_id !== Auth::id()) {
-            abort(403);
+            abort(403); // Acceso prohibido
         }
 
         $validated = $request->validate([
@@ -53,22 +63,26 @@ class ShippingAddressController extends Controller
             'main'      => 'boolean',
         ]);
 
+        // Si la dirección es marcada como principal, anula las demás
         if ($validated['main']) {
-            // Desactivar otras direcciones principales
             ShippingAddress::where('user_id', Auth::id())->update(['main' => false]);
         }
 
+        // Actualiza los campos de la dirección
         $address->update($validated);
 
         return back();
     }
 
     /**
-     * Elimina una dirección existente
+     * Elimina una dirección de envío existente.
+     *
+     * @param ShippingAddress $address Dirección que se desea eliminar
+     * @return \Illuminate\Http\RedirectResponse Redirección de vuelta con mensaje de éxito
      */
     public function destroy(ShippingAddress $address)
     {
-        
+        // Elimina la dirección de la base de datos
         $address->delete();
 
         return back()->with('success', 'Dirección eliminada correctamente');

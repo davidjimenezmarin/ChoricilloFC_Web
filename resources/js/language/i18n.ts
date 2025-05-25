@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import { Share } from 'lucide-react';
 import { initReactI18next } from 'react-i18next';
 
 i18n.use(initReactI18next).init({
@@ -25,6 +26,12 @@ i18n.use(initReactI18next).init({
             midfielders: 'Centrocampistas',
             forwards: 'Delanteros',
             manage: 'Gestionar jugadores'
+        },
+        highlights: {
+            title: "Destacados del Equipo",
+            top_scorer: "Máximo Goleador",
+            scorer_month: "Goleador del Mes",
+            most_booked: "Carnicero"
         },
         welcome: {
             team: "Equipo",
@@ -54,10 +61,33 @@ i18n.use(initReactI18next).init({
         },
         notices: {
             manage: 'Gestionar noticias',
+            share: 'Compartir',
         },
         matches: {
+            title: "Partidos",
+            no_player_data: 'Aún no hay datos de jugadores disponibles.',
             manage: 'Gestionar partidos',
-            empty: 'No hay partidos disponibles.'
+            empty: 'No hay partidos disponibles.',
+            no_location: "Ubicación no especificada",
+            stats_title: "Estadísticas del partido",
+            upcoming: "Próximamente",
+            starter: "Titular",
+            global_stats: 'Estadísticas Globales',
+            game_stats: 'Estadísticas por Partido',
+            status: {
+                "scheduled": "Programado",
+                "in_progress": "En juego",
+                "completed": "Finalizado"
+            },
+            table: {
+                player: "Jugador",
+                position: "Posición",
+                minutes: "Minutos",
+                goals: "Goles",
+                assists: "Asistencias",
+                yellow: "Amarillas",
+                red: "Rojas"
+            }
         },
         login: {
             title: 'Iniciar sesión',
@@ -214,6 +244,12 @@ i18n.use(initReactI18next).init({
             forwards: 'Forwards',
             manage: 'Manage players'
         },
+        highlights: {
+            title: "Team Highlights",
+            top_scorer: "Top Scorer",
+            scorer_month: "Scorer of the Month",
+            most_booked: "Butcher Player"
+        },
         welcome: {
             team: "Team",
             news: "News",
@@ -242,10 +278,34 @@ i18n.use(initReactI18next).init({
         },
         notices: {
             manage: 'Manage news',
+            share: 'Share',
         },
         matches: {
+            title: "Matches",
             manage: 'Manage matches',
-            empty: 'No matches available.'
+            no_player_data: 'No player data available yet.',
+            empty: 'No matches available.',
+            no_location: 'Location not specified',
+            stats_title: "Match Statistics",
+            starter: "Starter",
+            upcoming: 'Coming soon',
+            global_stats: 'Global Stats',
+            game_stats: 'Stats by Game',
+            status: {
+                scheduled: 'Scheduled',
+                in_progress: 'In progress',
+                completed: 'Completed'
+            },
+            table: {
+                player: "Player",
+                position: "Position",
+                minutes: "Minutes",
+                goals: "Goals",
+                assists: "Assists",
+                yellow: "Yellow cards",
+                red: "Red cards"
+            }
+            
         },
         login: {
             title: 'Log in',
@@ -301,10 +361,10 @@ i18n.use(initReactI18next).init({
                 error: 'Error processing the order.',
                 back: 'Back',
                 section: {
-                personal: 'Personal information',
-                address: 'Shipping address',
-                payment: 'Payment method',
-                summary: 'Order summary'
+                    personal: 'Personal information',
+                    address: 'Shipping address',
+                    payment: 'Payment method',
+                    summary: 'Order summary'
                 },
                 name: 'Name',
                 email: 'Email',

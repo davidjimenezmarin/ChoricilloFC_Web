@@ -4,25 +4,26 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
-use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra los servicios de la aplicación.
+     * Este método se ejecuta antes de que se resuelvan los bindings en el contenedor.
+     * Es ideal para definir servicios que serán utilizados por otros proveedores.
      */
     public function register(): void
     {
-        //
+        // Aquí se pueden registrar bindings personalizados, servicios, etc.
     }
 
     /**
-     * Bootstrap any application services.
+     * Inicia cualquier servicio requerido por la aplicación.
+     * Este método se llama automáticamente una vez que todos los proveedores han sido registrados.
      */
     public function boot(): void
     {
+        // Configura la estrategia de precarga de módulos Vite para mejorar el rendimiento del frontend
         Vite::prefetch(concurrency: 3);
     }
 }
