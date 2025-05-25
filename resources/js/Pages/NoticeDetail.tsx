@@ -8,7 +8,9 @@ interface Props {
 
 const NoticeDetail: React.FC<Props> = ({ notice }) => {
     const formattedDate = new Intl.DateTimeFormat('es-ES').format(new Date(notice.date));
-
+    const imageUrl = notice?.image === 'notice_default.jpg'
+            ? '/recursos/notice_default.jpg'
+            : `/storage/${notice?.image}`;
     const handleShare = () => {
         if (navigator.share) {
             navigator.share({
@@ -25,7 +27,7 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
     };
 
     return (
-        <BaseLayout titulo="Noticias">
+        <BaseLayout>
             <Head title={notice.title} />
             <div className="flex flex-col max-w-full mx-auto p-4 gap-4 bg-white shadow-md rounded-lg relative">
                 <p className="mt-2 text-lg">{formattedDate}</p>
@@ -56,7 +58,7 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
                         </button>
                     </div>
                 </div>
-                <img src={`/recursos/${notice.image}`} alt={notice.title} className="w-5/6 h-auto self-center rounded-lg mb-4" />
+                <img src={imageUrl} alt={notice.title} className="w-5/6 h-auto self-center rounded-lg mb-4" />
                 <div className="flex flex-col items-center justify-between self-center mb-8 px-4 border-x-2 border-gray-500 w-fit">
                     <p className="max-w-3xl text-lg sm:text-xl text-gray-700 mb-4 italic text-center leading-relaxed">
                         {notice.short_description}

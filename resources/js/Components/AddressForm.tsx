@@ -3,6 +3,7 @@ import { FormEventHandler } from "react";
 import { ShippingAddress } from "@/types/index";
 import { Button } from "@/shadcn/ui/button";
 import PrimaryButton from '@/Components/PrimaryButton';
+import { useTranslation } from 'react-i18next';
 
 interface AddressFormProps {
     mode: "create" | "edit";
@@ -12,6 +13,7 @@ interface AddressFormProps {
 }
 
 export default function AddressForm({ mode, initialData, onSuccess, onCancel }: AddressFormProps) {
+    const { t } = useTranslation();
     const { data, setData, post, put, processing, errors, reset } = useForm({
         street: initialData?.street || "",
         city: initialData?.city || "",
@@ -46,7 +48,7 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
             <div>
                 <input
                     type="text"
-                    placeholder="Calle, Piso, Departamento"
+                    placeholder={t('profile.addresses.form.placeholders.street')}
                     value={data.street}
                     onChange={(e) => setData("street", e.target.value)}
                     className="w-full p-2 border rounded"
@@ -57,14 +59,14 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
             <div className="grid grid-cols-2 gap-4">
                 <input
                     type="text"
-                    placeholder="Ciudad"
+                    placeholder={t('profile.addresses.form.placeholders.city')}
                     value={data.city}
                     onChange={(e) => setData("city", e.target.value)}
                     className="p-2 border rounded"
                 />
                 <input
                     type="text"
-                    placeholder="Provincia"
+                    placeholder={t('profile.addresses.form.placeholders.province')}
                     value={data.province}
                     onChange={(e) => setData("province", e.target.value)}
                     className="p-2 border rounded"
@@ -74,14 +76,14 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
             <div className="grid grid-cols-2 gap-4">
                 <input
                     type="text"
-                    placeholder="País"
+                    placeholder={t('profile.addresses.form.placeholders.country')}
                     value={data.country}
                     onChange={(e) => setData("country", e.target.value)}
                     className="p-2 border rounded"
                 />
                 <input
                     type="text"
-                    placeholder="Código postal"
+                    placeholder={t('profile.addresses.form.placeholders.zip')}
                     value={data.zip_code}
                     onChange={(e) => setData("zip_code", e.target.value)}
                     className="p-2 border rounded"
@@ -95,16 +97,18 @@ export default function AddressForm({ mode, initialData, onSuccess, onCancel }: 
                     onChange={(e) => setData("main", e.target.checked)}
                     className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-500"
                 />
-                <span>¿Es la dirección principal?</span>
+                <span>{t('profile.addresses.form.main')}</span>
             </label>
 
             <div className="flex gap-4">
                 <PrimaryButton type="submit" disabled={processing}>
-                    {mode === "edit" ? "Actualizar dirección" : "Añadir dirección"}
+                    {mode === "edit"
+                        ? t('profile.addresses.form.submit_update')
+                        : t('profile.addresses.form.submit_create')}
                 </PrimaryButton>
                 {mode === "edit" && onCancel && (
                     <Button type="button" variant="outline" onClick={onCancel}>
-                        Cancelar
+                        {t('profile.addresses.form.cancel')}
                     </Button>
                 )}
             </div>

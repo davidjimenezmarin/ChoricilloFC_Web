@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Player;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PlayerController extends Controller
 {
@@ -75,8 +77,17 @@ class PlayerController extends Controller
 
         return redirect()->route('team.manage')->with('success', 'Jugador creado correctamente');
     }
-    public function update(Request $request, Player $player){
-        
+   
+
+    public function update(Request $request, Player $player)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'number' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
 
         $player->name = $request->name;
         $player->surname = $request->surname;
@@ -84,14 +95,26 @@ class PlayerController extends Controller
         $player->number = $request->number;
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('/recursos/players', 'public');
-            $player->image = $imagePath;
+            // Elimina la imagen anterior si existe
+            if ($player->image && Storage::disk('public')->exists($player->image)) {
+                Storage::disk('public')->delete($player->image);
+            }
+
+            // Guarda la nueva imagen con nombre único
+            $path = $request->file('image')->storeAs(
+                'recursos/players',
+                Str::uuid().'.'.$request->file('image')->extension(),
+                'public'
+            );
+
+            $player->image = $path;
         }
 
         $player->save();
 
         return redirect()->route('team.manage')->with('success', 'Jugador actualizado correctamente');
     }
+
 
     public function show($slug)
     {

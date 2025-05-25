@@ -5,16 +5,18 @@ import { Match } from '@/types';
 import GameCard from '@/Components/GameCard';
 import { usePage } from '@inertiajs/react';
 import {Link} from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     matches: Match[];
 };
 
 const Matches: React.FC<Props> = ({ matches }) => {
-        const { auth } = usePage().props;
+    const { auth } = usePage().props;
+    const { t } = useTranslation();
     
     return (
-        <BaseLayout titulo="Partidos">
+        <BaseLayout titulo={t('layout.matches')}>
             <Head title="Partidos" />
             <div className="max-w-7xl mx-auto p-4 mt-8">
                 {auth?.user?.is_admin ? (
@@ -23,12 +25,12 @@ const Matches: React.FC<Props> = ({ matches }) => {
                             href={route('matches.manage')}
                             className="inline-flex items-center px-4 py-2 bg-gray-950 text-white rounded hover:bg-gray-700 transition"
                         >
-                            Gestionar partidos
+                            {t('matches.manage')}
                         </Link>
                     </div>
                 ):null}
                 {matches.length === 0 ? (
-                    <p className="text-center text-gray-600">No hay partidos disponibles.</p>
+                    <p className="text-center text-gray-600">{t('matches.empty')}</p>
                 ) : (
                     <div  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {matches.map((match) => (

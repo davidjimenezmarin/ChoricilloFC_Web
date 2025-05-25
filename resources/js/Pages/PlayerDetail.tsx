@@ -38,8 +38,11 @@ type Props = {
 };
 
 const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
+    const imageUrl = player.image === 'player_default.png'
+        ? '/recursos/player_default.png'
+        : `/storage/${player.image}`;
     return (
-        <BaseLayout titulo={`Jugador: ${player.name} ${player.surname}`}>
+        <BaseLayout>
             <Head title={`Jugador: ${player.name}`} />
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-8">
                 <PrimaryButton className="w-auto mb-5" onClick={() => router.visit(route('team'))}>
@@ -50,7 +53,7 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                 <div className="flex flex-col sm:flex-row items-center gap-6 mb-6 text-center sm:text-left">
                     {player.image ? (
                         <img
-                            src={`/recursos/${player.image}`}
+                            src={imageUrl}
                             alt={player.name}
                             className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover shadow-md"
                         />

@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Fragment, useState, FormEvent } from 'react';
-import { useForm } from '@inertiajs/react';
+import { Fragment } from 'react';
+import AddressForm from '@/Components/AddressForm';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   isOpen: boolean;
@@ -8,22 +9,7 @@ interface Props {
 }
 
 export default function AddressFormModal({ isOpen, onClose }: Props) {
-  const { data, setData, post, processing, errors, reset } = useForm({
-    street: '',
-    city: '',
-    zip_code: '',
-  });
-
-  const submit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    post(route('addresses.store'), {
-      onSuccess: () => {
-        reset();
-        onClose(); // cerrar el modal
-      },
-    });
-  };
+  const { t } = useTranslation();
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -53,50 +39,15 @@ export default function AddressFormModal({ isOpen, onClose }: Props) {
             >
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
                 <Dialog.Title className="text-lg font-bold text-gray-800">
-                  Nueva Dirección
+                  {t('profile.addresses.form.submit_create')}
                 </Dialog.Title>
-                <form onSubmit={submit} className="mt-4 flex flex-col gap-3">
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Calle"
-                      value={data.street}
-                      onChange={(e) => setData('street', e.target.value)}
-                      className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
-                    {errors.street && <p className="text-sm text-red-500 mt-1">{errors.street}</p>}
-                  </div>
 
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Ciudad"
-                      value={data.city}
-                      onChange={(e) => setData('city', e.target.value)}
-                      className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
-                    {errors.city && <p className="text-sm text-red-500 mt-1">{errors.city}</p>}
-                  </div>
-
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Código Postal"
-                      value={data.zip_code}
-                      onChange={(e) => setData('zip_code', e.target.value)}
-                      className="border border-gray-300 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    />
-                    {errors.zip_code && <p className="text-sm text-red-500 mt-1">{errors.zip_code}</p>}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={processing}
-                    className="bg-indigo-600 text-white rounded px-4 py-2 mt-2 hover:bg-indigo-700 transition"
-                  >
-                    Guardar Dirección
-                  </button>
-                </form>
+                <div className="mt-4">
+                  <AddressForm
+                    mode="create"
+                    onSuccess={onClose}
+                  />
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

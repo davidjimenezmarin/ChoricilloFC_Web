@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Notice;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 class NoticeController extends Controller
 {
     public function index()
@@ -69,7 +71,7 @@ class NoticeController extends Controller
         $notice->date = $request->date;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('notices', 'public');
+            $path = $request->file('image')->store('/recursos/notices', 'public');
             $notice->image = $path;
         }
 
@@ -94,7 +96,15 @@ class NoticeController extends Controller
         $notice->date = $request->date;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('notices', 'public');
+            if ($notice->image && Storage::disk('public')->exists($notice->image)) {
+                Storage::disk('public')->delete($notice->image);
+            }
+            $path = $request->file('image')->storeAs(
+                'recursos/notices',
+                Str::uuid().'.'.$request->file('image')->extension(),
+                'public'
+            );
+
             $notice->image = $path;
         }
 

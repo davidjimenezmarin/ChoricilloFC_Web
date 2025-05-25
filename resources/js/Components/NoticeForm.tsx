@@ -10,6 +10,10 @@ type Props = {
 const NoticeForm: React.FC<Props> = ({ notice, onSuccessRoute }) => {
     const isEditMode = !!notice;
 
+    const imageUrl = notice?.image === 'notice_default.jpg'
+        ? '/recursos/notice_default.jpg'
+        : `/storage/${notice?.image}`;
+
     const { data, setData, post, processing, errors } = useForm<{
         title: string;
         short_description: string;
@@ -102,19 +106,56 @@ const NoticeForm: React.FC<Props> = ({ notice, onSuccessRoute }) => {
             {/* Imagen */}
             <div>
                 <label className="block text-gray-700 font-medium mb-2">Imagen (archivo)</label>
+                <div className="flex items-center gap-4 flex-wrap">
+                    <label
+                    htmlFor="image-upload"
+                    className="cursor-pointer inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition"
+                    >
+                    Seleccionar imagen
+                    </label>
+                    <span className="text-sm text-gray-600">
+                    {data.image?.name || 'Ningún archivo seleccionado'}
+                    </span>
+                </div>
+
                 <input
+                    id="image-upload"
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
-                    className="w-full"
+                    onChange={(e) => {
+                    const file = e.target.files?.[0] || null;
+                    setData('image', file);
+                    }}
+                    className="hidden"
                 />
+
                 {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
-                {isEditMode && notice?.image && (
-                    <div className="mt-4">
-                        <p className="text-gray-600 mb-2">Imagen actual:</p>
-                        <img src={`/recursos/${notice.image}`} alt="Imagen actual" className="w-32 rounded-lg" />
+
+                <div className="mt-4 flex gap-6 items-start flex-wrap">
+                    {/* Imagen seleccionada en formulario */}
+                    {data.image && (
+                    <div className="text-sm text-gray-700">
+                        <p className="mb-2">Vista previa:</p>
+                        <img
+                        src={URL.createObjectURL(data.image)}
+                        alt="Vista previa"
+                        className="w-32 rounded-lg shadow"
+                        />
                     </div>
-                )}
+                    )}
+
+                    {/* Imagen actual (solo en modo edición) */}
+                    {isEditMode && notice?.image && !data.image && (
+                    <div className="text-sm text-gray-700">
+                        <p className="mb-2">Imagen actual:</p>
+                        <img
+                        src={imageUrl}
+                        alt="Imagen actual"
+                        className="w-32 rounded-lg shadow"
+                        />
+                    </div>
+                    )}
+                </div>
             </div>
 
             {/* Botón */}

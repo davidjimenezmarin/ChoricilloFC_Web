@@ -9,8 +9,9 @@ type Props = {
 };
 
 const MatchDetail: React.FC<Props> = ({ game, players }) => {
+    
     return (
-        <BaseLayout titulo="Detalle del Partido">
+        <BaseLayout>
             <Head title={`Partido: ${game.home_team} vs ${game.away_team}`} />
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
                 <PrimaryButton className="w-auto mb-3" onClick={() => window.history.back()}>
@@ -48,7 +49,7 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                 </div>
 
                 <div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Jugadores y estadísticas</h3>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Estadísticas del partido</h3>
                     {players?.length === 0 ? (
                         <p className="text-gray-600">No hay datos de jugadores para este partido.</p>
                     ) : (
@@ -71,7 +72,10 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                                             <td className="py-2 px-4 border-b flex items-center gap-2">
                                                 {pm.player.image ? (
                                                     <img
-                                                        src={`/recursos/${pm.player.image}`}
+                                                        src={pm.player.image === 'player_default.png'
+                                                            ? '/recursos/player_default.png'
+                                                            : `/storage/${pm.player.image}`
+                                                        }
                                                         alt={pm.player.name}
                                                         className="w-8 h-8 rounded-full object-cover"
                                                     />
@@ -101,9 +105,12 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                                 {players?.map((pm) => (
                                     <div key={pm.id} className="border border-gray-200 rounded-lg p-4 shadow-sm">
                                         <div className="flex items-center gap-3 mb-2">
-                                            {pm.player.image ? (
+                                            {pm.player.image ? (                                         
                                                 <img
-                                                    src={`/recursos/${pm.player.image}`}
+                                                     src={pm.player.image === 'player_default.png'
+                                                            ? '/recursos/player_default.png'
+                                                            : `/storage/${pm.player.image}`
+                                                        }
                                                     alt={pm.player.name}
                                                     className="w-10 h-10 rounded-full object-cover"
                                                 />
