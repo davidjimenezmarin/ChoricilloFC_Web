@@ -3,6 +3,7 @@ import { Player } from '@/types';
 import { motion } from 'framer-motion';
 import { FaFutbol, FaCalendarAlt, FaExclamationTriangle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { Link } from '@inertiajs/react';
 
 interface HighlightsProps {
   top_scorer: Player;
@@ -47,9 +48,7 @@ const HighlightsCard: React.FC<HighlightsProps> = ({ top_scorer, scorer_of_the_m
 
   return (
     <div className="bg-[#191919] text-white py-12 px-4">
-      <h2 className="text-3xl font-bold text-center mb-10 text-[#c6aa76]">
-        {t('highlights.title')}
-      </h2>
+      <h2 className="text-3xl font-bold text-center mb-10 text-[#c6aa76]">{t('highlights.title')}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {highlights.map((h, i) => (
           <motion.div
@@ -62,22 +61,29 @@ const HighlightsCard: React.FC<HighlightsProps> = ({ top_scorer, scorer_of_the_m
           >
             <div className="mb-4 flex justify-center">{h.icon}</div>
             <h3 className="text-lg font-bold text-[#c6aa76] mb-1">{h.label}</h3>
-            <div className="relative group w-28 h-28 mx-auto">
-                <img
-                    src={
-                    h.player.image === 'player_default.png'
-                        ? '/recursos/player_default.png'
-                        : `/storage/${h.player.image}`
-                    }
-                    alt={h.player.name}
-                    className="w-28 h-28 rounded-full object-cover border-2 border-[#c6aa76] shadow transition duration-300 group-hover:brightness-50"
-                />
-                <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {h.player.number}
-                </span>
-            </div>
 
-            <p className="mt-3 font-semibold">{h.player.name} {h.player.surname}</p>
+            <Link href={route('player.show', h.player.slug)} className="relative group w-28 h-28 mx-auto inline-block cursor-pointer">
+              <img
+                src={
+                  h.player.image === 'player_default.png'
+                    ? '/recursos/player_default.png'
+                    : `/storage/${h.player.image}`
+                }
+                alt={h.player.name}
+                className="w-28 h-28 rounded-full object-cover border-2 border-[#c6aa76] shadow transition duration-300 group-hover:brightness-50"
+              />
+              <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-2">
+                {h.player.number}
+              </span>
+            </Link>
+
+            <Link
+              href={route('player.show', h.player.slug)}
+              className="mt-3 block font-semibold text-black hover:text-[#c6aa76] transition cursor-pointer"
+            >
+              {h.player.name} {h.player.surname}
+            </Link>
+
             <p className="text-sm text-gray-600 capitalize">{h.player.position}</p>
           </motion.div>
         ))}

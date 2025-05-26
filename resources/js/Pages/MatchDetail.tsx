@@ -1,3 +1,14 @@
+// Componente funcional MatchDetail que muestra el detalle de un partido específico.
+// Recibe como props el partido (game) y un arreglo opcional de jugadores (players) con sus estadísticas.
+// Usa i18n para traducción de textos y fechas adaptadas al idioma seleccionado.
+// Renderiza un layout base y establece el título dinámico basado en los equipos participantes.
+// Incluye botón para volver a la página anterior.
+// Muestra información general del partido: equipos, fecha formateada, ubicación, y estado con estilos visuales.
+// En la sección de estadísticas:
+// - Si no hay datos de jugadores muestra mensaje de no datos.
+// - Si hay datos, presenta tabla responsive con estadísticas (minutos, goles, asistencias, tarjetas) por jugador.
+// - Soporta vista móvil con cards para cada jugador mostrando la misma información en formato compacto y legible.
+
 import React from 'react';
 import BaseLayout from '@/Layouts/BaseLayout';
 import { Head } from '@inertiajs/react';
@@ -11,21 +22,26 @@ type Props = {
 };
 
 const MatchDetail: React.FC<Props> = ({ game, players }) => {
-    const {i18n, t } = useTranslation();
+    const { i18n, t } = useTranslation();
 
     return (
         <BaseLayout>
+            {/* Título HTML dinámico con los nombres de los equipos */}
             <Head title={`${t('matches.title')}: ${game.home_team} vs ${game.away_team}`} />
+
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
+                {/* Botón para volver a la página anterior */}
                 <PrimaryButton className="w-auto mb-3" onClick={() => window.history.back()}>
                     {t('profile.back')}
                 </PrimaryButton>
 
+                {/* Información general del partido */}
                 <div className="mb-6 text-center">
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">
                         {game.home_team} vs {game.away_team}
                     </h2>
                     <p className="text-gray-500 text-sm mb-1">
+                        {/* Fecha formateada según idioma */}
                         {new Date(game.date).toLocaleDateString(i18n.language, {
                             day: '2-digit',
                             month: 'long',
@@ -33,8 +49,11 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                         })}
                     </p>
                     <p className="text-gray-500 text-sm">
+                        {/* Ubicación o texto por defecto si no hay */}
                         {game.location || t('matches.no_location')}
                     </p>
+
+                    {/* Estado del partido con estilos y animaciones */}
                     <div className="mt-4">
                         {game.status === 'completed' && (
                             <p className="text-3xl font-bold text-gray-900">
@@ -54,12 +73,16 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                     </div>
                 </div>
 
+                {/* Sección de estadísticas de jugadores */}
                 <div>
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">{t('matches.stats_title')}</h3>
+
+                    {/* Mensaje cuando no hay datos de jugadores */}
                     {players?.length === 0 ? (
                         <p className="text-gray-600">{t('matches.no_player_data')}</p>
                     ) : (
                         <div className="overflow-x-auto">
+                            {/* Tabla para escritorio */}
                             <table className="min-w-full bg-white border border-gray-200 rounded-lg hidden sm:table">
                                 <thead>
                                     <tr>
@@ -101,7 +124,7 @@ const MatchDetail: React.FC<Props> = ({ game, players }) => {
                                 </tbody>
                             </table>
 
-                            {/* Vista móvil */}
+                            {/* Vista móvil: lista vertical de jugadores con detalles compactos */}
                             <div className="sm:hidden flex flex-col gap-4">
                                 {players?.map(pm => (
                                     <div key={pm.id} className="border border-gray-200 rounded-lg p-4 shadow-sm">

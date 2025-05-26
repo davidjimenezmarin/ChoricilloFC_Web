@@ -7,7 +7,7 @@ import { CircleFlag } from 'react-circle-flags';
 const LanguageSwitcher: React.FC = () => {
   const currentLang = i18n.language;
 
-  const handleChangeLanguage = (lang: 'es' | 'en') => {
+  const handleChangeLanguage = (lang: 'es' | 'en' | 'fr') => {
     i18n.changeLanguage(lang);
   };
 
@@ -31,6 +31,16 @@ const LanguageSwitcher: React.FC = () => {
         aria-label="Switch to English"
       >
         <CircleFlag countryCode="gb" height="32" />
+      </button>
+
+      <button
+        onClick={() => handleChangeLanguage('fr')}
+        className={`w-7 h-7 rounded-full overflow-hidden border-2 transition hover:scale-105 ${
+          currentLang === 'fr' ? 'border-white' : 'border-transparent'
+        }`}
+        aria-label="Switch to English"
+      >
+        <CircleFlag countryCode="fr" height="32" />
       </button>
     </div>
   );

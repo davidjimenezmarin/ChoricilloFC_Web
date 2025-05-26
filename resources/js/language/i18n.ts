@@ -1,5 +1,4 @@
 import i18n from 'i18next';
-import { Share } from 'lucide-react';
 import { initReactI18next } from 'react-i18next';
 
 i18n.use(initReactI18next).init({
@@ -51,7 +50,8 @@ i18n.use(initReactI18next).init({
             main_shop: "NUESTRA TIENDA",
             main_shop_desc: "Para quienes quieran representar al equipo en casa, no busquen más.",
             main_shop_cta: "COMPRA AHORA",
-            last_news: "ÚLTIMAS NOTICIAS"
+            last_news: "ÚLTIMAS NOTICIAS",
+            next_match: "Próximo Partido"
         },
         footer: {
             about: 'Apasionados por el fútbol, la comunidad y el fair play.',
@@ -75,9 +75,9 @@ i18n.use(initReactI18next).init({
             global_stats: 'Estadísticas Globales',
             game_stats: 'Estadísticas por Partido',
             status: {
-                "scheduled": "Programado",
-                "in_progress": "En juego",
-                "completed": "Finalizado"
+                scheduled: "Programado",
+                in_progress: "En juego",
+                completed: "Finalizado"
             },
             table: {
                 player: "Jugador",
@@ -160,6 +160,33 @@ i18n.use(initReactI18next).init({
                 quantity: 'Cantidad',
                 total: 'Total: €{{amount}}'
             }
+        },
+        orders: {
+            title: 'Mis Pedidos',
+            back: 'Volver',
+            date: 'Fecha',
+            address: 'Dirección',
+            status: 'Estado',
+            total: 'Total',
+            payment_method: 'Método de pago',
+            actions: 'Acciones',
+            not_assigned: 'Aún no asignada',
+            view_details: 'Ver Detalles',
+        },
+        order_details: {
+            title: "Detalles del Pedido",
+            header: "Información del Pedido",
+            header_description: "Detalles generales del pedido.",
+            id: "ID del Pedido",
+            date: "Fecha",
+            payment_method: "Método de Pago",
+            shipping_address: "Dirección de Envío",
+            products_title: "Productos",
+            products_description: "Lista de productos incluidos en este pedido.",
+            size: "Talla",
+            subtotal: "Subtotal",
+            total: "Total: €{{amount}}",
+            back_to_orders: "Volver a Mis Pedidos"
         },
         profile: {
             title: 'Perfil',
@@ -268,7 +295,8 @@ i18n.use(initReactI18next).init({
             main_shop: "OUR SHOP",
             main_shop_desc: "For those who want to represent the team at home, look no further.",
             main_shop_cta: "SHOP NOW",
-            last_news: "LATEST NEWS"
+            last_news: "LATEST NEWS",
+            next_match: "Next Match"
         },
         footer: {
             about: 'Passionate about football, community, and fair play.',
@@ -379,6 +407,34 @@ i18n.use(initReactI18next).init({
                 total: 'Total: €{{amount}}'
             }
         },
+        orders: {
+            title: 'My Orders',
+            back: 'Back',
+            date: 'Date',
+            address: 'Address',
+            status: 'Status',
+            total: 'Total',
+            payment_method: 'Payment Method',
+            actions: 'Actions',
+            not_assigned: 'Not assigned yet',
+            view_details: 'View Details',
+        },
+        order_details: {
+            title: "Order Details",
+            header: "Order Information",
+            header_description: "General details of the order.",
+            id: "Order ID",
+            date: "Date",
+            payment_method: "Payment Method",
+            shipping_address: "Shipping Address",
+            products_title: "Products",
+            products_description: "List of products included in this order.",
+            size: "Size",
+            subtotal: "Subtotal",
+            total: "Total: €{{amount}}",
+            back_to_orders: "Back to My Orders"
+        },
+
         profile: {
             title: 'Profile',
             back: 'Back',
@@ -439,6 +495,250 @@ i18n.use(initReactI18next).init({
                 confirm_button: 'Delete Account'
             }
         }
+      }
+    },
+    fr: {
+      translation: {
+        layout: {
+          title: 'Mon Application',
+          login: 'Connexion',
+          register: "S'inscrire",
+          store: 'Boutique',
+          news: 'Actualités',
+          team: 'Équipe',
+          matches: 'Matchs',
+          copyright: 'Développé par David Jiménez',
+        },
+        team: {
+          title: 'Équipe',
+          goalkeepers: 'Gardiens',
+          defenders: 'Défenseurs',
+          midfielders: 'Milieux de terrain',
+          forwards: 'Attaquants',
+          manage: 'Gérer les joueurs',
+        },
+        highlights: {
+          title: "Points forts de l'équipe",
+          top_scorer: "Meilleur buteur",
+          scorer_month: "Buteur du mois",
+          most_booked: "Joueur le plus sanctionné",
+        },
+        welcome: {
+          team: "Équipe",
+          news: "Actualités",
+          results: "Résultats",
+          store: "Boutique",
+          register: "Inscrivez-vous",
+          main_team: "ÉQUIPE",
+          main_team_desc: "Compétition au plus haut niveau de la MLA, voici les personnes qui rendent cela possible.",
+          main_team_cta: "VOIR L'ÉQUIPE",
+          main_news: "ACTUALITÉS",
+          main_news_desc: "Ne manquez aucun détail de ce qui se passe sur et en dehors du terrain.",
+          main_news_cta: "EN SAVOIR PLUS",
+          main_results: "RÉSULTATS",
+          main_results_desc: "Restez à jour avec chaque résultat et ressentez la passion du football à chaque match.",
+          main_results_cta: "EN SAVOIR PLUS",
+          main_shop: "NOTRE BOUTIQUE",
+          main_shop_desc: "Pour ceux qui veulent représenter l'équipe à la maison, ne cherchez plus.",
+          main_shop_cta: "ACHETEZ MAINTENANT",
+          last_news: "DERNIÈRES NOUVELLES",
+          next_match: "Prochain match",
+        },
+        footer: {
+          about: 'Passionnés de football, de communauté et de fair-play.',
+          links: 'Liens',
+          contact: 'Contact',
+          language: 'Langue',
+        },
+        notices: {
+          manage: 'Gérer les actualités',
+          share: 'Partager',
+        },
+        matches: {
+          title: "Matchs",
+          no_player_data: "Données des joueurs non disponibles pour le moment.",
+          manage: 'Gérer les matchs',
+          empty: 'Aucun match disponible.',
+          no_location: "Lieu non spécifié",
+          stats_title: "Statistiques du match",
+          upcoming: "À venir",
+          starter: "Titulaire",
+          global_stats: 'Statistiques globales',
+          game_stats: 'Statistiques par match',
+          status: {
+            scheduled: 'Programmé',
+            in_progress: 'En cours',
+            completed: 'Terminé',
+          },
+          table: {
+            player: "Joueur",
+            position: "Position",
+            minutes: "Minutes",
+            goals: "Buts",
+            assists: "Passes décisives",
+            yellow: "Cartons jaunes",
+            red: "Cartons rouges",
+          },
+        },
+        login: {
+          title: 'Connexion',
+          email: 'E-mail',
+          password: 'Mot de passe',
+          remember: 'Se souvenir de moi',
+          forgot: 'Mot de passe oublié ?',
+          continue: 'Continuer',
+        },
+        forgot: {
+          title: 'Mot de passe oublié',
+          description: 'Mot de passe oublié ? Pas de problème. Indiquez simplement votre e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.',
+          email: 'E-mail',
+          send: 'Envoyer le lien de réinitialisation',
+        },
+        register: {
+          title: 'Inscription',
+          name: 'Nom',
+          email: 'E-mail',
+          password: 'Mot de passe',
+          password_confirmation: 'Confirmez le mot de passe',
+          login_link: 'Vous avez déjà un compte ?',
+          submit: "S'inscrire",
+        },
+        shop: {
+          home: 'Accueil',
+          unknown_category: 'Catégorie inconnue',
+          exit: 'Quitter la boutique',
+          exit_short: 'Quitter',
+          profile: 'Profil',
+          logout: 'Déconnexion',
+          categories: {
+            camisetas: 'Maillots',
+            pantalones: 'Pantalons',
+            accesorios: 'Accessoires',
+          },
+          cart: {
+            title: 'Votre panier',
+            item_count: '{{count}} article(s)',
+            empty: 'Votre panier est vide',
+            view_products: 'Voir les produits',
+            size: 'Taille',
+            total: 'Total :',
+            continue_shopping: 'Continuer vos achats',
+            checkout: 'Passer à la caisse',
+            label: 'Panier',
+          },
+          checkout: {
+            title: 'Paiement',
+            error_required: 'Veuillez sélectionner une adresse et un mode de paiement.',
+            error_toast: 'Informations requises manquantes.',
+            success: 'Commande passée avec succès !',
+            error: 'Erreur lors du traitement de la commande.',
+            back: 'Retour',
+            section: {
+              personal: 'Informations personnelles',
+              address: 'Adresse de livraison',
+              payment: 'Mode de paiement',
+              summary: 'Résumé de la commande',
+            },
+            name: 'Nom',
+            email: 'E-mail',
+            select_address: 'Sélectionnez une adresse',
+            no_addresses: "Vous n'avez pas d'adresses.",
+            add_address: 'Ajouter',
+            select_payment: 'Sélectionnez un mode de paiement',
+            no_payments: "Aucun mode de paiement disponible.",
+            pay: 'Payer',
+            size: 'Taille',
+            quantity: 'Quantité',
+            total: 'Total : €{{amount}}',
+          },
+        },
+        orders: {
+          title: 'Mes commandes',
+          back: 'Retour',
+          date: 'Date',
+          address: 'Adresse',
+          status: 'Statut',
+          total: 'Total',
+          payment_method: 'Mode de paiement',
+          actions: 'Actions',
+          not_assigned: 'Pas encore assigné',
+          view_details: 'Voir les détails',
+        },
+        order_details: {
+          title: "Détails de la commande",
+          header: "Informations sur la commande",
+          header_description: "Détails généraux de la commande.",
+          id: "ID de la commande",
+          date: "Date",
+          payment_method: "Mode de paiement",
+          shipping_address: "Adresse de livraison",
+          products_title: "Produits",
+          products_description: "Liste des produits inclus dans cette commande.",
+          size: "Taille",
+          subtotal: "Sous-total",
+          total: "Total : €{{amount}}",
+          back_to_orders: "Retour à mes commandes",
+        },
+        profile: {
+          title: 'Profil',
+          back: 'Retour',
+          orders: 'Voir mes commandes',
+          addresses: {
+            title: 'Adresses enregistrées',
+            none: "Vous n'avez pas encore d'adresses.",
+            edit: 'Modifier',
+            delete: 'Supprimer l’adresse',
+            confirm_delete: 'Êtes-vous sûr de vouloir supprimer cette adresse ?',
+            delete_error: "Une erreur s'est produite lors de la suppression de l'adresse.",
+            created: 'Adresse créée',
+            form: {
+              placeholders: {
+                street: 'Rue, étage, appartement',
+                city: 'Ville',
+                province: 'Province/État',
+                country: 'Pays',
+                zip: 'Code postal',
+              },
+              main: 'Est-ce l’adresse principale ?',
+              submit_create: 'Ajouter une adresse',
+              submit_update: 'Mettre à jour l’adresse',
+              cancel: 'Annuler',
+            },
+          },
+          password: {
+            title: 'Mettre à jour le mot de passe',
+            description: 'Assurez-vous d’utiliser un mot de passe long et aléatoire pour sécuriser votre compte.',
+            current: 'Mot de passe actuel',
+            new: 'Nouveau mot de passe',
+            confirm: 'Confirmer le mot de passe',
+            save: 'Enregistrer',
+            saved: 'Enregistré.',
+          },
+          info: {
+            title: 'Informations du profil',
+            description: 'Mettez à jour les informations de votre profil et votre adresse e-mail.',
+            name: 'Nom',
+            email: 'E-mail',
+            verify_notice: 'Votre adresse e-mail n’est pas vérifiée.',
+            verify_button: 'Cliquez ici pour renvoyer l’e-mail de vérification.',
+            verify_sent: 'Un nouveau lien de vérification a été envoyé à votre adresse e-mail.',
+            save: 'Enregistrer',
+            saved: 'Enregistré.',
+          },
+          delete: {
+            title: 'Supprimer le compte',
+            description:
+              'Une fois votre compte supprimé, toutes ses ressources et données seront définitivement supprimées. Veuillez télécharger toute information que vous souhaitez conserver.',
+            button: 'Supprimer le compte',
+            confirm_title: 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+            confirm_description:
+              'Une fois votre compte supprimé, toutes ses ressources et données seront définitivement supprimées. Veuillez saisir votre mot de passe pour confirmer cette action.',
+            password_label: 'Mot de passe',
+            password_placeholder: 'Mot de passe',
+            cancel: 'Annuler',
+            confirm_button: 'Supprimer le compte',
+          },
+        },
       }
     }
   }

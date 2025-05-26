@@ -1,20 +1,23 @@
 import { Order } from '@/types/index';
-import { useForm } from '@inertiajs/react';
 import PrimaryButton from './PrimaryButton';
 import { Link } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
+
 export function OrderList({ orders }: { orders: Order[] }) {
+    const { t } = useTranslation();
+
     return (
         <div className="w-full overflow-x-auto rounded-lg shadow-sm">
             {/* Versión para pantallas grandes */}
             <table className="hidden w-full bg-white md:table">
                 <thead className="bg-gray-50">
                     <tr>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Método de pago</th>
-                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.date')}</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.address')}</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.status')}</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.total')}</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.payment_method')}</th>
+                        <th className="py-3 px-4 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">{t('orders.actions')}</th>
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -26,7 +29,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                             <td className="py-4 px-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {order.shipping_address 
                                 ? `${order.shipping_address.street}, ${order.shipping_address.city}, ${order.shipping_address.country}` 
-                                : 'Aún no asignada'}
+                                : t('orders.not_assigned')}
                             </td>
                             <td className="py-4 px-4 whitespace-nowrap">
                                 <span className={`px-2 py-1 text-xs rounded-full ${
@@ -41,13 +44,13 @@ export function OrderList({ orders }: { orders: Order[] }) {
                                 ${order.total_amount}
                             </td>
                             <td className="py-4 px-4 whitespace-nowrap text-sm text-gray-700">
-                                {order.payment_method?.name || 'Aún no asignado'}
+                                {order.payment_method?.name || t('orders.not_assigned')}
                             </td>
                             <td className="py-4 px-4 whitespace-nowrap text-left text-sm font-medium">
                                 <Link
                                     href={route('orders.show', order.id)}                                  
                                 >
-                                    Ver Detalles
+                                    {t('orders.view_details')}
                                 </Link>
                             </td>
                         </tr>
@@ -61,7 +64,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                     <div key={order.id} className="bg-white p-4 rounded-lg shadow border border-gray-200">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Pedido #{order.id}</p>
+                                <p className="text-sm font-medium text-gray-500">{t('orders.title')} #{order.id}</p>
                             </div>
                             <span className={`px-2 py-1 text-xs rounded-full ${
                                 order.status === 'completed' ? 'bg-green-100 text-green-800' :
@@ -74,11 +77,11 @@ export function OrderList({ orders }: { orders: Order[] }) {
                         
                         <div className="mt-3 grid grid-cols-2 gap-2">
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Fecha</p>
+                                <p className="text-sm font-medium text-gray-500">{t('orders.date')}</p>
                                 <p className="text-sm">{order.order_date}</p>
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-500">Total</p>
+                                <p className="text-sm font-medium text-gray-500">{t('orders.total')}</p>
                                 <p className="text-sm font-semibold">${order.total_amount}</p>
                             </div>
                         </div>
@@ -88,7 +91,7 @@ export function OrderList({ orders }: { orders: Order[] }) {
                                 className="w-full"
                                 onClick={() => window.location.href = `/orders/${order.id}`}
                             >
-                                Ver Detalles
+                                {t('orders.view_details')}
                             </PrimaryButton>
                         </div>
                     </div>

@@ -7,7 +7,8 @@ import { HeadNotices } from '@/Components/HeadNotices';
 import HighlightsCard from '@/Components/HighlightsCard';
 import Footer from '@/Components/Footer';
 import { useTranslation } from 'react-i18next';
-
+import {Match} from '@/types/index';
+import NextMatchCard from '@/Components/NextMatchCard';
 /**
  * Página principal de bienvenida.
  * 
@@ -16,9 +17,8 @@ import { useTranslation } from 'react-i18next';
  * 
  * Utiliza traducciones con `react-i18next` y `Inertia.js` para renderizado dinámico.
  */
-export default function Welcome({ auth, notices }: PageProps) {
-    const { t } = useTranslation(); // Hook de traducción
-    const { highlights } = usePage<PageProps>().props; // Obtención de estadísticas desde props
+export default function Welcome({ auth, notices, highlights, nextMatch }: PageProps & {nextMatch: Match }) {
+    const { t, i18n } = useTranslation(); // Hook de traducción
 
     return (
         <>
@@ -155,6 +155,9 @@ export default function Welcome({ auth, notices }: PageProps) {
                         <HeadNotices notices={notices} />
                     </div>
                 </section>
+
+                {/* Tarjeta con el próximo partido */}
+                {nextMatch && <NextMatchCard match={nextMatch} t={t} locale={i18n.language} />}
 
                 {/* Tarjeta con los destacados del mes: goleador, asistente, más amonestado */}
                 <HighlightsCard

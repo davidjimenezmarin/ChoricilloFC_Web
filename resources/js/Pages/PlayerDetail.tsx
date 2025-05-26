@@ -1,3 +1,6 @@
+// Componente de detalle individual de jugador que muestra información personal, estadísticas globales y estadísticas por partido.
+// Utiliza traducciones con i18next para textos, y presenta los datos de manera responsiva adaptando tabla y tarjetas según el tamaño de pantalla.
+
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import BaseLayout from '@/Layouts/BaseLayout';
@@ -7,6 +10,7 @@ import { router } from '@inertiajs/react';
 import { FaSquare } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
+// Tipos para las estadísticas globales agregadas del jugador
 type GlobalStats = {
     total_minutes: number;
     total_goals: number;
@@ -15,6 +19,7 @@ type GlobalStats = {
     total_red_cards: number;
 };
 
+// Tipos para cada participación del jugador en un partido, incluyendo detalles del juego
 type MatchPlayerWithGame = {
     id: number;
     is_starter: boolean;
@@ -32,6 +37,7 @@ type MatchPlayerWithGame = {
     };
 };
 
+// Props que el componente recibe: datos del jugador, estadísticas globales y participaciones en partidos
 type Props = {
     player: Player;
     globalStats: GlobalStats;
@@ -40,18 +46,26 @@ type Props = {
 
 const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
     const { t } = useTranslation();
+
+    // Definición de la URL de la imagen del jugador, usando imagen por defecto si es necesario
     const imageUrl = player.image === 'player_default.png'
         ? '/recursos/player_default.png'
         : `/storage/${player.image}`;
 
     return (
         <BaseLayout>
+            {/* Configura el título del documento */}
             <Head title={`Jugador: ${player.name}`} />
+
+            {/* Contenedor principal con sombra y padding */}
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-4 sm:p-6 mt-8">
+
+                {/* Botón para volver a la lista de jugadores, utilizando navegación de Inertia */}
                 <PrimaryButton className="w-auto mb-5" onClick={() => router.visit(route('team'))}>
                     {t('profile.back')}
                 </PrimaryButton>
 
+                {/* Sección principal con imagen e información básica */}
                 <div className="flex flex-col sm:flex-row items-center gap-6 mb-6 text-center sm:text-left">
                     <img
                         src={imageUrl}
@@ -65,6 +79,7 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                     </div>
                 </div>
 
+                {/* Sección de estadísticas globales agregadas */}
                 <div className="mb-6">
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">{t('matches.global_stats')}</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-center">
@@ -95,12 +110,16 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                     </div>
                 </div>
 
+                {/* Sección de estadísticas por partido */}
                 <div>
                     <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">{t('matches.game_stats')}</h3>
+
+                    {/* Mostrar mensaje si no hay partidos */}
                     {matches.length === 0 ? (
                         <p className="text-gray-600">{t('matches.empty')}</p>
                     ) : (
                         <>
+                            {/* Tabla para dispositivos con pantalla grande */}
                             <div className="hidden sm:block overflow-x-auto">
                                 <table className="min-w-full bg-white border border-gray-200 rounded-lg text-sm sm:text-base">
                                     <thead className="bg-gray-100">
@@ -134,6 +153,7 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                                 </table>
                             </div>
 
+                            {/* Vista móvil: tarjetas para cada partido con datos esenciales */}
                             <div className="flex flex-col gap-4 sm:hidden">
                                 {matches.map((mp) => (
                                     <Link href={route('match.show', mp.game.slug)} key={mp.id} className="border border-gray-200 rounded-lg p-4 shadow-sm">

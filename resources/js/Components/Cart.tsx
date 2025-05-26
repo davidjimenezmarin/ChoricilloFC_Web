@@ -105,7 +105,7 @@ export default function Cart() {
                                         alt={item.product.name}
                                         className="w-auto h-auto object-cover rounded-md justify-self-center"
                                     />
-                                    <div className="flex flex-col justify-center">
+                                    <div className="flex flex-col justify-center ml-4">
                                         <h3 className="font-semibold">{item.product.name}</h3>
                                         <p className="text-sm text-gray-600">
                                             {t('shop.cart.size')}: {item.size}

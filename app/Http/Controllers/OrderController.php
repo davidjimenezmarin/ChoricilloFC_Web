@@ -86,7 +86,7 @@ class OrderController extends Controller
             ->firstOrFail();
 
         return Inertia::render('OrderDetails', [
-            'order' => $order,
+            'cart' => $order,
         ]);
     }
 }

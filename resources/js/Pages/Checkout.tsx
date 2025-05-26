@@ -1,3 +1,12 @@
+// Componente Checkout que gestiona el proceso de pago de una orden pendiente.
+// Usa hooks de Inertia para manejar estado, envío de formulario y obtención de datos desde backend.
+// Integra componentes UI para selección de dirección de envío y método de pago usando Listbox de Headless UI.
+// Controla errores de validación para asegurar que se seleccionen dirección y método antes de enviar.
+// Permite añadir nueva dirección vía modal que se abre si no hay direcciones existentes.
+// Muestra resumen del carrito con productos, tallas, cantidades y total actualizado dinámicamente.
+// Utiliza traducción i18n para textos adaptables al idioma del usuario.
+// Renderiza layout autenticado con botón para volver a página anterior.
+
 import { usePage, Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/shadcn/ui/button";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
@@ -23,16 +32,19 @@ export default function Checkout() {
     const [formError, setFormError] = useState<string | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
 
+    // Actualiza dirección seleccionada y sincroniza con el formulario
     const handleAddressChange = (id: number) => {
         setSelectedAddress(id);
         setData('shipping_address_id', id);
     };
 
+    // Actualiza método de pago seleccionado y sincroniza con el formulario
     const handleMethodChange = (method: any) => {
         setSelectedMethod(method);
         setData('payment_method_id', method.id);
     };
 
+    // Maneja el envío del formulario, validando que se hayan seleccionado dirección y método de pago
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -44,6 +56,7 @@ export default function Checkout() {
 
         setFormError(null);
 
+        // Envía la petición PUT para procesar la compra, mostrando toasts según el resultado
         put(route('checkout.store'), {
             onSuccess: () => toast.success(t('shop.checkout.success')),
             onError: () => toast.error(t('shop.checkout.error')),
@@ -64,16 +77,19 @@ export default function Checkout() {
                 <Head title={t('shop.checkout.title')} />
                 <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 lg:px-8">
                     
+                    {/* Formulario principal de checkout */}
                     <form
                         onSubmit={handleSubmit}
                         className="lg:col-span-2 bg-white p-6 rounded-xl shadow-md flex flex-col gap-6"
                     >
                         <h1 className="text-3xl font-bold text-gray-800">{t('shop.checkout.title')}</h1>
 
+                        {/* Mensaje de error en validación */}
                         {formError && (
                             <div className="bg-red-100 text-red-700 p-3 rounded">{formError}</div>
                         )}
 
+                        {/* Sección información personal */}
                         <section className="grid gap-4">
                             <div>
                                 <h2 className="text-lg font-semibold text-gray-700 mb-1">{t('shop.checkout.section.personal')}</h2>
@@ -83,6 +99,7 @@ export default function Checkout() {
                                 </div>
                             </div>
 
+                            {/* Selección de dirección de envío */}
                             <div>
                                 <label className="block text-sm font-medium mb-1">{t('shop.checkout.section.address')}</label>
                                 {addresses.length > 0 ? (
@@ -114,6 +131,7 @@ export default function Checkout() {
                                 )}
                             </div>
 
+                            {/* Selección de método de pago */}
                             <div>
                                 <label className="block text-sm font-medium mb-1">{t('shop.checkout.section.payment')}</label>
                                 {methods.length > 0 ? (
@@ -141,13 +159,18 @@ export default function Checkout() {
                             </div>
                         </section>
 
+                        {/* Botón de enviar formulario */}
                         <div className="flex justify-end">
                             <Button type="submit" disabled={processing} className="w-full sm:w-auto px-8 py-3 text-lg font-semibold">
                                 {t('shop.checkout.pay')}
                             </Button>
                         </div>
                     </form>
+
+                    {/* Modal para añadir nueva dirección */}
                     <AddressFormModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+
+                    {/* Resumen del carrito */}
                     <div className="bg-white p-6 rounded-xl shadow-md h-fit flex flex-col">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">{t('shop.checkout.section.summary')}</h2>
                         <div className="space-y-4 overflow-y-auto max-h-[400px] pr-1">
