@@ -4,6 +4,7 @@ import { Match } from '@/types';
 import BaseLayout from '@/Layouts/BaseLayout';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 type Props = {
     matches: Match[];
@@ -17,6 +18,16 @@ const MatchesManage: React.FC<Props> = ({ matches }) => {
             destroy(route('matches.destroy', id));
         }
     };
+
+    const [startDate, setStartDate] = useState('');
+        const [endDate, setEndDate] = useState('');
+    
+        const filteredMatches = matches.filter((match) => {
+            const matchDate = new Date(match.date).getTime();
+            const start = startDate ? new Date(startDate).getTime() : -Infinity;
+            const end = endDate ? new Date(endDate).getTime() : Infinity;
+            return matchDate >= start && matchDate <= end;
+        });
 
     return (
         <BaseLayout titulo="Gestionar Partidos">
@@ -34,6 +45,29 @@ const MatchesManage: React.FC<Props> = ({ matches }) => {
                         <PrimaryButton className="w-auto" onClick={() => router.visit(route('matches'))}>
                             Volver
                         </PrimaryButton>
+                    </div>
+                </div>
+                {/* Filtro por fechas */}
+                <div className="mb-6 flex flex-col md:flex-row items-center gap-4">
+                    <div className="flex flex-col">
+                        <label htmlFor="startDate" className="text-sm text-gray-600 mb-1">Desde:</label>
+                        <input
+                            type="date"
+                            id="startDate"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            className="border border-gray-300 rounded-md px-3 py-2"
+                        />
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="endDate" className="text-sm text-gray-600 mb-1">Hasta:</label>
+                        <input
+                            type="date"
+                            id="endDate"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            className="border border-gray-300 rounded-md px-3 py-2"
+                        />
                     </div>
                 </div>
 
@@ -55,7 +89,7 @@ const MatchesManage: React.FC<Props> = ({ matches }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {matches.map((match) => (
+                                    {filteredMatches.map((match) => (
                                         <tr key={match.id}>
                                             <td className="py-2 px-4 border-b">
                                                 {new Date(match.date).toLocaleDateString('es-ES', {
@@ -113,7 +147,7 @@ const MatchesManage: React.FC<Props> = ({ matches }) => {
 
                         {/* Tarjetas para móviles */}
                         <div className="sm:hidden flex flex-col gap-4">
-                            {matches.map((match) => (
+                            {filteredMatches.map((match) => (
                                 <div key={match.id} className="border border-gray-200 rounded-lg p-4 shadow-sm">
                                     <div className="flex justify-between items-center mb-2">
                                         <div>

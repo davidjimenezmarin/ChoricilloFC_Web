@@ -50,8 +50,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-8 text-center text-xs text-gray-500">
-        © {new Date().getFullYear()} Choricillo FC — <Spoiler>{t('layout.copyright')}</Spoiler>
+      <div className="mt-8 flex flex-col text-center text-xs text-gray-500">
+       <span> © {new Date().getFullYear()} Choricillo FC — <Spoiler>{t('layout.copyright')}</Spoiler></span>
+       <span><Spoiler>{t('layout.ilustrated')}</Spoiler></span>
       </div>
     </footer>
   );

@@ -7,7 +7,17 @@ i18n.use(initReactI18next).init({
   debug: true,
   resources: {
     es: {
-      translation: {       
+      translation: {
+        positions: {
+            Goalkeeper: 'Portero',
+            Defender: 'Defensa',
+            Midfielder: 'Centrocampista',
+            Forward: 'Delantero',
+        },       
+        date: {
+          from: 'Desde',
+          to: 'Hasta',  
+        },     
         layout: {
             title: 'Mi Aplicación',
             login: 'Iniciar sesión',
@@ -17,6 +27,7 @@ i18n.use(initReactI18next).init({
             team: 'Equipo',
             matches: 'Partidos',
             copyright: 'Desarrollado por David Jiménez',
+            ilustrated: 'Ilustrado por Alejandro Martinez',
         },
         team: {
             title: 'Equipo',
@@ -80,6 +91,7 @@ i18n.use(initReactI18next).init({
                 completed: "Finalizado"
             },
             table: {
+                date: "Fecha",
                 player: "Jugador",
                 position: "Posición",
                 minutes: "Minutos",
@@ -253,6 +265,16 @@ i18n.use(initReactI18next).init({
     },
     en: {
       translation: {
+        positions: {
+            Goalkeeper: 'Goalkeeper',
+            Defender: 'Defender',
+            Midfielder: 'Midfielder',
+            Forward: 'Forward',
+        },
+        date: {
+            from: 'From',
+            to: 'To',
+        },
         layout: {
             title: 'My Application',
             login: 'Login',
@@ -262,6 +284,7 @@ i18n.use(initReactI18next).init({
             team: 'Team',
             matches: 'Matches',
             copyright: 'Developed by David Jiménez',
+            ilustrated: 'Illustrated by Alejandro Martinez',
         },
         team: {
             title: 'Team',
@@ -325,6 +348,7 @@ i18n.use(initReactI18next).init({
                 completed: 'Completed'
             },
             table: {
+                date: "Date",
                 player: "Player",
                 position: "Position",
                 minutes: "Minutes",
@@ -499,6 +523,16 @@ i18n.use(initReactI18next).init({
     },
     fr: {
       translation: {
+        positions: {
+          Goalkeeper: 'Gardien de but',
+          Defender: 'Défenseur',
+          Midfielder: 'Milieu de terrain',
+          Forward: 'Attaquant',
+        },
+        date: {
+          from: 'De',
+          to: 'À',
+        },
         layout: {
           title: 'Mon Application',
           login: 'Connexion',
@@ -508,6 +542,7 @@ i18n.use(initReactI18next).init({
           team: 'Équipe',
           matches: 'Matchs',
           copyright: 'Développé par David Jiménez',
+          ilustrated: 'Illustré par Alejandro Martinez',
         },
         team: {
           title: 'Équipe',
@@ -571,6 +606,7 @@ i18n.use(initReactI18next).init({
             completed: 'Terminé',
           },
           table: {
+            date: "Date",
             player: "Joueur",
             position: "Position",
             minutes: "Minutes",

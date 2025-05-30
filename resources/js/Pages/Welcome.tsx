@@ -106,8 +106,8 @@ export default function Welcome({ auth, notices, highlights, nextMatch }: PagePr
 
                 {/* Sección de navegación destacada (tarjetas) */}
                 <section className="bg-[#191919] text-white shadow-lg">
-                    <div className="flex mx-auto px-4 py-8">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+                    <div className="flex mx-auto px-4 py-8 justify-center max-w-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-full">
 
                             {/* Tarjeta - Equipo */}
                             <Card
@@ -185,10 +185,10 @@ type CardProps = {
 };
 
 const Card = ({ routeName, img, title, desc, cta }: CardProps) => (
-    <div className="text-center animate-fade-in">
+    <div className="text-center animate-fade-in transition duration-500 ease-in-out transform hover:scale-105 bg-[#191919] text-white p-0 rounded-lg shadow-lg hover:shadow-xl hover:shadow-white">
         <Link href={route(routeName)}><img src={img} alt={title} className="mx-auto h-[250px] w-full object-cover rounded" /></Link>
         <h2 className="mt-4 text-lg font-bold text-[#c6aa76]"><Link href={route(routeName)}>{title}</Link></h2>
         <p className="mt-2">{desc}</p>
-        <Link href={route(routeName)} className="mt-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">{cta}</Link>
+        <Link href={route(routeName)} className="my-4 inline-block border-2 border-[#c6aa76] text-[#c6aa76] px-4 py-2 rounded hover:bg-[#c6aa76] hover:text-white transition">{cta}</Link>
     </div>
 );

@@ -84,7 +84,7 @@ const HighlightsCard: React.FC<HighlightsProps> = ({ top_scorer, scorer_of_the_m
               {h.player.name} {h.player.surname}
             </Link>
 
-            <p className="text-sm text-gray-600 capitalize">{h.player.position}</p>
+            <p className="text-sm text-gray-600 capitalize">{t(`positions.${h.player.position}`)}</p>
           </motion.div>
         ))}
       </div>

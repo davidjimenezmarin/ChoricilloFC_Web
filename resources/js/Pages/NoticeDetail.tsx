@@ -82,18 +82,19 @@ const NoticeDetail: React.FC<Props> = ({ notice }) => {
                         </button>
                     </div>
                 </div>
+                <div className="flex flex-col sm:flex-row gap-8 items-center justify-center mb-4">
+                    {/* Imagen principal de la noticia */}
+                    <img src={imageUrl} alt={notice.title} className="w-1/2 h-auto self-center rounded-lg mb-4" />
 
-                {/* Imagen principal de la noticia */}
-                <img src={imageUrl} alt={notice.title} className="w-5/6 h-auto self-center rounded-lg mb-4" />
-
-                {/* Contenedor para descripción corta y larga con estilos y separación */}
-                <div className="flex flex-col items-center justify-between self-center mb-8 px-4 border-x-2 border-gray-500 w-fit">
-                    <p className="max-w-3xl text-lg sm:text-xl text-gray-700 mb-4 italic text-center leading-relaxed">
-                        {notice.short_description}
-                    </p>
-                    <p className="max-w-3xl text-base sm:text-lg text-gray-800 leading-7 text-justify">
-                        {notice.description}
-                    </p>
+                    {/* Contenedor para descripción corta y larga con estilos y separación */}
+                    <div className="flex flex-col items-center justify-between self-center mb-8 px-4 border-x-2 border-gray-500 w-fit">
+                        <p className="max-w-3xl text-lg sm:text-xl text-gray-700 mb-4 italic text-center leading-relaxed">
+                            {notice.short_description}
+                        </p>
+                        <p className="max-w-3xl text-base sm:text-lg text-gray-800 leading-7 text-justify">
+                            {notice.description}
+                        </p>
+                    </div>
                 </div>
             </div>
         </BaseLayout>

@@ -2,12 +2,15 @@ import React from 'react';
 import { Player } from '../types';
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   player: Player;
 };
 
 export const PlayerCard: React.FC<Props> = ({ player }) => {
+  const { t } = useTranslation();
+
   const imageUrl =
     player.image === 'player_default.png'
       ? '/recursos/player_default.png'
@@ -46,7 +49,7 @@ export const PlayerCard: React.FC<Props> = ({ player }) => {
         <div className="p-4 text-center">
           <h3 className="text-lg font-semibold text-gray-800">{player.name}</h3>
           <p className="text-gray-500 text-sm">{player.surname}</p>
-          <p className="text-gray-600 text-sm capitalize">{player.position}</p>
+          <p className="text-gray-600 text-sm capitalize">{t(`positions.${player.position}`)}</p>
         </div>
       </motion.div>
     </Link>

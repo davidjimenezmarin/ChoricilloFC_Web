@@ -81,12 +81,12 @@ Route::get('/shop', [ProductController::class, 'index'])
  */
 Route::middleware(['auth', 'verified', IsAdmin::class])->group(function () {
     // Jugadores
-    Route::get('/players/manage', [PlayerController::class, 'manage'])->name('team.manage');
-    Route::get('/players/create', [PlayerController::class, 'create'])->name('players.create');
-    Route::get('/players/{player}/edit', [PlayerController::class, 'edit'])->name('players.edit');
-    Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
-    Route::post('/players', [PlayerController::class, 'store'])->name('players.store');
-    Route::post('/players/{player}', [PlayerController::class, 'update'])->name('players.update');
+    Route::get('team/players/manage', [PlayerController::class, 'manage'])->name('team.manage');
+    Route::get('team/players/create', [PlayerController::class, 'create'])->name('players.create');
+    Route::get('team/players/{player}/edit', [PlayerController::class, 'edit'])->name('players.edit');
+    Route::delete('team/players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
+    Route::post('team/players', [PlayerController::class, 'store'])->name('players.store');
+    Route::post('team/players/{player}', [PlayerController::class, 'update'])->name('players.update');
 
     // Partidos
     Route::get('/matches/manage', [GameController::class, 'manage'])->name('matches.manage');
@@ -151,7 +151,7 @@ Route::middleware('auth')->group(function () {
  */
 Route::get('/notices/{slug}', [NoticeController::class, 'show'])->name('notice.show');
 Route::get('/matches/{slug}', [GameController::class, 'show'])->name('match.show');
-Route::get('/players/{slug}', [PlayerController::class, 'show'])->name('player.show');
+Route::get('team/players/{slug}', [PlayerController::class, 'show'])->name('player.show');
 
 /**
  * Archivo de rutas de autenticación provisto por Laravel Breeze o similar.

@@ -75,7 +75,7 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                     <div>
                         <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{player.name} {player.surname}</h2>
                         <p className="text-gray-600">Dorsal: {player.number}</p>
-                        <p className="text-gray-600 capitalize">{t('matches.table.position')}: {player.position}</p>
+                        <p className="text-gray-600 capitalize">{t('matches.table.position')}: <strong>{t(`positions.${player.position}`)}</strong></p>
                     </div>
                 </div>
 
@@ -125,7 +125,7 @@ const PlayerDetail: React.FC<Props> = ({ player, globalStats, matches }) => {
                                     <thead className="bg-gray-100">
                                         <tr>
                                             <th className="py-2 px-2 sm:px-4 border-b text-left">{t('matches.title')}</th>
-                                            <th className="py-2 px-2 sm:px-4 border-b text-left">Fecha</th>
+                                            <th className="py-2 px-2 sm:px-4 border-b text-left">{t('matches.table.date')}</th>
                                             <th className="py-2 px-2 sm:px-4 border-b text-left">{t('matches.table.minutes')}</th>
                                             <th className="py-2 px-2 sm:px-4 border-b text-left">{t('matches.table.goals')}</th>
                                             <th className="py-2 px-2 sm:px-4 border-b text-left">{t('matches.table.assists')}</th>

@@ -5,6 +5,12 @@ import { useTranslation } from 'react-i18next';
 export default function GameCard({ match }: { match: Match }) {
     const { t, i18n } = useTranslation();
 
+    const statusStyleMap: Record<string, string> = {
+        scheduled: 'text-blue-800 bg-blue-100',
+        in_progress: 'text-orange-800 bg-orange-100 animate-pulse',
+        completed: 'text-green-800 bg-green-100',
+    };
+
     return (
         <Link
             href={route('match.show', match.slug)}
@@ -13,16 +19,20 @@ export default function GameCard({ match }: { match: Match }) {
         >
             <div className="mb-4 text-center">
                 <p className="text-sm text-gray-500">
-                    {new Date(match.date).toLocaleDateString(i18n.language === 'en' ? 'en-GB' : 'es-ES', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                    })}
+                    {new Date(match.date).toLocaleDateString(
+                        i18n.language === 'en' ? 'en-GB' : i18n.language === 'fr' ? 'fr-FR' : 'es-ES',
+                        {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric',
+                        }
+                    )}
                 </p>
                 <p className="text-xs text-gray-400">
                     {match.location || t('matches.no_location')}
                 </p>
             </div>
+
 
             <div className="flex items-center justify-between mb-4">
                 <div className="text-center w-1/3">
@@ -45,21 +55,9 @@ export default function GameCard({ match }: { match: Match }) {
             </div>
 
             <div className="text-center">
-                {match.status === 'scheduled' && (
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
-                        {t('matches.status.scheduled')}
-                    </span>
-                )}
-                {match.status === 'in_progress' && (
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-orange-800 bg-orange-100 rounded-full animate-pulse">
-                        {t('matches.status.in_progress')}
-                    </span>
-                )}
-                {match.status === 'completed' && (
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">
-                        {t('matches.status.completed')}
-                    </span>
-                )}
+                <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${statusStyleMap[match.status]}`}>
+                    {t(`matches.status.${match.status}`)}
+                </span>
             </div>
         </Link>
     );
